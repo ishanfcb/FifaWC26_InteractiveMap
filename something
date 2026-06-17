@@ -1,0 +1,1270 @@
+< !DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>FIFA World Cup 2026 - World Map</title><script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script><style> :root {
+    --bg-color: #0A0E1F;
+    --map-country: #1C2340;
+    --map-ocean: #080C1A;
+    --map-border: rgba(255, 255, 255, 0.08);
+    --frosted-bg: rgba(255, 255, 255, 0.06);
+    --frosted-border: 1px solid rgba(255, 255, 255, 0.1);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --ios-blue: #007AFF;
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.55);
+
+    --header-bg: rgba(28, 35, 64, 0.75);
+    --pill-slider-bg: #FFFFFF;
+    --pill-selected-text: #0A0E1F;
+
+    --country-hover: #2A3560;
+    --country-part: #3A4B86;
+    --country-part-hover: #4D62B3;
+    --country-part-stroke: rgba(0, 122, 255, 0.4);
+
+    --group-card-bg: rgba(255, 255, 255, 0.03);
+    --row-hover: rgba(255, 255, 255, 0.05);
+    --label-fill: rgba(255, 255, 255, 0.4);
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --transition-speed: 0.2s;
+    --ease-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.theme-light {
+    /* Light blue ocean, cream countries, soft blue participating */
+    --bg-color: #CBDCEB;
+    --map-country: #F5EFE6;
+    --map-ocean: #CBDCEB;
+    --map-border: rgba(0, 0, 0, 0.08);
+    --frosted-bg: rgba(245, 239, 230, 0.8);
+    --frosted-border: 1px solid rgba(0, 0, 0, 0.1);
+    --card-border: rgba(0, 0, 0, 0.08);
+    --text-primary: #1A1A1A;
+    --text-secondary: rgba(0, 0, 0, 0.6);
+
+    --header-bg: rgba(245, 239, 230, 0.85);
+    --pill-slider-bg: #6D94C5;
+    --pill-selected-text: #FFFFFF;
+
+    --country-hover: #FFFFFF;
+    --country-part: #6D94C5;
+    --country-part-hover: #5B81B3;
+    --country-part-stroke: rgba(0, 0, 0, 0.1);
+
+    --group-card-bg: rgba(0, 0, 0, 0.04);
+    --row-hover: rgba(0, 0, 0, 0.06);
+    --label-fill: rgba(0, 0, 0, 0.5);
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    transition: background-color 0.3s var(--ease-cubic), color 0.3s var(--ease-cubic);
+}
+
+/* TOP CONTROLS */
+.top-left-controls {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 1000;
+}
+
+.top-right-controls {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.pill-tab-control {
+    display: flex;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--frosted-border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    height: 36px;
+    align-items: center;
+    position: relative;
+    padding: 2px;
+    box-sizing: border-box;
+    transition: background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+}
+
+.slider-bg {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: calc(100% - 4px);
+    background-color: var(--pill-slider-bg);
+    border-radius: 16px;
+    z-index: 1;
+    transition: background-color 0.3s var(--ease-cubic);
+}
+
+.pill-tab {
+    padding: 0 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition-speed);
+    position: relative;
+    z-index: 2;
+    font-weight: 500;
+}
+
+.pill-tab.selected {
+    color: var(--pill-selected-text);
+    font-weight: 600;
+}
+
+/* BOTTOM DOCK (STANDINGS) */
+.bottom-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    height: 240px;
+    background: var(--frosted-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--frosted-border);
+    border-radius: 24px;
+    z-index: 900;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    transition: background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+}
+
+.bottom-dock::-webkit-scrollbar {
+    display: none;
+}
+
+.dock-content {
+    display: flex;
+    height: 100%;
+    padding: 16px 20px;
+    gap: 16px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.group-card {
+    flex: 0 0 380px;
+    background-color: var(--group-card-bg);
+    background-image: linear-gradient(135deg, var(--card-tint-start, transparent) 0%, var(--card-tint-end, transparent) 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+    overflow: hidden;
+    transform: translateZ(0);
+    /* Strict clip hack to prevent color leaking outside border-radius */
+}
+
+.group-header-inline {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left !important;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 28px 28px 28px 28px 32px 32px;
+    align-items: center;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.1s;
+    column-gap: 4px;
+}
+
+.table-row.no-hover {
+    cursor: default;
+    margin-bottom: 12px;
+    height: auto;
+}
+
+.table-row:not(.no-hover):hover {
+    background-color: var(--row-hover);
+}
+
+.table-row.highlight {
+    background-color: rgba(0, 122, 255, 0.15);
+}
+
+.table-row span {
+    text-align: center;
+}
+
+.country-flag-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    margin: 0 auto;
+}
+
+.country-flag-emoji {
+    font-size: 16px;
+}
+
+.country-name-cell {
+    text-align: left !important;
+    padding-left: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.header-cell {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: center !important;
+}
+
+.stat-cell,
+.gd-cell {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center !important;
+}
+
+.pts-cell {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center !important;
+}
+
+/* MAIN CANVAS & MAP */
+.main-canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 100;
+    background-color: var(--map-ocean);
+    transition: background-color 0.3s var(--ease-cubic);
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.country {
+    fill: var(--map-country);
+    stroke: var(--map-border);
+    stroke-width: 0.5px;
+    cursor: pointer;
+    transition: fill 0.3s var(--ease-cubic), filter 0.2s var(--ease-cubic), stroke 0.3s var(--ease-cubic);
+}
+
+.country:hover {
+    fill: var(--country-hover);
+}
+
+/* Visual Distinction for Participating Countries */
+body.view-qualified .country.participating {
+    fill: var(--country-part);
+    stroke: var(--country-part-stroke);
+}
+
+body.view-qualified .country.participating:hover {
+    fill: var(--country-part-hover);
+}
+
+/* Active State always uses iOS blue, regardless of view mode */
+.country.active,
+.country.participating.active {
+    fill: var(--ios-blue) !important;
+    filter: drop-shadow(0 0 15px rgba(0, 122, 255, 0.8));
+    stroke: #FFFFFF !important;
+}
+
+/* COUNTRY LABELS */
+.country-label {
+    font-family: var(--font-family);
+    font-size: 12px;
+    fill: var(--label-fill);
+    text-anchor: middle;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-cubic), fill 0.3s var(--ease-cubic);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* TOOLTIP */
+.tooltip {
+    position: absolute;
+    background: var(--frosted-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: var(--frosted-border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s var(--ease-cubic), background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+    z-index: 1100;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* APPLE STYLE SIDE PANEL */
+.right-side-panel {
+    position: fixed;
+    right: -400px;
+    top: 88px;
+    width: min(340px, calc(100vw - 32px));
+    background: var(--frosted-bg);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: var(--frosted-border);
+    border-radius: 24px;
+    z-index: 1200;
+    transition: right .4s cubic-bezier(.4, 0, .2, 1), background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+    max-height: calc(100vh - 320px);
+    overflow-y: auto;
+}
+
+.right-side-panel.open {
+    right: 24px;
+}
+
+.right-panel-content {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.country-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--group-card-bg);
+    border-radius: 8px;
+    padding: 12px;
+    transition: background-color 0.3s var(--ease-cubic);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+.next-match-card {
+    width: 100%;
+    background: var(--frosted-bg);
+    border: var(--frosted-border);
+    border-radius: 12px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+}
+
+.match-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.opponent-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.opponent-name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.match-time {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.chevron {
+    color: var(--text-secondary);
+    font-size: 18px;
+    margin-left: 8px;
+}
+
+</style></head><body class="view-qualified theme-night"><div class="top-left-controls">< !-- View Mode Toggle --><div class="pill-tab-control" id="view-pill-control"><div class="slider-bg" id="view-pill-slider"></div><div class="pill-tab">Default</div><div class="pill-tab selected">Qualified</div></div></div><div class="top-right-controls">< !-- Theme Toggle --><div class="pill-tab-control" id="theme-pill-control"><div class="slider-bg" id="theme-pill-slider"></div><div class="pill-tab selected">Night</div><div class="pill-tab">Light</div></div></div><div class="main-canvas" id="map-canvas"><div class="tooltip" id="map-tooltip"></div></div>< !-- Bottom Dock --><div class="bottom-dock" id="bottom-dock"><div class="dock-content" id="standings-content"></div></div><div class="right-side-panel" id="right-panel"><div class="right-panel-content" id="country-detail-content"></div></div><script> // --- Segmented Control Animation & Mode Toggling Setup ---
+
+function initPillControl(containerId, callback) {
+    const container=document.getElementById(containerId);
+    if ( !container) return;
+    const tabs=container.querySelectorAll(".pill-tab");
+    const slider=container.querySelector(".slider-bg");
+
+    function updateSlider(tab) {
+        slider.style.width=tab.offsetWidth+"px";
+
+        slider.style.transform=`translateX($ {
+                tab.offsetLeft
+            }
+
+            px)`;
+    }
+
+    // Init position instantly to avoid snapping on load
+    const activeTab=container.querySelector(".pill-tab.selected");
+
+    if (activeTab) {
+        slider.style.transition='none';
+        updateSlider(activeTab);
+
+        // Force a reflow so the instant position is rendered before transitions are applied
+        void slider.offsetWidth;
+
+        slider.style.transition='transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+        if (callback) callback(activeTab.textContent.trim());
+    }
+
+    tabs.forEach(tab=> {
+            tab.addEventListener("click", function() {
+                    // Update Active Styles
+                    tabs.forEach(t=> t.classList.remove("selected"));
+                    this.classList.add("selected");
+                    updateSlider(this);
+
+                    if (callback) callback(this.textContent.trim());
+                });
+        });
+}
+
+// Initialize View Control
+initPillControl("view-pill-control", (selectedText)=> {
+        if (selectedText==="Qualified") {
+            document.body.classList.add("view-qualified");
+        }
+
+        else {
+            document.body.classList.remove("view-qualified");
+        }
+    });
+
+// Initialize Theme Control
+initPillControl("theme-pill-control", (selectedText)=> {
+        document.body.classList.remove("theme-night", "theme-light");
+
+        if (selectedText==="Light") {
+            document.body.classList.add("theme-light");
+        }
+
+        else {
+            document.body.classList.add("theme-night");
+        }
+    });
+
+// --- MOCK DATA ---
+const mockData= {
+    standings: [ {
+
+        group: "Group A",
+        color: "#00d664",
+        teams: [ {
+            name: "Mexico", mapName: "Mexico", flag: "🇲🇽", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+        }
+
+        ,
+        {
+        name: "South Africa", mapName: "South Africa", flag: "🇿🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+    }
+
+    ,
+    {
+    name: "Korea Republic", mapName: "South Korea", flag: "🇰🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Czechia", mapName: "Czechia", flag: "🇨🇿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group B",
+color: "#ff2346",
+teams: [ {
+    name: "Canada", mapName: "Canada", flag: "🇨🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Bosnia and Herzegovina", mapName: "Bosnia and Herz.", flag: "🇧🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Qatar", mapName: "Qatar", flag: "🇶🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Switzerland", mapName: "Switzerland", flag: "🇨🇭", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group C",
+color: "#ff8900",
+teams: [ {
+    name: "Brazil", mapName: "Brazil", flag: "🇧🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Morocco", mapName: "Morocco", flag: "🇲🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Haiti", mapName: "Haiti", flag: "🇭🇹", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Scotland", mapName: "United Kingdom", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group D",
+color: "#0048ff",
+teams: [ {
+    name: "USA", mapName: "United States of America", flag: "🇺🇸", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Paraguay", mapName: "Paraguay", flag: "🇵🇾", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Australia", mapName: "Australia", flag: "🇦🇺", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Türkiye", mapName: "Turkey", flag: "🇹🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group E",
+color: "#6a00ff",
+teams: [ {
+    name: "Germany", mapName: "Germany", flag: "🇩🇪", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Curaçao", mapName: "Curaçao", flag: "🇨🇼", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Côte d'Ivoire", mapName: "Côte d'Ivoire", flag: "🇨🇮", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Ecuador", mapName: "Ecuador", flag: "🇪🇨", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group F",
+color: "#ccff00",
+teams: [ {
+    name: "Netherlands", mapName: "Netherlands", flag: "🇳🇱", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Japan", mapName: "Japan", flag: "🇯🇵", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Sweden", mapName: "Sweden", flag: "🇸🇪", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Tunisia", mapName: "Tunisia", flag: "🇹🇳", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group G",
+color: "#ff338f",
+teams: [ {
+    name: "Belgium", mapName: "Belgium", flag: "🇧🇪", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Egypt", mapName: "Egypt", flag: "🇪🇬", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "IR Iran", mapName: "Iran", flag: "🇮🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "New Zealand", mapName: "New Zealand", flag: "🇳🇿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group H",
+color: "#00ffb7",
+teams: [ {
+    name: "Spain", mapName: "Spain", flag: "🇪🇸", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Cabo Verde", mapName: "Cape Verde", flag: "🇨🇻", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Saudi Arabia", mapName: "Saudi Arabia", flag: "🇸🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Uruguay", mapName: "Uruguay", flag: "🇺🇾", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group I",
+color: "#9d00ff",
+teams: [ {
+    name: "France", mapName: "France", flag: "🇫🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Senegal", mapName: "Senegal", flag: "🇸🇳", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Iraq", mapName: "Iraq", flag: "🇮🇶", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Norway", mapName: "Norway", flag: "🇳🇴", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group J",
+color: "#00d1ff",
+teams: [ {
+    name: "Argentina", mapName: "Argentina", flag: "🇦🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Algeria", mapName: "Algeria", flag: "🇩🇿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Austria", mapName: "Austria", flag: "🇦🇹", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Jordan", mapName: "Jordan", flag: "🇯🇴", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group K",
+color: "#ff5000",
+teams: [ {
+    name: "Portugal", mapName: "Portugal", flag: "🇵🇹", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Congo DR", mapName: "Dem. Rep. Congo", flag: "🇨🇩", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Uzbekistan", mapName: "Uzbekistan", flag: "🇺🇿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Colombia", mapName: "Colombia", flag: "🇨🇴", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+,
+{
+
+group: "Group L",
+color: "#00b2ff",
+teams: [ {
+    name: "England", mapName: "United Kingdom", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Croatia", mapName: "Croatia", flag: "🇭🇷", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Ghana", mapName: "Ghana", flag: "🇬🇭", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+,
+{
+name: "Panama", mapName: "Panama", flag: "🇵🇦", gp: 0, w: 0, d: 0, l: 0, gd: 0, pts: 0
+}
+
+]
+}
+
+],
+matches: {
+    "Mexico": {
+        opponent: "Poland", flag: "🇵🇱", date: "June 25", time: "3:00 PM PST"
+    }
+
+    ,
+    "USA": {
+        opponent: "Netherlands", flag: "🇳🇱", date: "June 25", time: "6:00 PM PST"
+    }
+
+    ,
+    "Canada": {
+        opponent: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", date: "June 26", time: "1:00 PM EST"
+    }
+
+    ,
+    "France": {
+        opponent: "Argentina", flag: "🇦🇷", date: "June 26", time: "4:00 PM EST"
+    }
+
+    ,
+    "Brazil": {
+        opponent: "Spain", flag: "🇪🇸", date: "June 27", time: "3:00 PM CST"
+    }
+
+    ,
+    "Croatia": {
+        opponent: "Belgium", flag: "🇧🇪", date: "June 27", time: "6:00 PM CST"
+    }
+
+    ,
+    "Germany": {
+        opponent: "Portugal", flag: "🇵🇹", date: "June 28", time: "1:00 PM MST"
+    }
+
+    ,
+    "Iran": {
+        opponent: "USA", flag: "🇺🇸", date: "June 28", time: "4:00 PM MST"
+    }
+
+    ,
+    "Qatar": {
+        opponent: "Turkey", flag: "🇹🇷", date: "June 29", time: "3:00 PM PST"
+    }
+
+    ,
+    "Serbia": {
+        opponent: "Cameron", flag: "🇨🇲", date: "June 29", time: "6:00 PM PST"
+    }
+
+    ,
+    "Poland": {
+        opponent: "Czech Republic", flag: "🇨🇿", date: "June 30", time: "1:00 PM EST"
+    }
+
+    ,
+    "Denmark": {
+        opponent: "Canada", flag: "🇨🇦", date: "June 30", time: "4:00 PM EST"
+    }
+
+    ,
+    "def": {
+        opponent: "TBD", flag: "🏳️", date: "July 2", time: "6:00 PM PST"
+    }
+}
+}
+
+;
+
+function getRankOrdinal(rank) {
+    const ords=["th",
+    "st",
+    "nd",
+    "rd"];
+    const v=rank % 100;
+    return rank+(ords[(v - 20) % 10] || ords[v] || ords[0]);
+}
+
+// --- MAP SETUP ---
+const mapCanvas=d3.select("#map-canvas");
+const svg=mapCanvas.append("svg");
+const g=svg.append("g");
+const tooltip=d3.select("#map-tooltip");
+
+const projection=d3.geoNaturalEarth1() .scale(Math.min(window.innerWidth, window.innerHeight) * 0.42) .translate([window.innerWidth / 2, (window.innerHeight - 240) / 2]);
+
+const path=d3.geoPath() .projection(projection);
+
+const zoom=d3.zoom() .scaleExtent([1, 8]) .translateExtent([[-window.innerWidth, -window.innerHeight], [window.innerWidth * 2, window.innerHeight * 2]]) .on("zoom", zoomed);
+
+svg.call(zoom);
+
+function zoomed(event) {
+    g.attr("transform", event.transform);
+
+    const k=event.transform.k;
+
+    g.selectAll(".country-label") .style("font-size", `$ {
+            10 / k
+        }
+
+        px`) .style("opacity", k > 2.5 ? 1 : 0);
+}
+
+let topoData;
+let activeCountryId=null;
+
+Promise.all([ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")]).then(([worldAtlas])=> {
+        topoData=topojson.feature(worldAtlas, worldAtlas.objects.countries);
+        renderMap();
+        renderStandingsDock();
+    });
+
+function renderMap() {
+    g.selectAll(".country") .data(topoData.features) .enter().append("path") .attr("class", d=> {
+            const isParticipating=findTeamStandingsData(d.properties.name) !==null;
+            return isParticipating ? "country participating" : "country";
+        }) .attr("d", path) .on("mouseover", showTooltip) .on("mousemove", moveTooltip) .on("mouseout", hideTooltip) .on("click", countryClick);
+
+    g.selectAll(".country-label") .data(topoData.features) .enter().append("text") .attr("class", "country-label") .attr("transform", d=> {
+            const centroid=path.centroid(d);
+            if (isNaN(centroid[0]) || isNaN(centroid[1])) return "translate(-9999,-9999)";
+
+            return `translate($ {
+                    centroid[0]
+                }
+
+                , $ {
+                    centroid[1]
+                })`;
+        }) .attr("dy", ".35em") .text(d=> d.properties.name);
+}
+
+// --- INTERACTION FUNCTIONS ---
+
+function showTooltip(event, d) {
+    const countryName=d.properties.name;
+    const countryData=findTeamStandingsData(countryName);
+
+    if (countryData) {
+        tooltip.style("opacity", 1);
+
+        tooltip.html(` <span class="country-flag-emoji" >$ {
+                countryData.team.flag
+            }
+
+            </span> <span>$ {
+                countryData.team.name
+            }
+
+            ($ {
+                    getRankOrdinal(countryData.rank)
+                }
+
+                in $ {
+                    countryData.groupName
+                })</span> `);
+    }
+
+    else {
+        tooltip.style("opacity", 0);
+    }
+}
+
+function moveTooltip(event) {
+    tooltip .style("left", (event.pageX + 10) + "px") .style("top", (event.pageY + 10) + "px");
+}
+
+function hideTooltip() {
+    tooltip.style("opacity", 0);
+}
+
+function countryClick(event, d) {
+    event.stopPropagation();
+    const countryName=d.properties.name;
+    const countryData=findTeamStandingsData(countryName);
+
+    if (countryData) {
+        setActiveCountry(d3.select(this), d);
+        openCountryDetail(countryData.team.name, countryData);
+        highlightStandingsRow(countryData.team.name);
+
+        const bounds=path.bounds(d);
+        const dx=bounds[1][0] - bounds[0][0];
+        const dy=bounds[1][1] - bounds[0][1];
+        const x=(bounds[0][0] + bounds[1][0]) / 2;
+        const y=(bounds[0][1] + bounds[1][1]) / 2;
+
+        const scale=Math.min(4, 0.6 / Math.max(dx / window.innerWidth, dy / window.innerHeight));
+        const targetX=window.innerWidth * 0.35;
+        const targetY=(window.innerHeight - 240) / 2;
+
+        const translate=[targetX - scale * x,
+        targetY - scale * y];
+
+        svg.transition() .duration(750) .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+    }
+
+    else {
+        clearSelections();
+    }
+}
+
+function setActiveCountry(element, d) {
+    clearSelections();
+    element.classed("active", true);
+    activeCountryId=d.id;
+}
+
+function clearSelections() {
+    g.selectAll(".country").classed("active", false);
+    activeCountryId=null;
+    closePanels();
+    d3.selectAll(".table-row").classed("highlight", false);
+    resetZoom();
+}
+
+function resetZoom() {
+    svg.transition() .duration(750) .call(zoom.transform, d3.zoomIdentity);
+}
+
+// --- STANDINGS RENDERING (BOTTOM DOCK) ---
+
+function renderStandingsDock() {
+    const standingsContent=d3.select("#standings-content");
+
+    mockData.standings.forEach(groupGroup=> {
+            const groupCard=standingsContent.append("div") .attr("class", "group-card") // Generating the dynamic smooth linear gradient mix
+            .style("--card-tint-start", groupGroup.color + "4D") // ~30% tint
+            .style("--card-tint-end", groupGroup.color + "05"); // ~2% tint
+
+            const table=groupCard.append("div") .attr("class", "standings-table");
+
+            const headerRow=table.append("div").attr("class", "table-row no-hover");
+
+            // Group Name inline with headers
+            headerRow.append("span") .attr("class", "group-header-inline") .style("grid-column", "span 2") .text(groupGroup.group);
+
+            headerRow.append("span").attr("class", "header-cell").text("GP");
+            headerRow.append("span").attr("class", "header-cell").text("W");
+            headerRow.append("span").attr("class", "header-cell").text("D");
+            headerRow.append("span").attr("class", "header-cell").text("L");
+            headerRow.append("span").attr("class", "header-cell").text("GD");
+            headerRow.append("span").attr("class", "header-cell").text("PTS");
+
+            groupGroup.teams.forEach(team=> {
+                    const row=table.append("div") .attr("class", "table-row") .attr("id", `row-$ {
+                            team.name.replace(/\s+/g, '')
+                        }
+
+                        `) .on("click", (event)=> standingsRowClick(event, team.name));
+
+                    row.append("span") .attr("class", "country-flag-circle") .append("span") .attr("class", "country-flag-emoji") .text(team.flag);
+
+                    row.append("span").attr("class", "country-name-cell").text(team.name);
+                    row.append("span").attr("class", "stat-cell").text(team.gp);
+                    row.append("span").attr("class", "stat-cell").text(team.w);
+                    row.append("span").attr("class", "stat-cell").text(team.d);
+                    row.append("span").attr("class", "stat-cell").text(team.l);
+                    row.append("span").attr("class", "gd-cell").text(team.gd);
+                    row.append("span").attr("class", "pts-cell").text(team.pts);
+                });
+        });
+}
+
+function standingsRowClick(event, countryName) {
+    const countryFeature=topoData.features.find(f=> f.properties.name===countryName || (findTeamStandingsData(countryName) && f.properties.name===findTeamStandingsData(countryName).team.mapName));
+
+    if (countryFeature) {
+        const countryElement=g.selectAll(".country") .filter(d=> d.properties.name===countryFeature.properties.name);
+
+        setActiveCountry(countryElement, countryFeature);
+        countryClick(event, countryFeature);
+    }
+}
+
+// --- COUNTRY DETAIL RENDERING (RIGHT PANEL / BOTTOM SHEET) ---
+
+function openCountryDetail(countryName, countryData) {
+    const rightPanel=d3.select("#right-panel");
+    const content=d3.select("#country-detail-content");
+
+    content.html("");
+
+    content.append("div").attr("class", "country-title").style("font-size", "20px").text(countryData.team.flag + " " + countryName);
+
+    const statsGrid=content.append("div").attr("class", "stats-grid");
+
+    const stats=[ {
+        label: "GROUP RANK", value: getRankOrdinal(countryData.rank)
+    }
+
+    ,
+    {
+    label: "WINS", value: countryData.team.w
+}
+
+,
+{
+label: "LOSSES", value: countryData.team.l
+}
+
+,
+{
+label: "GOAL DIFF.", value: countryData.team.gd
+}
+
+,
+{
+label: "POINTS", value: countryData.team.pts
+}
+
+];
+
+stats.forEach(s=> {
+        const item=statsGrid.append("div").attr("class", "stat-item");
+        item.append("div").attr("class", "stat-value").text(s.value);
+        item.append("div").attr("class", "stat-label").text(s.label);
+    });
+
+const matchData=mockData.matches[countryName] || mockData.matches["def"];
+const matchCard=content.append("div").attr("class", "next-match-card");
+
+const details=matchCard.append("div").attr("class", "match-details");
+
+const opponentRow=details.append("div").attr("class", "opponent-row");
+opponentRow.append("span").attr("class", "country-flag-emoji").text(matchData.flag);
+opponentRow.append("span").attr("class", "opponent-name").text(matchData.opponent);
+
+details.append("div").attr("class", "match-time").text(`$ {
+        matchData.date
+    }
+
+    · $ {
+        matchData.time
+    }
+
+    `);
+
+matchCard.append("div").attr("class", "chevron").text("›");
+
+rightPanel.classed("open", true);
+}
+
+function highlightStandingsRow(countryName) {
+    d3.selectAll(".table-row").classed("highlight", false);
+
+    const rowId=`row-$ {
+        countryName.replace(/\s+/g, '')
+    }
+
+    `;
+
+    d3.select(`#$ {
+            rowId
+        }
+
+        `).classed("highlight", true);
+
+    const rowEl=document.getElementById(rowId);
+
+    if(rowEl) {
+        rowEl.closest('.group-card').scrollIntoView({
+            behavior: 'smooth', block: 'nearest', inline: 'center'
+        });
+}
+}
+
+function closePanels() {
+    d3.select("#right-panel").classed("open", false);
+}
+
+function findTeamStandingsData(countryName) {
+    for (let i=0; i < mockData.standings.length; i++) {
+        const group=mockData.standings[i];
+        const teamRank=group.teams.findIndex(t=> t.name===countryName || t.mapName===countryName);
+
+        if (teamRank !==-1) {
+            return {
+                groupName: group.group,
+                    team: group.teams[teamRank],
+                    rank: teamRank + 1
+            }
+
+            ;
+        }
+    }
+
+    return null;
+}
+
+// --- GENERAL SETUP ---
+
+d3.select("#map-canvas").on("click", (event)=> {
+        if (event.target.tagName==="svg" || event.target.tagName==="g") {
+            clearSelections();
+        }
+    });
+
+window.addEventListener("resize", ()=> {
+        const width=window.innerWidth;
+        const height=window.innerHeight;
+
+        projection .scale(Math.min(width, height) * 0.42) .translate([width / 2, (height - 240) / 2]);
+
+        zoom.translateExtent([[-width, -height], [width * 2, height * 2]]);
+
+        svg.attr("width", width).attr("height", height);
+        g.selectAll(".country").attr("d", path);
+
+        g.selectAll(".country-label").attr("transform", d=> {
+                const centroid=path.centroid(d);
+                if (isNaN(centroid[0]) || isNaN(centroid[1])) return "translate(-9999,-9999)";
+
+                return `translate($ {
+                        centroid[0]
+                    }
+
+                    , $ {
+                        centroid[1]
+                    })`;
+            });
+    });
+
+</script></body></html>
