@@ -1,0 +1,958 @@
+**The 6 fields**
+
+1. **Population** — show as a large typographic number, small label above it. No sentences.
+2. **Fifa Rank**
+3. **Footballing overview** — one line only. If it doesn't fit in one line, it's too long.
+4. **Football history fact** — one line only. If it doesn't fit in one line, it's too long.
+5. **Star player** — player name in larger text, the human detail in smaller muted text directly below. Two-line treatment, not a sentence.
+
+---
+
+Algeria
+
+- **population:** 48,022,819
+- **Fifa Rank: #28**
+- **Footballing Overview:** Algeria joined FIFA on 1 January 1964, a year and a half after gaining independence. Has qualified for five FIFA World Cups, in 1982, 1986, 2010, 2014, and 2026. They’ve won the AFCON (African Cup of Nations) twice — as hosts in 1990, and again in Egypt in 2019.
+- **rivals:** rivalries with Egypt, Morocco, and Tunisia,  Nigeria, especially in the 1980s, and Mali due to sharing a common border and a long-standing competitive rivalry, and against Senegal.
+- **easter egg/fun fact:** in 2014, Algeria became the first African team to score at least four goals in a match at a World Cup, doing so against South Korea.
+- Footballing + political history:
+    - **1957–1958: ALN —** In 1956, in Tunis, Tunisia, the first team representing Algeria was formed, the Armée de Libération Nationale (ALN) team led by Ahmed Benelfoul and Habib Draoua. In April 1958, the team was dissolved and was replaced by the FLN team.
+    - **1958–1962: FLN —** The FLN football team was a team made up mainly of professional players in France, who then joined the Algerian independence movement of the National Liberation Front (FLN), and assisted in organizing football matches against national football teams. The FLN linked African football to anti-colonial resistance using the idea of Pan-Africanism as a legitimizing tool and symbol of national identity.
+    - **1962 - 1980:** The Algerian football team was established in 1962 after gaining independence from France, as the successor of the FLN football team.[9] Under French rule, Algeria was not allowed to have a national team, the FLN football team was sort of a rebellion against the French colonization. All of their games were considered friendlies and were unrecognized by FIFA. After the Algerian national football team was officially recognized by FIFA in 1963, the team qualified to the 1968 Africa Cup of Nations
+    - **1986 FIFA World Cup:** In Mexico, at the 1986 World Cup, the Algerians were unable to pass the first round once again in a group that included Northern Ireland (1–1 draw), Brazil (1–0 loss), and Spain (3–0 loss).
+    - **1990–2008:** Algeria hosted the 1990 AFCON, in a rematch against Nigeria, Algeria won the AFCON for the first time.
+    - **2008–2026:** From 2008–2014, Algeria re-emerged as a major African side, qualifying for the 2010 World Cup and reaching the World Cup knockout stage for the first time in 2014 before narrowly losing to Germany.
+    After a decline that saw them miss the 2018 World Cup, Algeria enjoyed a resurgence under coach Djamel Belmadi, winning the 2019 Africa Cup of Nations and the 2021 FIFA Arab Cup, though they later suffered a shock group-stage exit at AFCON 2021 before qualifying for the 2026 World Cup.
+- **watch out for**:
+    - Riyad Mahrez — Al-Ahli
+    - Rayan Aït-Nouri — Manchester City
+    - Ramy Bensebaini —  Borussia Dortmund
+
+---
+
+Argentina
+
+- **population:** 45.999.280
+- **FIFA Rank:** #1
+- **Footballing overview:** A FIFA member since 1912, Argentina are the reigning World Cup champions, having won the trophy in 1978, 1986, and 2022. They hold the Copa América record with 16 titles — including 2021 and 2024 — and are the only nation to win the competition three consecutive times (1945, 1946, 1947).
+- **rivals:** Brazil (The rivalry has also been referred to as the "Superclassic of the Americas." FIFA has described it as the "essence of football rivalry”), EnglandWith a rivalry stemming from the 1966 World Cup and intensified by the Falklands War of 1982, Argentina and England have had numerous confrontations in World Cup tournaments), Germany (Argentina has played Germany in seven FIFA World Cup matches including three World Cup finals. In 1986 Argentina won 3–2, but in 1990 and 2014 it was the Germans who were the victors by a 1–0 scoreline both times), Uruguay (Argentina has a long-standing rivalry with its neighbour, that came into existence from the early South American Championships, the 1928 Summer Olympics and the first World Cup final, held in 1930. The two teams have faced each other 197 times since 1902)
+- **footballing history:**
+    - Argentina has appeared in the FIFA World Cup final six times, including the first ever final on 30 July 1930, which they lost 4–2 to Uruguay. Argentina won their next final on 25 June 1978, beating the Netherlands 3–1. In 1986, Diego Maradona led Argentina to their second title with a 3–2 victory over West Germany. Maradona led Argentina to the final again in 1990, but the team lost 1–0 to West Germany. With Lionel Messi as captain, Argentina reached the final in 2014, where they were defeated 1–0 by Germany in extra time. Argentina won their third FIFA World Cup in 2022 by defeating France. Argentina's World Cup-winning managers are César Luis Menotti (1978), Carlos Bilardo (1986) and Lionel Scaloni (2022).
+    - Argentina has won the Copa América 16 times
+- **watch out for:**
+    - messi - inter miami
+    - alvarez - atletico madrid
+    - nico paz - como
+
+---
+
+Australia
+
+- **population:** 27.220.235
+- **fifa rank:** #27
+- **footballing overview:** Australia dominated Oceania for decades before joining the Asian Football Confederation in 2006, where they quickly established themselves as one of Asia's strongest teams, winning the 2015 AFC Asian Cup. The Socceroos have qualified for every World Cup since 2006 and reached the knockout stage twice (2006 and 2022), cementing their status as a consistent force in international football.
+- **rivals:** new zealand, uruguay, japan
+- **footballing history:**
+    - 1922–2005: Australia dominated Oceania but repeatedly fell short in World Cup qualification, finally ending a 32-year drought by reaching the 2006 World Cup after a dramatic playoff victory over Uruguay.
+    - 2006–2014: The "Golden Generation" era saw Australia reach the 2006 World Cup Round of 16, qualify for both the 2010 and 2014 World Cups, and establish itself as a leading Asian nation after joining the AFC in 2006.
+    - 2015–2019: Under Ange Postecoglou, a new generation emerged and delivered Australia's greatest achievement by winning the 2015 AFC Asian Cup, though World Cup performances remained limited to group-stage exits.
+    - 2022–2026: Australia enjoyed a resurgence by reaching the 2022 World Cup Round of 16 and securing direct qualification for the 2026 World Cup, confirming their status as one of Asia's most consistent football powers
+
+---
+
+Austria
+
+- **population:** 9,107,266 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #24 (as of the 1 April 2026 ranking) Wikipedia
+- **footballing overview:** The Austrian Football Association was founded on 18 March 1904 in the Austro-Hungarian Empire. Under coach Hugo Meisl in the 1930s, the team became a dominant European side known as the "Wunderteam," built around star player Matthias Sindelar, and finished fourth at the 1934 World Cup. Their post-war peak came at the 1954 World Cup in Switzerland, where they reached the semi-finals after beating the host nation 7–5 in a quarter-final still recognized as the highest-aggregate-scoring match in World Cup history. Austria entered a resurgence from 2016 onward under current head coach Ralf Rangnick, ending a 28-year World Cup absence by qualifying for 2026. Wikipedia + 3
+- **rivals:** modern-era rivalries center on Switzerland (the 1954 World Cup quarter-final and the 2008 co-hosted Euros), Germany (the 1978 Córdoba match), and Czechoslovakia/Czech Republic. Australia Football
+- **footballing history:**
+    - **1904:** ÖFB founded in Vienna; admitted to FIFA the following year.
+    - **1931–1937:** The Wunderteam era under Hugo Meisl, with Sindelar as the star — fourth place at the 1934 World Cup after a semi-final loss to Italy. Wikipedia
+    - **1954:** Best-ever World Cup finish (third place / semi-finals), highlighted by the 7–5 demolition of Switzerland. Australia Football
+    - **2008:** Co-hosted Euro 2008 with Switzerland, their first European Championship appearance, but exited in the group stage. Wikipedia
+    - **2016–2024:** Under Rangnick since 2022, Austria reached Euro 2020's round of 16 for the first time and topped their Euro 2024 group ahead of France and the Netherlands. Dawan Africa
+    - **2025–2026:** Qualified for the 2026 World Cup after 28 years away, sealing it with a 10-0 rout of San Marino, finishing top of qualifying Group H with 19 points from 8 matches. Dawan AfricaDawan Africa
+- **watch out for:**
+    - David Alaba — Real Madrid (captain and defensive anchor of the squad) European Qualifiers
+    - Marcel Sabitzer — Borussia Dortmund (set to reach 100 caps at the tournament) European Qualifiers
+    - Marko Arnautović — Crvena Zvezda (37-year-old record goalscorer and most-capped player) European Qualifiers
+
+---
+
+Belgium
+
+- **population:** 11,774,642 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #9 (per the 11 June 2026 FIFA update) World Cup Pass
+- **footballing overview:** Belgium has represented the country in international football since 1904, and FIFA and UEFA were both co-founded by Belgium's governing body, the Royal Belgian Football Association. They took Olympic gold on home soil in 1920, in a final overshadowed by Czechoslovakia walking off the pitch. A "golden generation" of Hazard, De Bruyne, Lukaku and Courtois held the FIFA #1 ranking for 65 months between 2015 and 2022 without ever winning a senior title, though they did reach the 2018 World Cup semi-final before taking bronze, their best-ever finish. They qualified unbeaten for the 2026 tournament with a squad blending that fading golden generation with younger attacking talent. Wikipedia + 4
+- **rivals:** the Netherlands is the principal and longest-running rivalry (over 125 official fixtures since 1905, the largest head-to-head dataset in world football), alongside France (78 fixtures, including the 2018 World Cup semi-final) and England (the 2018 World Cup group stage and third-place match). Australia Football
+- **footballing history:**
+    - **1904–1905:** First official international, a 3-3 draw with France; RBFA co-founds FIFA, later UEFA. Wikipedia
+    - **1920:** Olympic gold at home, awarded after Czechoslovakia abandoned the contested final. Football History
+    - **1980:** Runners-up at Euro 1980, losing the final to West Germany. Fandom
+    - **1986:** Fourth-place finish at the World Cup — their best result for over 30 years. cbssports
+    - **2015–2022:** The golden generation holds the FIFA #1 ranking for a record 65 months. Australia Football
+    - **2018:** Best-ever World Cup finish — third place — after beating Brazil in the quarter-final and losing to eventual champions France in the semis. European Qualifiers
+    - **2026:** Qualify for a 15th World Cup appearance under coach Rudi Garcia. European Qualifiers
+- **watch out for:**
+    - Kevin De Bruyne — Napoli (almost certainly his last World Cup, pulling the strings as the No. 10) RG
+    - Romelu Lukaku — Napoli (Belgium's all-time leading scorer with 89 international goals, fitness a concern after injury-hit season) RG
+    - Jérémy Doku — Manchester City (led qualifying with five goals and two assists) World Soccer Talk
+
+---
+
+Bosnia and Herzegovina
+
+- **population:** 3,114,242 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #65 (as of the 1 April 2026 ranking) Wikipedia
+- **footballing overview:** The national team was formed and played its first international in November 1995, days after the end of the Bosnian War. They reached the play-offs for the 2010 World Cup, losing to Portugal, before securing direct qualification for Brazil 2014 and rising as high as 13th in the FIFA rankings around that time. At that 2014 debut they lost to Argentina and Nigeria before closing the group with a 3-1 win over Iran. After overcoming Wales and then Italy on penalties in the play-offs, they secured just their second-ever World Cup appearance, arriving as a confident underdog with 40-year-old Edin Džeko still the focal point. Wikipedia + 4
+- **rivals:** Croatia and Serbia are the primary regional rivals, with matches heightened by lingering ethnic divisions and the legacy of the 1990s Yugoslav wars, including the Bosnian War — a meaningful share of Bosnia's own Croat and Serb population tends to support the neighboring nations' teams instead. GrokipediaGrokipedia
+- **footballing history:**
+    - **1995:** First international match, played in the immediate aftermath of the Bosnian War; admitted to FIFA the following year. Wikipedia
+    - **2010:** Lose to Portugal in the play-offs for the South Africa World Cup. FIFA
+    - **2013:** Climb to a highest-ever 13th in the FIFA world rankings while topping their qualifying group for Brazil 2014. World Cup Ranking
+    - **2014:** World Cup debut — a heartbreaking loss to Nigeria after a Džeko goal was controversially ruled out for offside, sandwiched between defeats to Argentina and Nigeria and a win over Iran. FourFourTwo
+    - **2024:** Sergej Barbarez appointed head coach, his first major managerial role after a playing career that included Bundesliga spells. FIFA
+    - **2026:** Beat Wales and then Italy on penalties in the play-offs to reach a second World Cup. FIFA
+- **watch out for:**
+    - Edin Džeko — Schalke 04 (captain and record goalscorer, still scoring for the national team at 40) Olympics
+    - Ermedin Demirović — VfB Stuttgart (Džeko's strike partner, often doing the "dirty work" up front) FourFourTwo
+    - Esmir Bajraktarević — PSV Eindhoven (21-year-old who scored the winning penalty in the play-off final against Italy) Olympics
+
+---
+
+**Brazil**
+
+- **population:** 213,562,666 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #6 (Brazil remains sixth in the latest June 2026 rankings) ESPN
+- **footballing overview:** Brazil are the most successful nation in World Cup history, with five titles across 1958, 1962, 1970, 1994 and 2002, and the only country to have played in every single edition of the tournament since 1930. Pelé's 1958 and 1970 triumphs, the 1994 penalty shoot-out win over Italy, and the Ronaldo-Rivaldo-Ronaldinho trident of 2002 are the most fondly remembered chapters; that 2002 final saw Ronaldo Nazário score twice against Germany. They haven't won it in 24 years, and Carlo Ancelotti became the first foreign manager to lead the Seleção at a World Cup as they chase a sixth title in 2026. Where is Iran? + 4
+- **rivals:** Argentina is the defining rivalry, dating back to a first meeting in 1914 and known as the Clásico Sudamericano; Uruguay is the other great historic foe, born from the 1950 final. Wikipedia
+- **footballing history:**
+    - **1914:** First international, a 3-0 loss to Argentina in Buenos Aires — the start of South America's fiercest rivalry. Wikipedia
+    - **1950:** Host the World Cup final at the Maracanã in front of an official crowd of 173,850 and lose 2-1 to Uruguay — the "Maracanazo," still Brazil's most painful defeat. Wikipedia)
+    - **1958–1970:** Pelé leads Brazil to the title in 1958 and again in 1970, cementing the golden era. FIFA
+    - **1994 & 2002:** Win on penalties against Italy in 1994; beat Germany in the 2002 final behind a Ronaldo brace. FIFANewsX
+    - **2014:** Host again and suffer a 7-1 semi-final defeat to Germany — the "Mineirazo" — finishing fourth. Wikipedia
+    - **2025–2026:** Appoint Carlo Ancelotti, their first-ever foreign head coach, as they bid to end the 24-year drought. Sports Preferred
+- **watch out for:**
+    - Vinícius Júnior — Real Madrid (leads the attack, among the favorites for the Golden Boot) FIFA World Cup News
+    - Neymar — Santos (recalled for what's expected to be his final major tournament in yellow) CBSSports.com
+    - Raphinha — Barcelona (Ancelotti is building much of the attack around him) Worldcup
+
+---
+
+**Cabo Verde**
+
+- **population:** 529,630 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #67 (as of the 11 June 2026 update) Futbor
+- **footballing overview:** Cabo Verde are the third-smallest country by population ever to qualify for a World Cup, behind fellow debutants Curaçao and Iceland in 2018. They finished top of their CAF qualifying group with 23 points, losing only once and outlasting continental heavyweight Cameroon to secure automatic qualification, sealing it with a 3-0 win over Eswatini in front of 15,000 fans at home. The squad reflects the country's global diaspora, with players based across 14 different countries. They opened their historic debut with a 0-0 draw against Spain. Olympics + 4
+- **rivals:** no deep historic rivalry given how new they are to this stage — their most meaningful recent on-pitch foe was Cameroon, the African powerhouse they denied automatic qualification, alongside regional meetings with Senegal and Mauritania in continental qualifying.
+- **footballing history:**
+    - **1978:** First international, a 1-0 loss to Guinea. Wikipedia
+    - **1982:** Federation affiliates with CAF and FIFA. Wikipedia
+    - **2014:** Climb to a highest-ever 27th in the FIFA rankings. Wikipedia
+    - **2023–2025:** Top CAF Group D with 23 points, ahead of Cameroon and Angola. Bolavip
+    - **October 2025:** Clinch a first-ever World Cup berth with a 3-0 win over Eswatini. soccerway
+    - **June 2026:** Make their World Cup debut with a 0-0 draw against Spain. FotMob
+- **watch out for:**
+    - Ryan Mendes — Iğdır FK (captain, the nation's all-time leading scorer with 22 goals and most-capped player at 94 appearances, age 36) World Soccer Talk
+    - Roberto "Pico" Lopes — Shamrock Rovers (born in Ireland, first approached about playing for Cabo Verde via a LinkedIn message) Olympics
+    - Jamiro Monteiro — PEC Zwolle (provides midfield experience and control) Olympics
+
+---
+
+**Canada**
+
+- **population:** 40,467,728 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #30 (per FIFA's latest rankings ahead of the tournament) FOX Sports
+- **footballing overview:** Canada returned to the World Cup in 2022 after a 36-year absence, the longest drought in CONCACAF history, with Alphonso Davies scoring the country's first-ever World Cup goal against Croatia in a tournament where they lost all three group games without taking a point. They automatically qualified for 2026 as co-hosts in February 2023, and opened their home tournament at BMO Field on June 12, 2026 against Bosnia and Herzegovina, conceding the first World Cup goal ever scored on Canadian soil before substitute Cyle Larin equalized for a 1-1 draw and Canada's first World Cup point. World Cup Ranking + 4
+- **rivals:** a generally friendly rivalry with the United States, which plays out most often in the Gold Cup, with the two now considered CONCACAF's two premier teams; the history with Mexico is far more lopsided — Canada has lost 22 of 35 all-time meetings since 1957, though recent results have been closer. Wikipedia + 2
+- **footballing history:**
+    - **1986:** World Cup debut in Mexico; lose all three games without scoring. World Cup Ranking
+    - **2000:** Win the CONCACAF Gold Cup, beating Colombia 2-0 in the final — still their only continental title. FIFA World Cup News
+    - **2022:** End the 36-year World Cup drought; Davies scores their first-ever World Cup goal against Croatia, but they exit after three defeats. World Cup RankingWikipedia
+    - **2023:** Automatically qualify for the 2026 World Cup as co-hosts. Wikipedia
+    - **June 2026:** Open the home tournament with a 1-1 draw against Bosnia and Herzegovina. Wikipedia
+- **watch out for:**
+    - Alphonso Davies — Bayern Munich (captain, expected to miss the first two group games with a hamstring injury) FourFourTwo
+    - Jonathan David — Juventus (Canada's all-time leading scorer, enters as one of their biggest attacking threats) Yahoo Sports
+    - Stephen Eustáquio — FC Porto (vice-captain, the screening midfielder shielding the back line) Squawka
+
+---
+
+**Colombia**
+
+- **population:** 53,936,226 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #13 (per the most recent rankings) Wikipedia
+- **footballing overview:** Led by Carlos Valderrama, Freddy Rincón and Faustino Asprilla, Colombia's golden generation arrived at the 1994 World Cup with sky-high expectations after thrashing Argentina 5-0 in Buenos Aires during qualifying, but a group-stage exit was overshadowed by Andrés Escobar's own goal against the United States, and his murder back home days later. Two decades later, James Rodríguez announced himself by winning the Golden Boot at the 2014 World Cup as Colombia reached the quarter-finals, still their best-ever finish. They secured their return to the 2026 World Cup with a 3-0 win over Bolivia, James himself scoring the opener. Al Día News + 3
+- **rivals:** Argentina is the defining rival, from the 1994 qualifying shock to a heartbreaking 1-0 loss in the 2024 Copa América final. Grokipedia
+- **footballing history:**
+    - **1924:** Colombian Football Federation founded.
+    - **1962:** First World Cup appearance.
+    - **1993:** Stun Argentina 5-0 in Buenos Aires during qualifying, fueling talk of Colombia as a genuine title contender. Al Día News
+    - **1994:** Group-stage exit overshadowed by Escobar's own goal and his subsequent murder — a tragedy that ended the golden generation. Al Día News
+    - **2014:** Best-ever finish, reaching the quarter-finals as James Rodríguez wins the Golden Boot. MLSsoccer.com
+    - **2025:** Clinch 2026 qualification with a 3-0 win over Bolivia. mexc
+- **watch out for:**
+    - James Rodríguez — Minnesota United (captain, second all-time leading scorer for the national team) MLSsoccer.com
+    - Luis Díaz — Bayern Munich (the new face of the attack) Decatur Daily
+    - David Ospina — Atlético Nacional (Colombia's most-capped player) Wikipedia
+
+---
+
+**DR Congo**
+
+- **population:** 116,452,162 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #46 (per the official 11 June 2026 update) FIFA
+- **footballing overview:** Playing as Zaire, DR Congo became the third African nation in history to reach a World Cup in 1974, but suffered three defeats including a 9-0 thrashing by Yugoslavia. Fifty-two years later, leading Senegal 2-0 in the decisive qualifier in Kinshasa, the Leopards conceded three late goals to lose 3-2 and miss automatic qualification. They responded by beating Cameroon 1-0 in the African play-off semi-final on a stoppage-time Chancel Mbemba header, then edged Nigeria on penalties, before defeating Jamaica 1-0 in extra time of the intercontinental play-off final, with Axel Tuanzebe's 100th-minute winner sending thousands into the streets of Kinshasa. Sport News Africa + 4
+- **rivals:** Senegal, after the dramatic 2-0-to-3-2 collapse that cost them automatic qualification, and Nigeria, their play-off final opponents, with Nigeria later filing a complaint to FIFA over the Leopards' use of allegedly ineligible players. ESPN
+- **footballing history:**
+    - **1948:** First international, played as Belgian Congo against Northern Rhodesia. Wikipedia
+    - **1974:** Become the third African nation to play at a World Cup, as Zaire. Sport News Africa
+    - **1968 & 1974:** Win the Africa Cup of Nations twice. Wikipedia
+    - **September 2025:** Lead Senegal 2-0 in Kinshasa before conceding three late goals to lose 3-2, missing direct qualification. Sport News Africa
+    - **Early 2026:** Beat Cameroon in the African play-off semi-final, then Nigeria in the final. aol
+    - **31 March 2026:** Beat Jamaica 1-0 after extra time in Guadalajara to seal a first World Cup return in 52 years. Dawan Africa
+- **watch out for:**
+    - Chancel Mbemba — Lille (captain, the nation's most-capped player with 107 appearances) Wikipedia
+    - Yoane Wissa — Newcastle United (the Leopards' dangerman) Olympics
+    - Cédric Bakambu — Real Betis (one goal shy of the national scoring record) HEAVY
+
+---
+
+**Côte d'Ivoire**
+
+- **population:** 33,494,346 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #33 (per the June 2026 rankings) ESPN
+- **footballing overview:** The Drogba and Touré-led golden generation took Ivory Coast to three straight World Cups (2006, 2010, 2014), pushing the likes of Brazil, Portugal and Argentina but never escaping the group stage. They won AFCON titles in 1992 and 2015, both on penalties against Ghana, before a stunning third title on home soil: nearly eliminated in the group stage of the 2023 AFCON, they sacked coach Jean-Louis Gasset mid-tournament and won it under interim boss Emerse Faé, beating Senegal, Mali and DR Congo in the knockouts before defeating Nigeria 2-1 in the final. Faé then navigated them through African qualifying, ending a 12-year World Cup absence. NewsX + 3
+- **rivals:** Ghana is the principal rival, including AFCON finals in both 1992 and 2015, alongside Nigeria (the 2024 AFCON final) and old continental foe Cameroon. Australia Football
+- **footballing history:**
+    - **1960:** First international.
+    - **1992:** First AFCON title, winning an 11-10 penalty shootout over Ghana. Football History
+    - **2006–2014:** Three consecutive World Cups with the Drogba-Touré generation, never past the group stage. NewsX
+    - **2015:** Second AFCON title, again on penalties (9-8) against Ghana. Football History
+    - **2023/2024:** Win a stunning third AFCON title at home after nearly being eliminated in the group stage and changing coaches mid-tournament. Australia Football
+    - **2026:** Return to the World Cup, opening with a 1-0 win over Ecuador. FotMob
+- **watch out for:**
+    - Franck Kessié — Al-Ahli (captain, reached 100 international caps earlier in 2026) World Cup Wiki
+    - Amad Diallo — Manchester United (electric, two-footed, coming off his best club season) Olympics
+    - Yan Diomandé — RB Leipzig (one of Europe's most coveted young forwards) Olympics
+
+---
+
+**Croatia**
+
+- **population:** 3,822,345 (2026 mid-year estimate) Worldometer
+- **fifa rank:** #11 (current ranking) Wikipedia
+- **footballing overview:** Croatia entered FIFA in 1994 ranked 125th, then rocketed to third place with their World Cup debut in 1998 by beating the Netherlands 2-1 in the third-place match — the fastest, most volatile rise in FIFA ranking history. They reached the final in 2018, losing to France, then matched their 1998 bronze by beating Morocco 2-1 in 2022. In 2026, 40-year-old captain Luka Modrić is set to become only the third male footballer, after Cristiano Ronaldo and Lionel Messi, to play in six World Cups. Wikipedia + 4
+- **rivals:** Serbia is the defining rivalry, rooted in the breakup of Yugoslavia and the wars of the 1990s, regarded as one of the most hostile in world football. Wikipedia
+- **footballing history:**
+    - **1994:** Admitted to FIFA ranked 125th. Wikipedia
+    - **1998:** World Cup debut ends in third place, beating the Netherlands 2-1. gulfnews
+    - **2018:** Reach their first World Cup final, losing to France.
+    - **2022:** Third place again, beating Morocco in the play-off. ESPN
+    - **2026:** Modrić aims to become only the third male player ever to appear at six World Cups. World Cup Pass
+- **watch out for:**
+    - Luka Modrić — AC Milan (captain, chasing his 200th cap) World Cup Pass
+    - Josko Gvardiol — Manchester City (Croatia's premier defender, back after shin surgery) World Cup Pass
+    - Mateo Kovačić — Manchester City (one of four Croatian centurions, links defense and attack) World Cup Pass
+
+---
+
+**Caracao**
+
+- **population:** approximately 185,487 (2026 estimate)
+- **fifa rank:** #82 (official 11 June 2026 ranking)
+- **footballing overview:** With a population smaller than many football stadium crowds, Curaçao became the smallest nation by both population and land area ever to qualify for a FIFA World Cup. The Blue Wave went unbeaten through qualifying, finishing above Jamaica to top their CONCACAF group, sealing qualification with a 0-0 draw in Kingston. Their rise has been driven by a deliberate strategy of recruiting Dutch-born players of Curaçaoan heritage following FIFA membership in 2011, turning a former Caribbean minnow into one of the region's fastest-rising football nations.
+- **rivals:** Jamaica, after the decisive qualification battle for first place in CONCACAF qualifying, and Trinidad & Tobago, one of the traditional Caribbean rivalries dating back to the former Netherlands Antilles era.
+- **footballing history:**
+    - **1954:** First international match played by the Netherlands Antilles, the predecessor team to modern Curaçao.
+    - **2010:** Following the dissolution of the Netherlands Antilles, Curaçao begins competing as a separate national team.
+    - **2011:** Admitted to FIFA, allowing the nation to enter World Cup qualifying independently.
+    - **2017:** Win their first Caribbean Cup, defeating Jamaica in the final.
+    - **2019:** Reach the CONCACAF Gold Cup quarter-finals for the first time, narrowly losing to the United States.
+    - **18 November 2025:** A 0-0 draw away to Jamaica secures first-ever World Cup qualification.
+- **watch out for:**
+    - Leandro Bacuna — captain and the experienced heartbeat of the side.
+    - Eloy Room — veteran goalkeeper and one of the architects of the qualification campaign.
+    - Livano Comenencia — highly rated young midfielder who scored Curaçao's first-ever World Cup goal.
+
+---
+
+**Czechia**
+
+- **population:** 10,527,781 (2026 mid-year estimate)
+- **fifa rank:** around #39 in the June 2026 FIFA rankings.
+- **footballing overview:** Modern Czechia carries one of Europe's richest footballing inheritances through former Czechoslovakia, a two-time World Cup runner-up and European champion. Yet after appearing in Germany 2006, the Czechs endured a 20-year World Cup absence before returning through the UEFA play-offs. Their identity remains rooted in technical midfield play and disciplined organisation, with the current generation attempting to reconnect the country with its historic standing in world football.
+- **rivals:** Slovakia, stemming from the peaceful split of Czechoslovakia in 1993, while historic encounters with Germany and Poland remain among the most significant fixtures in Central European football.
+- **footballing history:**
+    - **1901:** First international played by the Kingdom of Bohemia, a precursor to the modern national team.
+    - **1934:** Czechoslovakia reach their first World Cup final, losing 2-1 to Italy in Rome.
+    - **1962:** Reach a second World Cup final before falling to Brazil.
+    - **1976:** Win the European Championship, remembered for Antonín Panenka's iconic penalty in the final.
+    - **2006:** First World Cup appearance as an independent nation.
+    - **2026:** Return to the World Cup after a 20-year absence by winning the UEFA play-offs.
+- **watch out for:**
+    - Tomáš Souček — West Ham United captain and the team's aerial threat from midfield.
+    - Patrik Schick — Bayer Leverkusen striker and Czechia's leading goalscoring weapon.
+    - Vladimír Coufal — experienced defender and key leader in the squad.
+
+---
+
+**Ecuador**
+
+- **population:** approximately 18.8 million (2026 estimate)
+- **fifa rank:** #25 (June 2026 FIFA rankings)
+- **footballing overview:** Once considered one of South America's smaller footballing powers, Ecuador have become one of CONMEBOL's most consistent nations of the 21st century. La Tri qualified comfortably for a fifth World Cup, finishing above Brazil, Colombia and Uruguay despite beginning qualifying with a points deduction linked to the Byron Castillo eligibility case. Built around a young generation that emerged from Independiente del Valle's academy system, Ecuador combine athleticism, defensive organisation and technical quality in a way few previous Ecuadorian teams managed.
+- **rivals:** Peru is the traditional rivalry due to decades of border disputes and closely contested World Cup qualifying campaigns, while Colombia has become another frequent competitive opponent in modern CONMEBOL football.
+- **footballing history:**
+    - **1926:** Join FIFA.
+    - **2002:** Qualify for a first-ever World Cup under Hernán Darío Gómez.
+    - **2006:** Reach the Round of 16 in Germany, their best World Cup performance to date.
+    - **2022:** Return to the World Cup with one of the tournament's youngest squads.
+    - **June 2025:** A 0-0 draw away to Peru confirms qualification for the 2026 World Cup.
+    - **2026:** Enter the tournament having qualified for five of the last seven World Cups.
+- **watch out for:**
+    - Moisés Caicedo — Chelsea midfielder and the engine of Ecuador's team.
+    - Willian Pacho — Paris Saint-Germain defender and one of South America's most highly regarded centre-backs.
+    - Kendry Páez — teenage playmaker widely regarded as the country's next global star.
+
+---
+
+**Egypt**
+
+- **population:** approximately 119 million (2026 mid-year estimate)
+- **fifa rank:** approximately #34 (June 2026 FIFA rankings)
+- **footballing overview:** Africa's most successful national team endured a long World Cup absence after qualifying for Russia 2018, but returned in 2026 behind a familiar figure: Mohamed Salah. Football occupies a unique place in Egyptian public life, often serving as a national unifier across political and social divides, while the national team's fortunes remain deeply intertwined with the country's identity. Egypt secured qualification by topping their CAF group, bringing the Pharaohs back to football's biggest stage for only the fourth time.
+- **rivals:** Algeria remains the defining rivalry, intensified by the heated 2010 World Cup qualification play-off in Sudan, while clashes with Morocco and Tunisia are among North Africa's most fiercely contested fixtures.
+- **footballing history:**
+    - **1920:** Become the first African nation to compete at the Olympic football tournament.
+    - **1934:** Become the first African nation ever to play at a FIFA World Cup.
+    - **1957:** Win the inaugural Africa Cup of Nations.
+    - **2006–2010:** Capture three consecutive AFCON titles, a continental record.
+    - **2018:** Return to the World Cup after a 28-year absence, led by Mohamed Salah.
+    - **2026:** Qualify for their fourth World Cup appearance and second of the Salah era.
+- **watch out for:**
+    - Mohamed Salah — Liverpool captain and Egypt's greatest modern footballer.
+    - Omar Marmoush — Manchester City forward and Salah's principal attacking partner.
+    - Mohamed Abdelmonem — defensive leader and cornerstone of the back line.
+
+---
+
+**England**
+
+- **population:** 57,106,000 (2026 estimate) **[VERIFY latest ONS figure]**
+- **fifa rank:** #4 (June 2026 FIFA Rankings)
+- **footballing overview:** England remain one of football's most scrutinised nations, carrying the weight of a single World Cup triumph despite consistently producing elite talent. Under new manager , the Three Lions cruised through qualification, winning every match and conceding no goals. After reaching the semi-finals in 2018 and successive European Championship finals in 2021 and 2024, expectations are once again centred on ending sixty years of hurt and delivering a second World Cup title.
+- **rivals:** Germany remains England's defining football rivalry, shaped by decades of major tournament clashes. Argentina also occupies a unique place in English football culture due to the 1986 World Cup quarter-final, while Scotland is the oldest international rivalry in world football.
+- **footballing history:**
+    - **1872:** Play Scotland in the first official international football match.
+    - **1966:** Win their only World Cup, defeating West Germany 4-2 after extra time at Wembley.
+    - **1990:** Reach the World Cup semi-finals in Italy.
+    - **2018:** Reach a first World Cup semi-final in 28 years under Gareth Southgate.
+    - **2021 & 2024:** Reach consecutive European Championship finals.
+    - **2026:** Arrive as one of the tournament favourites under Thomas Tuchel.
+- **watch out for:**
+    - Jude Bellingham — Real Madrid (already one of the world's premier midfielders).
+    - Harry Kane — Bayern Munich (England's all-time leading goalscorer).
+    - Bukayo Saka — Arsenal (arguably England's most dangerous wide attacker).
+
+---
+
+**France**
+
+- **population:** 66,650,000 (2026 estimate) **[VERIFY latest INSEE figure]**
+- **fifa rank:** #1 (June 2026 FIFA Rankings)
+- **footballing overview:** France have become the benchmark for international football in the modern era. World champions in 1998 and 2018 and runners-up in 2006 and 2022, Les Bleus combine extraordinary squad depth with one of the most productive talent-development systems in the sport. The current generation is led by captain Kylian Mbappé, who enters the tournament chasing further World Cup records after already scoring in a final and winning the competition at the age of 19.
+- **rivals:** Germany has traditionally been France's principal football rival, while clashes with Italy, England and Belgium have become major fixtures in modern European football.
+- **footballing history:**
+    - **1930:** Participate in the inaugural FIFA World Cup.
+    - **1984:** Win their first major trophy, the European Championship.
+    - **1998:** Win their first World Cup on home soil, defeating Brazil 3-0.
+    - **2006:** Reach a second World Cup final.
+    - **2018:** Win their second World Cup, defeating Croatia.
+    - **2022:** Reach another final before losing to Argentina on penalties.
+- **watch out for:**
+    - Kylian Mbappé — Real Madrid (captain and France's all-time leading scorer).
+    - Aurélien Tchouaméni — Real Madrid (the midfield anchor).
+    - William Saliba — Arsenal (one of Europe's most highly-rated defenders).
+
+---
+
+**Germany**
+
+- **population:** 83,800,000 (2026 estimate)
+- **fifa rank:** #10 (June 2026 FIFA Rankings)
+- **footballing overview:** No European nation has appeared in more World Cup semi-finals than Germany. After dominating international football for decades and winning four World Cups, Die Mannschaft suffered back-to-back group-stage exits in 2018 and 2022 before rebuilding around a younger generation. Their return to the latter stages of Euro 2024 restored belief that Germany could once again challenge for football's biggest prize.
+- **rivals:** The Netherlands remains Germany's most famous football rivalry, while matches against England, Italy and France have produced some of the defining moments in World Cup history.
+- **footballing history:**
+    - **1954:** Win their first World Cup in the "Miracle of Bern."
+    - **1974:** Beat the Netherlands to win a second World Cup.
+    - **1990:** Win a third World Cup, defeating Argentina.
+    - **2014:** Win a fourth World Cup after defeating Argentina in Brazil.
+    - **2018 & 2022:** Suffer consecutive group-stage eliminations.
+    - **2024:** Reach the European Championship quarter-finals and begin a new era under Julian Nagelsmann.
+- **watch out for:**
+    - Jamal Musiala — Bayern Munich (Germany's creative centrepiece).
+    - Florian Wirtz — Liverpool **[VERIFY club if publishing]** (one of Europe's most gifted attacking midfielders).
+    - Antonio Rüdiger — Real Madrid (leader of the defence).
+
+---
+
+**Ghana**
+
+- **population:** 36,900,000 (2026 estimate)
+- **fifa rank:** #74 (June 2026 FIFA Rankings)
+- **footballing overview:** Ghana's football identity has long been built on producing elite talent despite limited resources compared to the continent's giants. The Black Stars became the first African team to reach the quarter-finals of a FIFA U-20 World Cup and remain the only African nation to come within a penalty kick of a senior World Cup semi-final. After missing out in 2018 and exiting in the group stage in 2022, Ghana returned by winning their CAF qualifying group and reclaiming a place on the world stage.
+- **rivals:** Nigeria is Ghana's defining football rivalry, dating back to the Jalco Cup era and often described as one of Africa's fiercest sporting rivalries. Encounters with Côte d'Ivoire are also highly significant in West African football.
+- **footballing history:**
+    - **1963:** Win their first Africa Cup of Nations.
+    - **1965:** Retain the AFCON title.
+    - **2006:** Reach the Round of 16 in their first-ever World Cup appearance.
+    - **2010:** Reach the World Cup quarter-finals, losing to Uruguay on penalties after the infamous Luis Suárez handball.
+    - **2022:** Defeat South Korea at the World Cup but fail to progress from the group stage.
+    - **2026:** Return to the World Cup after topping their CAF qualification group.
+- **watch out for:**
+    - Mohammed Kudus — Tottenham Hotspur **[VERIFY club]** (Ghana's most explosive attacker).
+    - Antoine Semenyo — Bournemouth (physical, direct and increasingly influential).
+    - Thomas Partey — **[VERIFY club]** (the experienced midfield leader).
+
+---
+
+**Haiti**
+
+- **population:** 11,906,095 (2026 estimate) **[VERIFY latest UN figure]**
+- **fifa rank:** #83 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Haiti's qualification is one of the stories of the tournament. A nation that has endured political instability, natural disasters and chronic infrastructure challenges, Les Grenadiers returned to the World Cup for the first time since 1974 after navigating CONCACAF qualifying behind a generation largely developed abroad. Football has long served as a source of national pride in Haiti, and qualification sparked celebrations across both the country and the vast Haitian diaspora in North America and France.
+- **rivals:** Jamaica is Haiti's most frequent modern Caribbean rival, while matches against Trinidad & Tobago and Cuba have historically carried significant regional importance.
+- **footballing history:**
+    - **1957:** Haiti plays its first World Cup qualifying campaign.
+    - **1973:** Wins the CONCACAF Championship on home soil, securing a first World Cup appearance.
+    - **1974:** Makes its only previous World Cup appearance, famously taking the lead against Italy before losing 3-1.
+    - **2019:** Reaches the Gold Cup semi-finals, defeating Canada in one of the nation's greatest modern victories.
+    - **2025:** Secures qualification for the 2026 World Cup, ending a 52-year absence.
+    - **2026:** Returns to football's biggest stage as one of the tournament's major underdog stories.
+- **watch out for:**
+    - Duckens Nazon — the nation's all-time leading goalscorer and attacking focal point.
+    - Danley Jean Jacques — a midfield engine increasingly attracting European attention.
+    - Frantzdy Pierrot — powerful striker and aerial threat.
+
+---
+
+**IR Iran**
+
+- **population:** 92,400,000 (2026 estimate) **[VERIFY]**
+- **fifa rank:** #18 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Iran arrived at the 2026 World Cup as Asia's most consistent national team of the modern era. Team Melli have qualified for four consecutive World Cups and seven overall, dominating much of AFC qualifying while continuing to draw support from millions across the country and the global Iranian diaspora. Despite their regional dominance, they remain in pursuit of a historic first appearance in the knockout rounds.
+- **rivals:** South Korea remains Iran's defining football rivalry, while encounters with Saudi Arabia carry broader geopolitical significance and consistently rank among Asian football's highest-profile fixtures.
+- **footballing history:**
+    - **1968:** Win their first AFC Asian Cup.
+    - **1976:** Complete a hat-trick of consecutive Asian Cup titles.
+    - **1978:** Make their World Cup debut in Argentina.
+    - **1998:** Record their first World Cup victory, defeating the United States 2-1.
+    - **2018:** Earn four points in a difficult group featuring Spain and Portugal.
+    - **2026:** Qualify for a fourth consecutive World Cup and seventh overall.
+- **watch out for:**
+    - Mehdi Taremi — Iran's most accomplished striker of the modern era.
+    - Sardar Azmoun — one of the nation's highest-scoring forwards ever.
+    - Mohammad Mohebi — direct, pacey winger who emerged as a key figure during qualifying.
+
+---
+
+**Iraq**
+
+- **population:** 48,300,000 (2026 estimate) **[VERIFY]**
+- **fifa rank:** #58 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Few football nations carry a story quite like Iraq's. Decades of war, sanctions, political upheaval and exile never extinguished the country's football culture, and the Lions of Mesopotamia became symbols of national unity through their successes. Qualification for 2026 marked Iraq's first World Cup appearance since 1986, completing one of the most emotional journeys in global football and rewarding years of progress under a young generation of players.
+- **rivals:** Iran is Iraq's principal football rival, with meetings often among the most emotionally charged fixtures in Asia. Saudi Arabia also remains a major regional competitor.
+- **footballing history:**
+    - **1986:** Makes its first World Cup appearance in Mexico.
+    - **2007:** Wins the AFC Asian Cup against overwhelming odds amid ongoing conflict at home.
+    - **2015:** Reaches the Asian Cup semi-finals.
+    - **2023:** Wins the Gulf Cup on home soil in Basra.
+    - **2025:** Secures qualification for the 2026 World Cup, ending a 40-year wait.
+    - **2026:** Returns to the World Cup as one of Asia's most compelling stories.
+- **watch out for:**
+    - Aymen Hussein — prolific striker and hero of recent qualification campaigns.
+    - Zidane Iqbal — technically gifted midfielder developed at Manchester United.
+    - Ali Jasim — one of the most exciting young attackers in Asian football.
+
+---
+
+**Japan**
+
+- **population:** 122,600,000 (2026 estimate)
+- **fifa rank:** #15 **[VERIFY June 2026 ranking]**
+- **footballing overview:** No Asian nation enters the tournament with higher expectations than Japan. Since launching the professional J.League in 1993, the Samurai Blue have transformed from regional outsiders into one of the world's most respected football programmes. Their victories over Germany and Spain at the 2022 World Cup reinforced a belief that Japan's long-term ambition—reaching and eventually winning a World Cup—is no longer viewed as unrealistic within the country.
+- **rivals:** South Korea remains Japan's fiercest football rival, with the rivalry stretching back decades and carrying significant historical and cultural weight. Encounters with Australia have also become major fixtures in modern Asian football.
+- **footballing history:**
+    - **1992:** Win their first AFC Asian Cup.
+    - **1998:** Qualify for their first World Cup.
+    - **2002:** Reach the Round of 16 as co-hosts of the World Cup.
+    - **2010:** Reach the Round of 16 again in South Africa.
+    - **2022:** Defeat both Germany and Spain to top their group before narrowly losing to Croatia on penalties.
+    - **2026:** Qualify comfortably and arrive as Asia's highest-ranked representative.
+- **watch out for:**
+    - Kaoru Mitoma — Brighton winger whose dribbling makes him one of Asia's most dangerous attackers.
+    - Takefusa Kubo — creative playmaker and the face of Japan's next generation.
+    - Wataru Endo — captain and midfield leader whose tactical discipline underpins the entire team.
+
+---
+
+**Jordan**
+
+- **population:** 11,700,000 (2026 estimate) **[VERIFY latest UN figure]**
+- **fifa rank:** #62 **[VERIFY June 2026 ranking]**
+- **footballing overview:** No nation at the 2026 World Cup is making a more historic debut than Jordan. Long overshadowed by Asia's traditional powers, Al-Nashama transformed their footballing reputation during a remarkable run to the 2023 Asian Cup final before carrying that momentum into World Cup qualification. Their success has become a source of immense national pride, with football enjoying unprecedented popularity across the kingdom following qualification for a first-ever World Cup.
+- **rivals:** Iraq is Jordan's most emotionally charged regional rivalry, while encounters with Saudi Arabia and Syria have traditionally drawn significant interest across the Arab football landscape.
+- **footballing history:**
+    - **1953:** Jordan plays its first official international match.
+    - **2004:** Reaches the Asian Cup quarter-finals for the first time.
+    - **2013:** Falls one step short of World Cup qualification, losing an intercontinental play-off to Uruguay.
+    - **2024:** Reaches the AFC Asian Cup final, the greatest achievement in the nation's football history.
+    - **2025:** Secures qualification for the 2026 FIFA World Cup.
+    - **2026:** Makes its World Cup debut.
+- **watch out for:**
+    - Mousa Al-Tamari — the face of Jordanian football and the country's first major European success story.
+    - Yazan Al-Naimat — prolific forward and hero of the Asian Cup run.
+    - Mahmoud Al-Mardi — experienced attacker who consistently delivers in major tournaments.
+
+---
+
+**Korea Republic**
+
+- **population:** 51,700,000 (2026 estimate)
+- **fifa rank:** #23 **[VERIFY June 2026 ranking]**
+- **footballing overview:** South Korea remain Asia's most established World Cup nation, qualifying for an eleventh consecutive tournament and twelfth overall. The Taeguk Warriors continue to combine technical sophistication with relentless intensity, producing a generation of players competing at Europe's highest level. More than two decades after co-hosting the World Cup, Korean football still measures itself against the extraordinary benchmark set by the 2002 semi-finalists.
+- **rivals:** Japan is the defining rivalry in Asian football, shaped by geography, history and sporting competition. Encounters with Iran have also become some of the continent's most important fixtures over the last three decades.
+- **footballing history:**
+    - **1956:** Win the inaugural AFC Asian Cup.
+    - **1986:** Begin a streak of consecutive World Cup qualifications that continues today.
+    - **2002:** Reach the World Cup semi-finals on home soil, the best-ever performance by an Asian nation.
+    - **2012:** Win Olympic bronze in London.
+    - **2022:** Reach the Round of 16 after defeating Portugal.
+    - **2026:** Qualify for an eleventh consecutive World Cup.
+- **watch out for:**
+    - Son Heung-min — Tottenham Hotspur captain and the greatest Korean footballer of the modern era.
+    - Lee Kang-in — creative playmaker capable of deciding matches with a single moment.
+    - Kim Min-jae — defensive leader and one of Asia's most accomplished defenders.
+
+---
+
+**Mexico**
+
+- **population:** 132,000,000 (2026 estimate)
+- **fifa rank:** #17 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Few countries live and breathe football quite like Mexico. El Tri enter their eighteenth World Cup appearance carrying both immense expectation and lingering frustration after seven consecutive Round of 16 eliminations between 1994 and 2018. As co-hosts of the 2026 tournament, Mexico have embraced the role of standard-bearers for North American football, hoping to channel the passion of one of the world's largest football cultures into a deep tournament run.
+- **rivals:** The United States is Mexico's defining modern rivalry, reflecting the shifting balance of power within CONCACAF. Matches against Argentina have also developed special significance due to repeated World Cup eliminations.
+- **footballing history:**
+    - **1930:** Participate in the inaugural FIFA World Cup.
+    - **1970:** Reach the quarter-finals while hosting the World Cup.
+    - **1986:** Reach the quarter-finals again as hosts.
+    - **1993:** Win their first CONCACAF Gold Cup.
+    - **2022:** Fail to progress from the group stage for the first time since 1978.
+    - **2026:** Become the first nation to host matches at three separate men's World Cups.
+- **watch out for:**
+    - Santiago Giménez — the striker expected to lead Mexico's next generation.
+    - Edson Álvarez — midfield anchor and emotional leader.
+    - Julián Quiñones — dynamic attacker whose emergence added another dimension to the side.
+
+---
+
+**Morocco**
+
+- **population:** 38,600,000 (2026 estimate)
+- **fifa rank:** #11 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Morocco arrive at the 2026 World Cup carrying the legacy of one of football's greatest underdog runs. Their journey to the semi-finals in Qatar 2022 made them the first African and Arab nation ever to reach the last four of a World Cup, sparking celebrations from Casablanca to Jakarta. Rather than fading after that achievement, the Atlas Lions have continued to strengthen, blending elite European-based talent with one of Africa's most ambitious football development programmes.
+- **rivals:** Algeria is Morocco's fiercest football rivalry, extending beyond sport and reflecting decades of regional competition. Egypt and Tunisia are also major continental rivals.
+- **footballing history:**
+    - **1970:** Become the first African nation to earn a World Cup point.
+    - **1986:** Become the first African nation to win a World Cup group.
+    - **2004:** Reach the Africa Cup of Nations final.
+    - **2022:** Become the first African and Arab semi-finalists in World Cup history.
+    - **2025:** Qualify comfortably for the 2026 World Cup.
+    - **2026:** Arrive with realistic ambitions of another deep tournament run.
+- **watch out for:**
+    - Achraf Hakimi — captain, leader and one of the world's best attacking full-backs.
+    - Sofyan Amrabat — the midfield heartbeat of the Atlas Lions.
+    - Brahim Díaz — creative attacker capable of unlocking any defence.
+
+---
+
+**Netherlands**
+
+- **population:** 18,100,000 (2026 estimate)
+- **fifa rank:** #7 **[VERIFY June 2026 ranking]**
+- **footballing overview:** The Netherlands remain football's greatest nation never to have won a World Cup. From the revolutionary Total Football of the 1970s to the modern academy systems that continue producing elite talent, Dutch football has consistently influenced the sport far beyond the country's size. Having reached three World Cup finals without lifting the trophy, Oranje arrive in 2026 determined to finally claim the prize that has eluded generations of legendary teams.
+- **rivals:** Germany is the Netherlands' defining football rivalry, rooted in both history and some of the sport's most iconic matches. Belgium, in the Low Countries derby, remains another major opponent.
+- **footballing history:**
+    - **1974:** Reach their first World Cup final under Johan Cruyff and Total Football.
+    - **1978:** Reach a second consecutive World Cup final.
+    - **1988:** Win the European Championship, their only major international title.
+    - **2010:** Reach a third World Cup final before losing to Spain.
+    - **2014:** Finish third after defeating Brazil 3-0.
+    - **2026:** Enter the tournament with another highly talented generation built around a strong defensive core.
+- **watch out for:**
+    - Virgil van Dijk — captain and defensive leader.
+    - Xavi Simons — the creative focal point of the next Dutch generation.
+    - Jeremie Frimpong — one of the most dangerous attacking wing-backs in world football.
+
+---
+
+**New Zealand**
+
+- **population:** 5,350,000 (2026 estimate)
+- **fifa rank:** #89 **[VERIFY June 2026 ranking]**
+- **footballing overview:** For decades, New Zealand lived in the shadow of Australia's footballing presence in Oceania. Since the Socceroos moved to the AFC in 2006, however, the All Whites have become the region's dominant force, qualifying for three of the last five World Cups. While rugby remains the country's most popular sport, football has grown steadily, and qualification for 2026 reinforced New Zealand's status as Oceania's undisputed standard-bearer.
+- **rivals:** Australia remains New Zealand's biggest sporting rival across all codes, while recent competitive meetings with New Caledonia have gained significance within Oceania.
+- **footballing history:**
+    - **1982:** Makes its first World Cup appearance in Spain.
+    - **2010:** Goes unbeaten at the World Cup, drawing all three group matches including one against reigning champions Italy.
+    - **2016:** Wins the OFC Nations Cup.
+    - **2022:** Qualifies for the intercontinental play-off but falls short against Costa Rica.
+    - **2025:** Secures direct qualification as Oceania receives an automatic World Cup berth for the first time.
+    - **2026:** Appears at its third FIFA World Cup.
+- **watch out for:**
+    - Chris Wood — Nottingham Forest captain and New Zealand's all-time leading goalscorer.
+    - Liberato Cacace — attacking full-back and key creative outlet.
+    - Tyler Bindon — highly rated young defender viewed as a cornerstone of the future.
+
+---
+
+**Norway**
+
+- **population:** 5,650,000 (2026 estimate)
+- **fifa rank:** #38 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Norway's return to the World Cup ended one of European football's longest waits. Despite producing two of the world's most recognisable stars in Erling Haaland and Martin Ødegaard, the nation had not appeared at a major tournament since Euro 2000 and had not played at a World Cup since 1998. Their qualification finally aligned one of football's most talented generations with the international stage many believed they deserved.
+- **rivals:** Sweden is Norway's traditional football rival, while Denmark forms part of the fiercely contested Scandinavian triangle.
+- **footballing history:**
+    - **1938:** Makes its World Cup debut.
+    - **1994:** Returns to the World Cup after a 56-year absence.
+    - **1998:** Reaches the Round of 16 after defeating Brazil.
+    - **2000:** Appears at the European Championship, then begins a long absence from major tournaments.
+    - **2025:** Qualifies for the 2026 World Cup behind a golden generation.
+    - **2026:** Returns to football's biggest stage after 28 years away.
+- **watch out for:**
+    - Erling Haaland — Manchester City striker and one of the world's most prolific goalscorers.
+    - Martin Ødegaard — Arsenal captain and creative heartbeat of the team.
+    - Antonio Nusa — explosive young winger regarded as Norway's next breakout star.
+
+---
+
+**Panama**
+
+- **population:** 4,650,000 (2026 estimate)
+- **fifa rank:** #35 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Panama's rise has been one of CONCACAF's most significant success stories. Once viewed as outsiders behind Mexico, the United States and Costa Rica, Los Canaleros have steadily established themselves among the region's elite. Their qualification for a second World Cup in three tournaments reflects years of investment in youth development and a football culture that continues to grow alongside the country's expanding international profile.
+- **rivals:** Costa Rica is Panama's fiercest football rivalry, while matches against the United States and Honduras have become increasingly significant in modern CONCACAF competition.
+- **footballing history:**
+    - **2005:** Reach their first Gold Cup final.
+    - **2013:** Agonisingly miss World Cup qualification after conceding two late goals against the United States.
+    - **2018:** Qualify for their first FIFA World Cup.
+    - **2023:** Reach the CONCACAF Nations League final.
+    - **2025:** Secure qualification for the 2026 World Cup.
+    - **2026:** Appear at their second World Cup.
+- **watch out for:**
+    - Adalberto Carrasquilla — midfield leader and one of CONCACAF's most influential players.
+    - José Fajardo — proven goalscorer in regional competition.
+    - Michael Murillo — attacking full-back with major tournament experience.
+
+---
+
+**Paraguay**
+
+- **population:** 6,950,000 (2026 estimate)
+- **fifa rank:** #43 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Paraguay's return to the World Cup marks the end of a sixteen-year absence from football's biggest stage. Historically one of South America's most resilient teams, La Albirroja built its reputation on defensive organisation, physicality and an ability to frustrate more glamorous opponents. Qualification for 2026 revived memories of the generation that regularly challenged the continent's giants during the 1990s and 2000s.
+- **rivals:** Argentina is Paraguay's most historic football rival, while clashes with Uruguay and Brazil have frequently shaped World Cup qualification campaigns.
+- **footballing history:**
+    - **1930:** Participate in the inaugural FIFA World Cup.
+    - **1998:** Reach the Round of 16, narrowly losing to eventual champions France.
+    - **2010:** Reach the World Cup quarter-finals for the first time.
+    - **2011:** Reach the Copa América final without winning a match in regulation time.
+    - **2025:** Qualify for the World Cup after missing the previous three editions.
+    - **2026:** Return to the tournament for the first time since South Africa 2010.
+- **watch out for:**
+    - Julio Enciso — Chelsea **[VERIFY club]**, creative star and face of the new generation.
+    - Miguel Almirón — experienced attacking leader.
+    - Diego Gómez — dynamic midfielder attracting growing international attention.
+
+---
+
+**Portugal**
+
+- **population:** 10,450,000 (2026 estimate)
+- **fifa rank:** #6 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Portugal enter the tournament carrying one of the deepest squads in world football and the enduring presence of a living legend. While Cristiano Ronaldo's influence still looms large, the nation's transformation into a consistent producer of elite talent has ensured that success no longer depends on a single player. European champions in 2016 and regular contenders since the early 2000s, Portugal arrive in North America believing their first World Cup title is within reach.
+- **rivals:** Spain is Portugal's defining football rivalry, producing some of the most anticipated fixtures in international football. Historic encounters with France have also shaped the country's modern football story.
+- **footballing history:**
+    - **1966:** Reach the World Cup semi-finals on their debut, inspired by Eusébio.
+    - **2004:** Reach the European Championship final on home soil.
+    - **2006:** Reach a second World Cup semi-final.
+    - **2016:** Win the UEFA European Championship, the first major trophy in their history.
+    - **2019:** Win the inaugural UEFA Nations League.
+    - **2026:** Compete in what could be Cristiano Ronaldo's final World Cup.
+- **watch out for:**
+    - Cristiano Ronaldo — one of the greatest footballers in history and still capable of deciding major matches.
+    - Bruno Fernandes — the creative leader who dictates Portugal's attacking rhythm.
+    - Vitinha — elegant midfielder increasingly viewed as one of the world's best in his position.
+
+---
+
+**Qatar**
+
+- **population:** 3,100,000 (2026 estimate)
+- **fifa rank:** #54 **[VERIFY June 2026 ranking]**
+- **footballing overview:** No country has transformed its footballing infrastructure more dramatically in the 21st century than Qatar. Once a peripheral force in Asian football, the nation invested heavily in academies, coaching and player development, culminating in an Asian Cup triumph in 2019 and the hosting of the 2022 FIFA World Cup. After automatic qualification as hosts four years earlier, Qatar earned their place in 2026 through the qualifying process, a milestone viewed as validation of a project decades in the making.
+- **rivals:** Saudi Arabia remains Qatar's most significant football rival, while encounters with the UAE have often carried extra intensity within Gulf football.
+- **footballing history:**
+    - **1970:** Qatar Football Association is established.
+    - **1992:** Wins its first Gulf Cup.
+    - **2019:** Wins the AFC Asian Cup for the first time, defeating Japan 3-1 in the final.
+    - **2022:** Hosts the FIFA World Cup, becoming the first Arab nation to do so.
+    - **2025:** Qualifies for the 2026 World Cup through AFC qualifying.
+    - **2026:** Competes in its second consecutive World Cup.
+- **watch out for:**
+    - Akram Afif — arguably the greatest player in Qatari football history.
+    - Almoez Ali — all-time leading goalscorer and Asian Cup hero.
+    - Lucas Mendes — defensive leader and cornerstone of the back line.
+
+---
+
+**Saudi Arabia**
+
+- **population:** 39,500,000 (2026 estimate)
+- **fifa rank:** #58 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Saudi Arabia remain one of Asia's most successful football nations and a country where football occupies a central place in public life. The Green Falcons reinforced their international reputation with their stunning victory over eventual champions Argentina at the 2022 World Cup, one of the greatest upsets in tournament history. Qualification for 2026 continued a period of unprecedented football investment as the country prepares to host the 2034 FIFA World Cup.
+- **rivals:** Iran is Saudi Arabia's defining football rivalry, while matches against Qatar and Iraq consistently rank among the region's most anticipated fixtures.
+- **footballing history:**
+    - **1984:** Wins its first AFC Asian Cup.
+    - **1994:** Reaches the Round of 16 at its World Cup debut.
+    - **2007:** Reaches the AFC Asian Cup final.
+    - **2022:** Defeats Argentina 2-1 in one of World Cup history's biggest shocks.
+    - **2025:** Secures qualification for a seventh World Cup appearance.
+    - **2026:** Returns as one of Asia's most experienced tournament nations.
+- **watch out for:**
+    - Salem Al-Dawsari — scorer of the winning goal against Argentina and national icon.
+    - Musab Al-Juwayr — highly regarded midfielder representing the next generation.
+    - Hassan Kadesh — experienced defensive leader.
+
+---
+
+**Scotland**
+
+- **population:** 5,550,000 (2026 estimate)
+- **fifa rank:** #26 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Scotland's return to the World Cup ended nearly three decades of frustration and restored one of international football's most passionate fanbases to the global stage. The Tartan Army's reputation for travelling in huge numbers has become almost as famous as the team itself, and qualification reignited memories of Scotland's golden years. While the nation lacks the depth of Europe's elite, this generation has developed a resilience and organisation that has made them difficult opponents for anyone.
+- **rivals:** England is Scotland's defining football rivalry and the oldest international fixture in world football. Encounters with Ireland also carry significant historical importance.
+- **footballing history:**
+    - **1872:** Plays England in the first official international football match.
+    - **1974:** Goes unbeaten at the World Cup but is eliminated on goal difference.
+    - **1978:** Arrives in Argentina amid huge expectations before suffering a disappointing exit.
+    - **1998:** Makes its most recent World Cup appearance prior to 2026.
+    - **2021:** Returns to a major tournament after a 23-year absence by qualifying for Euro 2020.
+    - **2026:** Qualifies for its first World Cup in 28 years.
+- **watch out for:**
+    - Scott McTominay — midfield leader and one of Scotland's most important goalscorers.
+    - Andrew Robertson — captain and emotional heartbeat of the side.
+    - Billy Gilmour — creative midfielder capable of controlling the tempo of matches.
+
+---
+
+**Senegal**
+
+- **population:** 19,700,000 (2026 estimate)
+- **fifa rank:** #18 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Senegal have evolved from talented outsiders into one of Africa's model football nations. Built on a production line of elite players competing across Europe's top leagues, the Lions of Teranga finally captured their first Africa Cup of Nations title in 2022 and have become regular contenders at major tournaments. Expectations in Senegal now extend beyond qualification; the objective is to challenge the continent's deepest World Cup runs.
+- **rivals:** Morocco and Algeria have emerged as Senegal's principal continental rivals, while clashes with Côte d'Ivoire consistently rank among Africa's biggest fixtures.
+- **footballing history:**
+    - **2002:** Reach the World Cup quarter-finals on their debut, defeating defending champions France in the opening match.
+    - **2019:** Reach the Africa Cup of Nations final.
+    - **2022:** Win the Africa Cup of Nations for the first time.
+    - **2022:** Reach the World Cup Round of 16.
+    - **2025:** Qualify comfortably for the 2026 World Cup.
+    - **2026:** Arrive as one of Africa's strongest contenders.
+- **watch out for:**
+    - Nicolas Jackson — dynamic forward capable of stretching any defence.
+    - Pape Matar Sarr — midfield engine entering his prime years.
+    - Kalidou Koulibaly — captain and defensive leader with vast tournament experience.
+
+---
+
+**South Africa**
+
+- **population:** 64,500,000 (2026 estimate)
+- **fifa rank:** #56 **[VERIFY June 2026 ranking]**
+- **footballing overview:** South Africa's qualification represents a significant milestone for a nation seeking to re-establish itself among Africa's football elite. Bafana Bafana remain deeply connected to one of football's most symbolic moments—the country's hosting of the 2010 FIFA World Cup, the first on African soil. Qualification for 2026 reflected the steady progress made since their surprise third-place finish at the 2023 Africa Cup of Nations.
+- **rivals:** Nigeria is South Africa's most significant modern football rivalry, while encounters with Zimbabwe carry additional regional importance in Southern Africa.
+- **footballing history:**
+    - **1996:** Wins the Africa Cup of Nations on home soil.
+    - **1998:** Makes its World Cup debut in France.
+    - **2010:** Hosts the first FIFA World Cup held in Africa.
+    - **2024:** Finishes third at the Africa Cup of Nations, their best result in over two decades.
+    - **2025:** Qualifies for the 2026 FIFA World Cup.
+    - **2026:** Returns to the World Cup after a long absence.
+- **watch out for:**
+    - Ronwen Williams — captain and one of Africa's most accomplished goalkeepers.
+    - Teboho Mokoena — midfield leader and set-piece specialist.
+    - Relebohile Mofokeng — exciting young attacker widely viewed as the future of South African football.
+
+---
+
+**Spain**
+
+- **population:** 49,300,000 (2026 estimate)
+- **fifa rank:** #3 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Spain arrive in North America carrying the confidence of a nation that has successfully reinvented itself. After dominating world football between 2008 and 2012 before enduring a period of decline, La Roja have rebuilt around one of Europe's most exciting young cores. The triumph at Euro 2024 confirmed Spain's return to the summit of the international game, and expectations are once again centred on adding a second World Cup title to their collection.
+- **rivals:** Portugal is Spain's closest football rival due to geography and frequent high-profile encounters, while matches against Italy have defined several major international tournaments in the modern era.
+- **footballing history:**
+    - **1964:** Wins its first European Championship.
+    - **2008:** Begins a golden era by winning Euro 2008.
+    - **2010:** Wins its first FIFA World Cup, defeating the Netherlands in the final.
+    - **2012:** Becomes the first nation to win three consecutive major international tournaments.
+    - **2024:** Wins the UEFA European Championship.
+    - **2026:** Enters the World Cup as one of the tournament favourites.
+- **watch out for:**
+    - Lamine Yamal — generational talent and one of football's biggest stars.
+    - Rodri — midfield conductor and the foundation of Spain's tactical identity.
+    - Nico Williams — explosive winger capable of transforming matches.
+
+---
+
+**Sweden**
+
+- **population:** 10,700,000 (2026 estimate)
+- **fifa rank:** #28 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Sweden's return to the World Cup reflects the resilience that has defined the nation for decades. Rarely considered among football's superpowers, the Swedes have consistently punched above their weight through strong organisation, disciplined defending and a steady production of technically gifted players. Qualification for 2026 marked a return to the global stage after missing Qatar 2022 and revived memories of one of Europe's proudest football traditions.
+- **rivals:** Denmark is Sweden's principal football rival, while Norway remains another fiercely contested Scandinavian opponent.
+- **footballing history:**
+    - **1950:** Finishes third at the FIFA World Cup.
+    - **1958:** Reaches the World Cup final on home soil, losing to Brazil.
+    - **1994:** Finishes third at the World Cup in the United States.
+    - **2004:** Produces one of the strongest generations of the modern era led by Zlatan Ibrahimović.
+    - **2018:** Reaches the World Cup quarter-finals.
+    - **2026:** Returns to the World Cup after missing the previous edition.
+- **watch out for:**
+    - Alexander Isak — Newcastle United striker and Sweden's biggest attacking threat.
+    - Viktor Gyökeres — prolific goalscorer entering the tournament in outstanding form.
+    - Dejan Kulusevski — creative attacker capable of unlocking compact defences.
+
+---
+
+**Switzerland**
+
+- **population:** 9,100,000 (2026 estimate)
+- **fifa rank:** #19 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Switzerland have quietly become one of the most reliable tournament teams in world football. While they rarely generate the headlines of Europe's traditional giants, the Nati have reached six consecutive major tournaments and consistently challenged stronger opponents through tactical discipline and squad cohesion. Their multicultural player pool has become one of the defining strengths of modern Swiss football.
+- **rivals:** Serbia has emerged as Switzerland's most politically and emotionally charged football rivalry in recent years, while encounters with Austria carry significance as a traditional Central European derby.
+- **footballing history:**
+    - **1934:** Reaches the World Cup quarter-finals.
+    - **1954:** Hosts the FIFA World Cup.
+    - **2006:** Becomes the first team eliminated from a World Cup without conceding a goal.
+    - **2021:** Defeats France in one of the biggest upsets in European Championship history.
+    - **2022:** Reaches the World Cup Round of 16.
+    - **2026:** Qualifies for another major tournament as one of Europe's most consistent nations.
+- **watch out for:**
+    - Granit Xhaka — captain and emotional leader.
+    - Manuel Akanji — defensive cornerstone and serial winner at club level.
+    - Dan Ndoye — dynamic winger entering his prime years.
+
+---
+
+**Tunisia**
+
+- **population:** 12,400,000 (2026 estimate)
+- **fifa rank:** #49 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Tunisia continue to be one of Africa's most dependable World Cup participants. While the Eagles of Carthage have often lacked the star power of continental rivals such as Morocco, Senegal or Egypt, they have built a reputation for consistency and resilience. Qualification for 2026 extended a period in which Tunisia have become one of the continent's most regular visitors to football's biggest stage.
+- **rivals:** Algeria is Tunisia's defining football rivalry, while encounters with Morocco and Egypt are among North Africa's most important fixtures.
+- **footballing history:**
+    - **1978:** Becomes the first African nation to win a World Cup match.
+    - **2004:** Wins the Africa Cup of Nations on home soil.
+    - **2018:** Records its first World Cup victory in forty years.
+    - **2022:** Defeats France at the World Cup but narrowly misses out on the knockout rounds.
+    - **2025:** Secures qualification for the 2026 World Cup.
+    - **2026:** Appears at a seventh World Cup.
+- **watch out for:**
+    - Hannibal Mejbri — creative midfielder and symbol of Tunisia's new generation.
+    - Ellyes Skhiri — experienced midfield anchor.
+    - Seifeddine Jaziri — proven goalscorer at international level.
+
+---
+
+**Türkiye**
+
+- **population:** 88,500,000 (2026 estimate)
+- **fifa rank:** #24 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Türkiye arrive at the World Cup with one of the youngest and most exciting squads in the tournament. Football occupies a unique place in Turkish society, often serving as one of the country's strongest shared cultural passions, and expectations have risen sharply following an impressive run at Euro 2024. With a generation blending technical quality, creativity and fearlessness, many believe Türkiye are capable of becoming one of the tournament's surprise packages.
+- **rivals:** Greece remains Türkiye's most historic football rivalry, while matches against Croatia and Germany have become increasingly significant in the modern era.
+- **footballing history:**
+    - **1954:** Makes its World Cup debut.
+    - **2002:** Finishes third at the FIFA World Cup, the greatest achievement in Turkish football history.
+    - **2008:** Reaches the semi-finals of the UEFA European Championship.
+    - **2024:** Reaches the latter stages of Euro 2024 behind an emerging young core.
+    - **2025:** Secures qualification for the 2026 World Cup.
+    - **2026:** Returns to the tournament seeking to emulate the heroes of 2002.
+- **watch out for:**
+    - Arda Güler — one of world football's most gifted young playmakers.
+    - Kenan Yıldız — dynamic forward viewed as a future superstar.
+    - Hakan Çalhanoğlu — captain, set-piece specialist and midfield leader.
+
+---
+
+**Uruguay**
+
+- **population:** 3,420,000 (2026 estimate)
+- **fifa rank:** #13 **[VERIFY June 2026 ranking]**
+- **footballing overview:** No nation has achieved more in world football relative to its size than Uruguay. Home to just over three million people, La Celeste helped shape the sport's early history, winning the inaugural FIFA World Cup and producing generations of players renowned for resilience, intelligence and competitiveness. Under Marcelo Bielsa, Uruguay have embraced a more aggressive and modern style while retaining the fierce identity that has made them one of football's most respected nations.
+- **rivals:** Argentina is Uruguay's defining football rival, with the rivalry dating back to the earliest years of international football. Encounters with Brazil are equally significant and have produced some of South America's most iconic matches.
+- **footballing history:**
+    - **1930:** Hosts and wins the inaugural FIFA World Cup.
+    - **1950:** Defeats Brazil in the legendary "Maracanazo" to win a second World Cup.
+    - **1980:** Wins the Mundialito tournament celebrating the World Cup's 50th anniversary.
+    - **2010:** Reaches the World Cup semi-finals for the first time in forty years.
+    - **2011:** Wins the Copa América, becoming the competition's most successful nation at the time.
+    - **2026:** Arrives with one of South America's most exciting generations under Marcelo Bielsa.
+- **watch out for:**
+    - Federico Valverde — Real Madrid midfielder and the engine of the team.
+    - Darwin Núñez — explosive striker capable of changing matches on his own.
+    - Ronald Araújo — defensive leader and one of the world's elite centre-backs.
+
+---
+
+**USA**
+
+- **population:** 347,000,000 (2026 estimate)
+- **fifa rank:** #15 **[VERIFY June 2026 ranking]**
+- **footballing overview:** The United States enters 2026 carrying expectations unlike any in its football history. As co-hosts, the Americans are hoping to capitalise on a generation widely regarded as the most talented the country has ever produced. Football's growth in the United States has accelerated dramatically over the past three decades through Major League Soccer, increased youth participation and the success of American players in Europe, turning the sport from a niche pursuit into a genuine part of the national sporting landscape.
+- **rivals:** Mexico is the defining rivalry in North American football, while encounters with Canada have gained increasing significance as all three nations continue to develop together.
+- **footballing history:**
+    - **1930:** Reaches the semi-finals of the inaugural FIFA World Cup.
+    - **1994:** Hosts the FIFA World Cup, helping transform the sport's popularity in the country.
+    - **2002:** Reaches the World Cup quarter-finals.
+    - **2022:** Returns to the knockout stages after missing the 2018 tournament.
+    - **2026:** Co-hosts the World Cup alongside Canada and Mexico.
+    - **2026:** Enters the tournament with the highest expectations of the modern era.
+- **watch out for:**
+    - Christian Pulisic — captain and the face of American football.
+    - Weston McKennie — midfield leader whose energy drives the side.
+    - Folarin Balogun — prolific striker expected to lead the attack for years to come.
+
+---
+
+**Uzbekistan**
+
+- **population:** 37,900,000 (2026 estimate)
+- **fifa rank:** #55 **[VERIFY June 2026 ranking]**
+- **footballing overview:** Uzbekistan's qualification is one of the landmark moments of Asian football in the 21st century. After decades of near misses, heartbreaking play-off defeats and campaigns that fell agonisingly short, the White Wolves finally secured a place at the World Cup. The achievement is the culmination of years of investment in youth development, which has seen Uzbekistan emerge as one of Asia's most successful nations at youth level and a growing force in the senior game.
+- **rivals:** Kazakhstan remains Uzbekistan's most historic regional rival, while matches against Iran and South Korea have often shaped the nation's qualification campaigns.
+- **footballing history:**
+    - **1992:** Begins competing as an independent nation following the dissolution of the Soviet Union.
+    - **1994:** Wins the Asian Games football tournament in Hiroshima.
+    - **2011:** Reaches the AFC Asian Cup semi-finals.
+    - **2023:** Wins the AFC U-20 Asian Cup, highlighting the country's growing youth development system.
+    - **2025:** Qualifies for its first FIFA World Cup.
+    - **2026:** Becomes one of the tournament's debutants and a symbol of Central Asia's footballing rise.
+- **watch out for:**
+    - Abdukodir Khusanov — elite young defender and the country's biggest football export.
+    - Eldor Shomurodov — captain, all-time leading scorer and national icon.
+    - Abbosbek Fayzullaev — creative midfielder regarded as one of Asia's brightest young talents.

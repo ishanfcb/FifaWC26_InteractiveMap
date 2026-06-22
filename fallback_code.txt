@@ -1,0 +1,111 @@
+ // { teamName: { mp,w,d,l,gf,ga } }
+                    const groupMap = {}; // { teamName: groupLetter }
+
+                    if (data.matches) {
+                        data.matches.forEach(m => {
+                            if (!m.score || !m.group) return;
+                            const grp = m.group.replace('Group ', '');
+                            const h = m.team1, a = m.team2;
+                            const hg = m.score.ft[0], ag = m.score.ft[1];
+                            groupMap[h] = grp; groupMap[a] = grp;
+                            if (!table[h]) table[h] = {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                            if (!table[a]) table[a] = {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                            table[h].mp++; table[a].mp++;
+                            table[h].gf += hg; table[h].ga += ag;
+                            table[a].gf += ag; table[a].ga += hg;
+                            if (hg > ag) { table[h].w++; table[a].l++; }
+                            else if (hg < ag) { table[a].w++; table[h].l++; }
+                            else { table[h].d++; table[a].d++; }
+                        });
+                    }
+
+                    // Map openfootball team names → our display names
+                    const OF_NAME_MAP = {
+                        'South Korea': 'Korea Republic', 'Czech Republic': 'Czechia',
+                        'United States': 'USA', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+                        'Ivory Coast': "Côte d'Ivoire", 'Turkey': 'Türkiye',
+                        'DR Congo': 'Congo DR', 'Iran': 'Iran', 'Cape Verde': 'Cabo Verde'
+                    };
+                    const OF_ISO_MAP = {
+                        'Mexico':'mx','South Africa':'za','South Korea':'kr','Czech Republic':'cz',
+                        'Canada':'ca','Bosnia & Herzegovina':'ba','Qatar':'qa','Switzerland':'ch',
+                        'Brazil':'br','Morocco':'ma','Haiti':'ht','Scotland':'gb-sct',
+                        'United States':'us','Paraguay':'py','Australia':'au','Turkey':'tr',
+                        'Germany':'de','Curaçao':'cw','Ivory Coast':'ci','Ecuador':'ec',
+                        'Netherlands':'nl','Japan':'jp','Sweden':'se','Tunisia':'tn',
+                        'Belgium':'be','Egypt':'eg','Iran':'ir','New Zealand':'nz',
+                        'Spain':'es','Cape Verde':'cv','Saudi Arabia':'sa','Uruguay':'uy',
+                        'France':'fr','Senegal':'sn','Iraq':'iq','Norway':'no',
+                        'Argentina':'ar','Algeria':'dz','Austria':'at','Jordan':'jo',
+                        'Portugal':'pt','DR Congo':'cd','Uzbekistan':'uz','Colombia':'co',
+                        'England':'gb-eng','Croatia':'hr','Ghana':'gh','Panama':'pa'
+                    };
+                    const OF_MAPNAME = {
+                        'United States':'United States of America','Czech Republic':'Czechia',
+                        'South Korea':'South Korea','Ivory Coast':'Ivory Coast',
+                        'DR Congo':'Democratic Republic of the Congo','Cape Verde':'Cabo Verde',
+                        'Iran':'Iran','Turkey':'Turkey'
+                    };
+
+                    // Group by letter
+                    const byGroup = {};
+                    Object.entries(groupMap).forEach(([tname, grp]) => {
+                        if (!byGroup[grp]) byGroup[grp] = [];
+                        const s = table[tname] || {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                        const displayName = OF_NAME_MAP[tname] || tname;
+                        const mapName = OF_MAPNAME[tname] || tname;
+                        const iso = OF_ISO_MAP[tname] || 'un';
+                        byGroup[grp].push({
+                            name: displayName, mapName, iso,
+                            flag: `https://flagcdn.com/w40/${(iso || 'un').slice(0, 2).toLowerCase()}.png`,
+                            gp: s.mp, w: s.w, d: s.d, l: s.l,
+                            gd: s.gf - s.ga, pts: s.w * 3 + s.d
+                        });
+                    });
+
+                    // Fill missing teams with zero stats
+                    const SEED = [
+                        {l:'A',teams:['Mexico','South Africa','South Korea','Czech Republic']},
+                        {l:'B',teams:['Canada','Bosnia & Herzegovina','Qatar','Switzerland']},
+                        {l:'C',teams:['Brazil','Morocco','Haiti','Scotland']},
+                        {l:'D',teams:['United States','Paraguay','Australia','Turkey']},
+                        {l:'E',teams:['Germany','Curaçao','Ivory Coast','Ecuador']},
+                        {l:'F',teams:['Netherlands','Japan','Sweden','Tunisia']},
+                        {l:'G',teams:['Belgium','Egypt','Iran','New Zealand']},
+                        {l:'H',teams:['Spain','Cape Verde','Saudi Arabia','Uruguay']},
+                        {l:'I',teams:['France','Senegal','Iraq','Norway']},
+                        {l:'J',teams:['Argentina','Algeria','Austria','Jordan']},
+                        {l:'K',teams:['Portugal','DR Congo','Uzbekistan','Colombia']},
+                        {l:'L',teams:['England','Croatia','Ghana','Panama']}
+                    ];
+                    SEED.forEach(({l, teams}) => {
+                        if (!byGroup[l]) byGroup[l] = [];
+                        teams.forEach(tname => {
+                            if (!byGroup[l].find(t => t.name === (OF_NAME_MAP[tname] || tname))) {
+                                const displayName = OF_NAME_MAP[tname] || tname;
+                                const mapName = OF_MAPNAME[tname] || tname;
+                                const iso = OF_ISO_MAP[tname] || 'un';
+                                byGroup[l].push({name: displayName, mapName, iso, flag: `https://flagcdn.com/w40/${(iso || 'un').slice(0, 2).toLowerCase()}.png`, gp:0,w:0,d:0,l:0,gd:0,pts:0});
+                            }
+                        });
+                    });
+
+                    const standings = Object.entries(byGroup)
+                        .sort(([a],[b]) => a.localeCompare(b))
+                        .map(([letter, teams]) => ({
+                            group: `Group ${letter}`,
+                            color: GROUP_COLORS[letter] || '#888',
+                            teams: teams.sort((a,b) => b.pts - a.pts || b.gd - a.gd)
+                        }));
+
+                    mockData.standings = standings;
+                    document.getElementById('standings-content').innerHTML = '';
+                    renderStandingsDock(standings);
+
+                    if (typeof topoData !== 'undefined' && topoData) {
+                        g.selectAll('.country').attr('class', d => {
+                            const isParticipating = findTeamStandingsData(d.properties.name) !== null;
+                            return isParticipating ? 'country participating' : 'country';
+                        });
+                    }
+                

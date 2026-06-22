@@ -1,0 +1,370 @@
+{
+  "Egypt": {
+    "name": "Egypt",
+    "population": "approximately 119 million (2026 mid-year estimate)",
+    "rank": "approximately #34 (June 2026 FIFA rankings)",
+    "rivals": "Algeria remains the defining rivalry, intensified by the heated 2010 World Cup qualification play-off in Sudan, while clashes with Morocco and Tunisia are among North Africa's most fiercely contested fixtures.",
+    "timeline": [
+      {
+        "year": "1920",
+        "event": "Become the first African nation to compete at the Olympic football tournament."
+      },
+      {
+        "year": "1934",
+        "event": "Become the first African nation ever to play at a FIFA World Cup."
+      },
+      {
+        "year": "1957",
+        "event": "Win the inaugural Africa Cup of Nations."
+      },
+      {
+        "year": "2006\u20132010",
+        "event": "Capture three consecutive AFCON titles, a continental record."
+      },
+      {
+        "year": "2018",
+        "event": "Return to the World Cup after a 28-year absence, led by Mohamed Salah."
+      },
+      {
+        "year": "2026",
+        "event": "Qualify for their fourth World Cup appearance and second of the Salah era."
+      }
+    ],
+    "players": [
+      {
+        "name": "Mohamed Salah",
+        "club": "Liverpool captain and Egypt's greatest modern footballer."
+      },
+      {
+        "name": "Omar Marmoush",
+        "club": "Manchester City forward and Salah's principal attacking partner."
+      },
+      {
+        "name": "Mohamed Abdelmonem",
+        "club": "defensive leader and cornerstone of the back line."
+      }
+    ]
+  },
+  "England": {
+    "name": "England",
+    "population": "57,106,000 (2026 estimate) **[VERIFY latest ONS figure]**",
+    "rank": "#4 (June 2026 FIFA Rankings)",
+    "rivals": "Germany remains England's defining football rivalry, shaped by decades of major tournament clashes. Argentina also occupies a unique place in English football culture due to the 1986 World Cup quarter-final, while Scotland is the oldest international rivalry in world football.",
+    "timeline": [
+      {
+        "year": "1872",
+        "event": "Play Scotland in the first official international football match."
+      },
+      {
+        "year": "1966",
+        "event": "Win their only World Cup, defeating West Germany 4-2 after extra time at Wembley."
+      },
+      {
+        "year": "1990",
+        "event": "Reach the World Cup semi-finals in Italy."
+      },
+      {
+        "year": "2018",
+        "event": "Reach a first World Cup semi-final in 28 years under Gareth Southgate."
+      },
+      {
+        "year": "2021 & 2024",
+        "event": "Reach consecutive European Championship finals."
+      },
+      {
+        "year": "2026",
+        "event": "Arrive as one of the tournament favourites under Thomas Tuchel."
+      }
+    ],
+    "players": [
+      {
+        "name": "Jude Bellingham",
+        "club": "Real Madrid (already one of the world's premier midfielders)."
+      },
+      {
+        "name": "Harry Kane",
+        "club": "Bayern Munich (England's all-time leading goalscorer)."
+      },
+      {
+        "name": "Bukayo Saka",
+        "club": "Arsenal (arguably England's most dangerous wide attacker)."
+      }
+    ]
+  },
+  "France": {
+    "name": "France",
+    "population": "66,650,000 (2026 estimate) **[VERIFY latest INSEE figure]**",
+    "rank": "#1 (June 2026 FIFA Rankings)",
+    "rivals": "Germany has traditionally been France's principal football rival, while clashes with Italy, England and Belgium have become major fixtures in modern European football.",
+    "timeline": [
+      {
+        "year": "1930",
+        "event": "Participate in the inaugural FIFA World Cup."
+      },
+      {
+        "year": "1984",
+        "event": "Win their first major trophy, the European Championship."
+      },
+      {
+        "year": "1998",
+        "event": "Win their first World Cup on home soil, defeating Brazil 3-0."
+      },
+      {
+        "year": "2006",
+        "event": "Reach a second World Cup final."
+      },
+      {
+        "year": "2018",
+        "event": "Win their second World Cup, defeating Croatia."
+      },
+      {
+        "year": "2022",
+        "event": "Reach another final before losing to Argentina on penalties."
+      }
+    ],
+    "players": [
+      {
+        "name": "Kylian Mbapp\u00e9",
+        "club": "Real Madrid (captain and France's all-time leading scorer)."
+      },
+      {
+        "name": "Aur\u00e9lien Tchouam\u00e9ni",
+        "club": "Real Madrid (the midfield anchor)."
+      },
+      {
+        "name": "William Saliba",
+        "club": "Arsenal (one of Europe's most highly-rated defenders)."
+      }
+    ]
+  },
+  "Germany": {
+    "name": "Germany",
+    "population": "83,800,000 (2026 estimate)",
+    "rank": "#10 (June 2026 FIFA Rankings)",
+    "rivals": "The Netherlands remains Germany's most famous football rivalry, while matches against England, Italy and France have produced some of the defining moments in World Cup history.",
+    "timeline": [
+      {
+        "year": "1954",
+        "event": "Win their first World Cup in the \"Miracle of Bern.\""
+      },
+      {
+        "year": "1974",
+        "event": "Beat the Netherlands to win a second World Cup."
+      },
+      {
+        "year": "1990",
+        "event": "Win a third World Cup, defeating Argentina."
+      },
+      {
+        "year": "2014",
+        "event": "Win a fourth World Cup after defeating Argentina in Brazil."
+      },
+      {
+        "year": "2018 & 2022",
+        "event": "Suffer consecutive group-stage eliminations."
+      },
+      {
+        "year": "2024",
+        "event": "Reach the European Championship quarter-finals and begin a new era under Julian Nagelsmann."
+      }
+    ],
+    "players": [
+      {
+        "name": "Jamal Musiala",
+        "club": "Bayern Munich (Germany's creative centrepiece)."
+      },
+      {
+        "name": "Florian Wirtz",
+        "club": "Liverpool **[VERIFY club if publishing]** (one of Europe's most gifted attacking midfielders)."
+      },
+      {
+        "name": "Antonio R\u00fcdiger",
+        "club": "Real Madrid (leader of the defence)."
+      }
+    ]
+  },
+  "Ghana": {
+    "name": "Ghana",
+    "population": "36,900,000 (2026 estimate)",
+    "rank": "#74 (June 2026 FIFA Rankings)",
+    "rivals": "Nigeria is Ghana's defining football rivalry, dating back to the Jalco Cup era and often described as one of Africa's fiercest sporting rivalries. Encounters with C\u00f4te d'Ivoire are also highly significant in West African football.",
+    "timeline": [
+      {
+        "year": "1963",
+        "event": "Win their first Africa Cup of Nations."
+      },
+      {
+        "year": "1965",
+        "event": "Retain the AFCON title."
+      },
+      {
+        "year": "2006",
+        "event": "Reach the Round of 16 in their first-ever World Cup appearance."
+      },
+      {
+        "year": "2010",
+        "event": "Reach the World Cup quarter-finals, losing to Uruguay on penalties after the infamous Luis Su\u00e1rez handball."
+      },
+      {
+        "year": "2022",
+        "event": "Defeat South Korea at the World Cup but fail to progress from the group stage."
+      },
+      {
+        "year": "2026",
+        "event": "Return to the World Cup after topping their CAF qualification group."
+      }
+    ],
+    "players": [
+      {
+        "name": "Mohammed Kudus",
+        "club": "Tottenham Hotspur **[VERIFY club]** (Ghana's most explosive attacker)."
+      },
+      {
+        "name": "Antoine Semenyo",
+        "club": "Bournemouth (physical, direct and increasingly influential)."
+      },
+      {
+        "name": "Thomas Partey",
+        "club": "**[VERIFY club]** (the experienced midfield leader)."
+      }
+    ]
+  },
+  "Haiti": {
+    "name": "Haiti",
+    "population": "11,906,095 (2026 estimate) **[VERIFY latest UN figure]**",
+    "rank": "#83 **[VERIFY June 2026 ranking]**",
+    "rivals": "Jamaica is Haiti's most frequent modern Caribbean rival, while matches against Trinidad & Tobago and Cuba have historically carried significant regional importance.",
+    "timeline": [
+      {
+        "year": "1957",
+        "event": "Haiti plays its first World Cup qualifying campaign."
+      },
+      {
+        "year": "1973",
+        "event": "Wins the CONCACAF Championship on home soil, securing a first World Cup appearance."
+      },
+      {
+        "year": "1974",
+        "event": "Makes its only previous World Cup appearance, famously taking the lead against Italy before losing 3-1."
+      },
+      {
+        "year": "2019",
+        "event": "Reaches the Gold Cup semi-finals, defeating Canada in one of the nation's greatest modern victories."
+      },
+      {
+        "year": "2025",
+        "event": "Secures qualification for the 2026 World Cup, ending a 52-year absence."
+      },
+      {
+        "year": "2026",
+        "event": "Returns to football's biggest stage as one of the tournament's major underdog stories."
+      }
+    ],
+    "players": [
+      {
+        "name": "Duckens Nazon",
+        "club": "the nation's all-time leading goalscorer and attacking focal point."
+      },
+      {
+        "name": "Danley Jean Jacques",
+        "club": "a midfield engine increasingly attracting European attention."
+      },
+      {
+        "name": "Frantzdy Pierrot",
+        "club": "powerful striker and aerial threat."
+      }
+    ]
+  },
+  "IR Iran": {
+    "name": "IR Iran",
+    "population": "92,400,000 (2026 estimate) **[VERIFY]**",
+    "rank": "#18 **[VERIFY June 2026 ranking]**",
+    "rivals": "South Korea remains Iran's defining football rivalry, while encounters with Saudi Arabia carry broader geopolitical significance and consistently rank among Asian football's highest-profile fixtures.",
+    "timeline": [
+      {
+        "year": "1968",
+        "event": "Win their first AFC Asian Cup."
+      },
+      {
+        "year": "1976",
+        "event": "Complete a hat-trick of consecutive Asian Cup titles."
+      },
+      {
+        "year": "1978",
+        "event": "Make their World Cup debut in Argentina."
+      },
+      {
+        "year": "1998",
+        "event": "Record their first World Cup victory, defeating the United States 2-1."
+      },
+      {
+        "year": "2018",
+        "event": "Earn four points in a difficult group featuring Spain and Portugal."
+      },
+      {
+        "year": "2026",
+        "event": "Qualify for a fourth consecutive World Cup and seventh overall."
+      }
+    ],
+    "players": [
+      {
+        "name": "Mehdi Taremi",
+        "club": "Iran's most accomplished striker of the modern era."
+      },
+      {
+        "name": "Sardar Azmoun",
+        "club": "one of the nation's highest-scoring forwards ever."
+      },
+      {
+        "name": "Mohammad Mohebi",
+        "club": "direct, pacey winger who emerged as a key figure during qualifying."
+      }
+    ]
+  },
+  "Iraq": {
+    "name": "Iraq",
+    "population": "48,300,000 (2026 estimate) **[VERIFY]**",
+    "rank": "#58 **[VERIFY June 2026 ranking]**",
+    "rivals": "Iran is Iraq's principal football rival, with meetings often among the most emotionally charged fixtures in Asia. Saudi Arabia also remains a major regional competitor.",
+    "timeline": [
+      {
+        "year": "1986",
+        "event": "Makes its first World Cup appearance in Mexico."
+      },
+      {
+        "year": "2007",
+        "event": "Wins the AFC Asian Cup against overwhelming odds amid ongoing conflict at home."
+      },
+      {
+        "year": "2015",
+        "event": "Reaches the Asian Cup semi-finals."
+      },
+      {
+        "year": "2023",
+        "event": "Wins the Gulf Cup on home soil in Basra."
+      },
+      {
+        "year": "2025",
+        "event": "Secures qualification for the 2026 World Cup, ending a 40-year wait."
+      },
+      {
+        "year": "2026",
+        "event": "Returns to the World Cup as one of Asia's most compelling stories."
+      }
+    ],
+    "players": [
+      {
+        "name": "Aymen Hussein",
+        "club": "prolific striker and hero of recent qualification campaigns."
+      },
+      {
+        "name": "Zidane Iqbal",
+        "club": "technically gifted midfielder developed at Manchester United."
+      },
+      {
+        "name": "Ali Jasim",
+        "club": "one of the most exciting young attackers in Asian football."
+      }
+    ]
+  }
+}

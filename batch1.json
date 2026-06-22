@@ -1,0 +1,329 @@
+{
+  "Algeria": {
+    "name": "Algeria",
+    "population": "48,022,819",
+    "rank": "- **Footballing Overview:** Algeria joined FIFA on 1 January 1964, a year and a half after gaining independence. Has qualified for five FIFA World Cups, in 1982, 1986, 2010, 2014, and 2026. They\u2019ve won the AFCON (African Cup of Nations) twice \u2014 as hosts in 1990, and again in Egypt in 2019.",
+    "overview": "Algeria joined FIFA on 1 January 1964, a year and a half after gaining independence. Has qualified for five FIFA World Cups, in 1982, 1986, 2010, 2014, and 2026. They\u2019ve won the AFCON (African Cup of Nations) twice \u2014 as hosts in 1990, and again in Egypt in 2019.",
+    "rivals": "rivalries with Egypt, Morocco, and Tunisia,  Nigeria, especially in the 1980s, and Mali due to sharing a common border and a long-standing competitive rivalry, and against Senegal.",
+    "timeline": [
+      {
+        "year": "1957\u20131958",
+        "event": "ALN \u2014** In 1956, in Tunis, Tunisia, the first team representing Algeria was formed, the Arm\u00e9e de Lib\u00e9ration Nationale (ALN) team led by Ahmed Benelfoul and Habib Draoua. In April 1958, the team was dissolved and was replaced by the FLN team."
+      },
+      {
+        "year": "1958\u20131962",
+        "event": "FLN \u2014** The FLN football team was a team made up mainly of professional players in France, who then joined the Algerian independence movement of the National Liberation Front (FLN), and assisted in organizing football matches against national football teams. The FLN linked African football to anti-colonial resistance using the idea of Pan-Africanism as a legitimizing tool and symbol of national identity."
+      },
+      {
+        "year": "1962",
+        "event": "1980:** The Algerian football team was established in 1962 after gaining independence from France, as the successor of the FLN football team.[9] Under French rule, Algeria was not allowed to have a national team, the FLN football team was sort of a rebellion against the French colonization. All of their games were considered friendlies and were unrecognized by FIFA. After the Algerian national football team was officially recognized by FIFA in 1963, the team qualified to the 1968 Africa Cup of Nations"
+      },
+      {
+        "year": "1986 FIFA World Cup",
+        "event": "In Mexico, at the 1986 World Cup, the Algerians were unable to pass the first round once again in a group that included Northern Ireland (1\u20131 draw), Brazil (1\u20130 loss), and Spain (3\u20130 loss)."
+      },
+      {
+        "year": "1990\u20132008",
+        "event": "Algeria hosted the 1990 AFCON, in a rematch against Nigeria, Algeria won the AFCON for the first time."
+      },
+      {
+        "year": "2008\u20132026",
+        "event": "From 2008\u20132014, Algeria re-emerged as a major African side, qualifying for the 2010 World Cup and reaching the World Cup knockout stage for the first time in 2014 before narrowly losing to Germany."
+      }
+    ],
+    "players": [
+      {
+        "name": "Riyad Mahrez",
+        "club": "Al-Ahli"
+      },
+      {
+        "name": "Rayan A\u00eft-Nouri",
+        "club": "Manchester City"
+      },
+      {
+        "name": "Ramy Bensebaini",
+        "club": "Borussia Dortmund"
+      }
+    ]
+  },
+  "Argentina": {
+    "name": "Argentina",
+    "population": "45.999.280",
+    "rank": "#1",
+    "overview": "A FIFA member since 1912, Argentina are the reigning World Cup champions, having won the trophy in 1978, 1986, and 2022. They hold the Copa Am\u00e9rica record with 16 titles \u2014 including 2021 and 2024 \u2014 and are the only nation to win the competition three consecutive times (1945, 1946, 1947).",
+    "rivals": "Brazil (The rivalry has also been referred to as the \"Superclassic of the Americas.\" FIFA has described it as the \"essence of football rivalry\u201d), EnglandWith a rivalry stemming from the 1966 World Cup and intensified by the Falklands War of 1982, Argentina and England have had numerous confrontations in World Cup tournaments), Germany (Argentina has played Germany in seven FIFA World Cup matches including three World Cup finals. In 1986 Argentina won 3\u20132, but in 1990 and 2014 it was the Germans who were the victors by a 1\u20130 scoreline both times), Uruguay (Argentina has a long-standing rivalry with its neighbour, that came into existence from the early South American Championships, the 1928 Summer Olympics and the first World Cup final, held in 1930. The two teams have faced each other 197 times since 1902)",
+    "timeline": [],
+    "players": [
+      {
+        "name": "messi",
+        "club": "inter miami"
+      },
+      {
+        "name": "alvarez",
+        "club": "atletico madrid"
+      },
+      {
+        "name": "nico paz",
+        "club": "como"
+      }
+    ]
+  },
+  "Australia": {
+    "name": "Australia",
+    "population": "27.220.235",
+    "rank": "#27",
+    "rivals": "new zealand, uruguay, japan",
+    "timeline": [
+      {
+        "year": "1922\u20132005",
+        "event": "Australia dominated Oceania but repeatedly fell short in World Cup qualification, finally ending a 32-year drought by reaching the 2006 World Cup after a dramatic playoff victory over Uruguay."
+      },
+      {
+        "year": "2006\u20132014",
+        "event": "The \"Golden Generation\" era saw Australia reach the 2006 World Cup Round of 16, qualify for both the 2010 and 2014 World Cups, and establish itself as a leading Asian nation after joining the AFC in 2006."
+      },
+      {
+        "year": "2015\u20132019",
+        "event": "Under Ange Postecoglou, a new generation emerged and delivered Australia's greatest achievement by winning the 2015 AFC Asian Cup, though World Cup performances remained limited to group-stage exits."
+      },
+      {
+        "year": "2022\u20132026",
+        "event": "Australia enjoyed a resurgence by reaching the 2022 World Cup Round of 16 and securing direct qualification for the 2026 World Cup, confirming their status as one of Asia's most consistent football powers"
+      }
+    ]
+  },
+  "Austria": {
+    "name": "Austria",
+    "population": "9,107,266 (2026 mid-year estimate) Worldometer",
+    "rank": "#24 (as of the 1 April 2026 ranking) Wikipedia",
+    "rivals": "modern-era rivalries center on Switzerland (the 1954 World Cup quarter-final and the 2008 co-hosted Euros), Germany (the 1978 C\u00f3rdoba match), and Czechoslovakia/Czech Republic. Australia Football",
+    "timeline": [
+      {
+        "year": "1904",
+        "event": "\u00d6FB founded in Vienna; admitted to FIFA the following year."
+      },
+      {
+        "year": "1931\u20131937",
+        "event": "The Wunderteam era under Hugo Meisl, with Sindelar as the star \u2014 fourth place at the 1934 World Cup after a semi-final loss to Italy. Wikipedia"
+      },
+      {
+        "year": "1954",
+        "event": "Best-ever World Cup finish (third place / semi-finals), highlighted by the 7\u20135 demolition of Switzerland. Australia Football"
+      },
+      {
+        "year": "2008",
+        "event": "Co-hosted Euro 2008 with Switzerland, their first European Championship appearance, but exited in the group stage. Wikipedia"
+      },
+      {
+        "year": "2016\u20132024",
+        "event": "Under Rangnick since 2022, Austria reached Euro 2020's round of 16 for the first time and topped their Euro 2024 group ahead of France and the Netherlands. Dawan Africa"
+      },
+      {
+        "year": "2025\u20132026",
+        "event": "Qualified for the 2026 World Cup after 28 years away, sealing it with a 10-0 rout of San Marino, finishing top of qualifying Group H with 19 points from 8 matches. Dawan AfricaDawan Africa"
+      }
+    ],
+    "players": [
+      {
+        "name": "David Alaba",
+        "club": "Real Madrid (captain and defensive anchor of the squad) European Qualifiers"
+      },
+      {
+        "name": "Marcel Sabitzer",
+        "club": "Borussia Dortmund (set to reach 100 caps at the tournament) European Qualifiers"
+      },
+      {
+        "name": "Marko Arnautovi\u0107",
+        "club": "Crvena Zvezda (37-year-old record goalscorer and most-capped player) European Qualifiers"
+      }
+    ]
+  },
+  "Belgium": {
+    "name": "Belgium",
+    "population": "11,774,642 (2026 mid-year estimate) Worldometer",
+    "rank": "#9 (per the 11 June 2026 FIFA update) World Cup Pass",
+    "rivals": "the Netherlands is the principal and longest-running rivalry (over 125 official fixtures since 1905, the largest head-to-head dataset in world football), alongside France (78 fixtures, including the 2018 World Cup semi-final) and England (the 2018 World Cup group stage and third-place match). Australia Football",
+    "timeline": [
+      {
+        "year": "1904\u20131905",
+        "event": "First official international, a 3-3 draw with France; RBFA co-founds FIFA, later UEFA. Wikipedia"
+      },
+      {
+        "year": "1920",
+        "event": "Olympic gold at home, awarded after Czechoslovakia abandoned the contested final. Football History"
+      },
+      {
+        "year": "1980",
+        "event": "Runners-up at Euro 1980, losing the final to West Germany. Fandom"
+      },
+      {
+        "year": "1986",
+        "event": "Fourth-place finish at the World Cup \u2014 their best result for over 30 years. cbssports"
+      },
+      {
+        "year": "2015\u20132022",
+        "event": "The golden generation holds the FIFA #1 ranking for a record 65 months. Australia Football"
+      },
+      {
+        "year": "2018",
+        "event": "Best-ever World Cup finish \u2014 third place \u2014 after beating Brazil in the quarter-final and losing to eventual champions France in the semis. European Qualifiers"
+      },
+      {
+        "year": "2026",
+        "event": "Qualify for a 15th World Cup appearance under coach Rudi Garcia. European Qualifiers"
+      }
+    ],
+    "players": [
+      {
+        "name": "Kevin De Bruyne",
+        "club": "Napoli (almost certainly his last World Cup, pulling the strings as the No. 10) RG"
+      },
+      {
+        "name": "Romelu Lukaku",
+        "club": "Napoli (Belgium's all-time leading scorer with 89 international goals, fitness a concern after injury-hit season) RG"
+      },
+      {
+        "name": "J\u00e9r\u00e9my Doku",
+        "club": "Manchester City (led qualifying with five goals and two assists) World Soccer Talk"
+      }
+    ]
+  },
+  "Bosnia and Herzegovina": {
+    "name": "Bosnia and Herzegovina",
+    "population": "3,114,242 (2026 mid-year estimate) Worldometer",
+    "rank": "#65 (as of the 1 April 2026 ranking) Wikipedia",
+    "rivals": "Croatia and Serbia are the primary regional rivals, with matches heightened by lingering ethnic divisions and the legacy of the 1990s Yugoslav wars, including the Bosnian War \u2014 a meaningful share of Bosnia's own Croat and Serb population tends to support the neighboring nations' teams instead. GrokipediaGrokipedia",
+    "timeline": [
+      {
+        "year": "1995",
+        "event": "First international match, played in the immediate aftermath of the Bosnian War; admitted to FIFA the following year. Wikipedia"
+      },
+      {
+        "year": "2010",
+        "event": "Lose to Portugal in the play-offs for the South Africa World Cup. FIFA"
+      },
+      {
+        "year": "2013",
+        "event": "Climb to a highest-ever 13th in the FIFA world rankings while topping their qualifying group for Brazil 2014. World Cup Ranking"
+      },
+      {
+        "year": "2014",
+        "event": "World Cup debut \u2014 a heartbreaking loss to Nigeria after a D\u017eeko goal was controversially ruled out for offside, sandwiched between defeats to Argentina and Nigeria and a win over Iran. FourFourTwo"
+      },
+      {
+        "year": "2024",
+        "event": "Sergej Barbarez appointed head coach, his first major managerial role after a playing career that included Bundesliga spells. FIFA"
+      },
+      {
+        "year": "2026",
+        "event": "Beat Wales and then Italy on penalties in the play-offs to reach a second World Cup. FIFA"
+      }
+    ],
+    "players": [
+      {
+        "name": "Edin D\u017eeko",
+        "club": "Schalke 04 (captain and record goalscorer, still scoring for the national team at 40) Olympics"
+      },
+      {
+        "name": "Ermedin Demirovi\u0107",
+        "club": "VfB Stuttgart (D\u017eeko's strike partner, often doing the \"dirty work\" up front) FourFourTwo"
+      },
+      {
+        "name": "Esmir Bajraktarevi\u0107",
+        "club": "PSV Eindhoven (21-year-old who scored the winning penalty in the play-off final against Italy) Olympics"
+      }
+    ]
+  },
+  "Brazil": {
+    "name": "Brazil",
+    "population": "213,562,666 (2026 mid-year estimate) Worldometer",
+    "rank": "#6 (Brazil remains sixth in the latest June 2026 rankings) ESPN",
+    "rivals": "Argentina is the defining rivalry, dating back to a first meeting in 1914 and known as the Cl\u00e1sico Sudamericano; Uruguay is the other great historic foe, born from the 1950 final. Wikipedia",
+    "timeline": [
+      {
+        "year": "1914",
+        "event": "First international, a 3-0 loss to Argentina in Buenos Aires \u2014 the start of South America's fiercest rivalry. Wikipedia"
+      },
+      {
+        "year": "1950",
+        "event": "Host the World Cup final at the Maracan\u00e3 in front of an official crowd of 173,850 and lose 2-1 to Uruguay \u2014 the \"Maracanazo,\" still Brazil's most painful defeat. Wikipedia)"
+      },
+      {
+        "year": "1958\u20131970",
+        "event": "Pel\u00e9 leads Brazil to the title in 1958 and again in 1970, cementing the golden era. FIFA"
+      },
+      {
+        "year": "1994 & 2002",
+        "event": "Win on penalties against Italy in 1994; beat Germany in the 2002 final behind a Ronaldo brace. FIFANewsX"
+      },
+      {
+        "year": "2014",
+        "event": "Host again and suffer a 7-1 semi-final defeat to Germany \u2014 the \"Mineirazo\" \u2014 finishing fourth. Wikipedia"
+      },
+      {
+        "year": "2025\u20132026",
+        "event": "Appoint Carlo Ancelotti, their first-ever foreign head coach, as they bid to end the 24-year drought. Sports Preferred"
+      }
+    ],
+    "players": [
+      {
+        "name": "Vin\u00edcius J\u00fanior",
+        "club": "Real Madrid (leads the attack, among the favorites for the Golden Boot) FIFA World Cup News"
+      },
+      {
+        "name": "Neymar",
+        "club": "Santos (recalled for what's expected to be his final major tournament in yellow) CBSSports.com"
+      },
+      {
+        "name": "Raphinha",
+        "club": "Barcelona (Ancelotti is building much of the attack around him) Worldcup"
+      }
+    ]
+  },
+  "Cabo Verde": {
+    "name": "Cabo Verde",
+    "population": "529,630 (2026 mid-year estimate) Worldometer",
+    "rank": "#67 (as of the 11 June 2026 update) Futbor",
+    "rivals": "no deep historic rivalry given how new they are to this stage \u2014 their most meaningful recent on-pitch foe was Cameroon, the African powerhouse they denied automatic qualification, alongside regional meetings with Senegal and Mauritania in continental qualifying.",
+    "timeline": [
+      {
+        "year": "1978",
+        "event": "First international, a 1-0 loss to Guinea. Wikipedia"
+      },
+      {
+        "year": "1982",
+        "event": "Federation affiliates with CAF and FIFA. Wikipedia"
+      },
+      {
+        "year": "2014",
+        "event": "Climb to a highest-ever 27th in the FIFA rankings. Wikipedia"
+      },
+      {
+        "year": "2023\u20132025",
+        "event": "Top CAF Group D with 23 points, ahead of Cameroon and Angola. Bolavip"
+      },
+      {
+        "year": "October 2025",
+        "event": "Clinch a first-ever World Cup berth with a 3-0 win over Eswatini. soccerway"
+      },
+      {
+        "year": "June 2026",
+        "event": "Make their World Cup debut with a 0-0 draw against Spain. FotMob"
+      }
+    ],
+    "players": [
+      {
+        "name": "Ryan Mendes",
+        "club": "I\u011fd\u0131r FK (captain, the nation's all-time leading scorer with 22 goals and most-capped player at 94 appearances, age 36) World Soccer Talk"
+      },
+      {
+        "name": "Roberto \"Pico\" Lopes",
+        "club": "Shamrock Rovers (born in Ireland, first approached about playing for Cabo Verde via a LinkedIn message) Olympics"
+      },
+      {
+        "name": "Jamiro Monteiro",
+        "club": "PEC Zwolle (provides midfield experience and control) Olympics"
+      }
+    ]
+  }
+}

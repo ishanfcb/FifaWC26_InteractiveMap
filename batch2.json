@@ -1,0 +1,362 @@
+{
+  "Canada": {
+    "name": "Canada",
+    "population": "40,467,728 (2026 mid-year estimate) Worldometer",
+    "rank": "#30 (per FIFA's latest rankings ahead of the tournament) FOX Sports",
+    "rivals": "a generally friendly rivalry with the United States, which plays out most often in the Gold Cup, with the two now considered CONCACAF's two premier teams; the history with Mexico is far more lopsided \u2014 Canada has lost 22 of 35 all-time meetings since 1957, though recent results have been closer. Wikipedia + 2",
+    "timeline": [
+      {
+        "year": "1986",
+        "event": "World Cup debut in Mexico; lose all three games without scoring. World Cup Ranking"
+      },
+      {
+        "year": "2000",
+        "event": "Win the CONCACAF Gold Cup, beating Colombia 2-0 in the final \u2014 still their only continental title. FIFA World Cup News"
+      },
+      {
+        "year": "2022",
+        "event": "End the 36-year World Cup drought; Davies scores their first-ever World Cup goal against Croatia, but they exit after three defeats. World Cup RankingWikipedia"
+      },
+      {
+        "year": "2023",
+        "event": "Automatically qualify for the 2026 World Cup as co-hosts. Wikipedia"
+      },
+      {
+        "year": "June 2026",
+        "event": "Open the home tournament with a 1-1 draw against Bosnia and Herzegovina. Wikipedia"
+      }
+    ],
+    "players": [
+      {
+        "name": "Alphonso Davies",
+        "club": "Bayern Munich (captain, expected to miss the first two group games with a hamstring injury) FourFourTwo"
+      },
+      {
+        "name": "Jonathan David",
+        "club": "Juventus (Canada's all-time leading scorer, enters as one of their biggest attacking threats) Yahoo Sports"
+      },
+      {
+        "name": "Stephen Eust\u00e1quio",
+        "club": "FC Porto (vice-captain, the screening midfielder shielding the back line) Squawka"
+      }
+    ]
+  },
+  "Colombia": {
+    "name": "Colombia",
+    "population": "53,936,226 (2026 mid-year estimate) Worldometer",
+    "rank": "#13 (per the most recent rankings) Wikipedia",
+    "rivals": "Argentina is the defining rival, from the 1994 qualifying shock to a heartbreaking 1-0 loss in the 2024 Copa Am\u00e9rica final. Grokipedia",
+    "timeline": [
+      {
+        "year": "1924",
+        "event": "Colombian Football Federation founded."
+      },
+      {
+        "year": "1962",
+        "event": "First World Cup appearance."
+      },
+      {
+        "year": "1993",
+        "event": "Stun Argentina 5-0 in Buenos Aires during qualifying, fueling talk of Colombia as a genuine title contender. Al D\u00eda News"
+      },
+      {
+        "year": "1994",
+        "event": "Group-stage exit overshadowed by Escobar's own goal and his subsequent murder \u2014 a tragedy that ended the golden generation. Al D\u00eda News"
+      },
+      {
+        "year": "2014",
+        "event": "Best-ever finish, reaching the quarter-finals as James Rodr\u00edguez wins the Golden Boot. MLSsoccer.com"
+      },
+      {
+        "year": "2025",
+        "event": "Clinch 2026 qualification with a 3-0 win over Bolivia. mexc"
+      }
+    ],
+    "players": [
+      {
+        "name": "James Rodr\u00edguez",
+        "club": "Minnesota United (captain, second all-time leading scorer for the national team) MLSsoccer.com"
+      },
+      {
+        "name": "Luis D\u00edaz",
+        "club": "Bayern Munich (the new face of the attack) Decatur Daily"
+      },
+      {
+        "name": "David Ospina",
+        "club": "Atl\u00e9tico Nacional (Colombia's most-capped player) Wikipedia"
+      }
+    ]
+  },
+  "DR Congo": {
+    "name": "DR Congo",
+    "population": "116,452,162 (2026 mid-year estimate) Worldometer",
+    "rank": "#46 (per the official 11 June 2026 update) FIFA",
+    "rivals": "Senegal, after the dramatic 2-0-to-3-2 collapse that cost them automatic qualification, and Nigeria, their play-off final opponents, with Nigeria later filing a complaint to FIFA over the Leopards' use of allegedly ineligible players. ESPN",
+    "timeline": [
+      {
+        "year": "1948",
+        "event": "First international, played as Belgian Congo against Northern Rhodesia. Wikipedia"
+      },
+      {
+        "year": "1974",
+        "event": "Become the third African nation to play at a World Cup, as Zaire. Sport News Africa"
+      },
+      {
+        "year": "1968 & 1974",
+        "event": "Win the Africa Cup of Nations twice. Wikipedia"
+      },
+      {
+        "year": "September 2025",
+        "event": "Lead Senegal 2-0 in Kinshasa before conceding three late goals to lose 3-2, missing direct qualification. Sport News Africa"
+      },
+      {
+        "year": "Early 2026",
+        "event": "Beat Cameroon in the African play-off semi-final, then Nigeria in the final. aol"
+      },
+      {
+        "year": "31 March 2026",
+        "event": "Beat Jamaica 1-0 after extra time in Guadalajara to seal a first World Cup return in 52 years. Dawan Africa"
+      }
+    ],
+    "players": [
+      {
+        "name": "Chancel Mbemba",
+        "club": "Lille (captain, the nation's most-capped player with 107 appearances) Wikipedia"
+      },
+      {
+        "name": "Yoane Wissa",
+        "club": "Newcastle United (the Leopards' dangerman) Olympics"
+      },
+      {
+        "name": "C\u00e9dric Bakambu",
+        "club": "Real Betis (one goal shy of the national scoring record) HEAVY"
+      }
+    ]
+  },
+  "C\u00f4te d'Ivoire": {
+    "name": "C\u00f4te d'Ivoire",
+    "population": "33,494,346 (2026 mid-year estimate) Worldometer",
+    "rank": "#33 (per the June 2026 rankings) ESPN",
+    "rivals": "Ghana is the principal rival, including AFCON finals in both 1992 and 2015, alongside Nigeria (the 2024 AFCON final) and old continental foe Cameroon. Australia Football",
+    "timeline": [
+      {
+        "year": "1960",
+        "event": "First international."
+      },
+      {
+        "year": "1992",
+        "event": "First AFCON title, winning an 11-10 penalty shootout over Ghana. Football History"
+      },
+      {
+        "year": "2006\u20132014",
+        "event": "Three consecutive World Cups with the Drogba-Tour\u00e9 generation, never past the group stage. NewsX"
+      },
+      {
+        "year": "2015",
+        "event": "Second AFCON title, again on penalties (9-8) against Ghana. Football History"
+      },
+      {
+        "year": "2023/2024",
+        "event": "Win a stunning third AFCON title at home after nearly being eliminated in the group stage and changing coaches mid-tournament. Australia Football"
+      },
+      {
+        "year": "2026",
+        "event": "Return to the World Cup, opening with a 1-0 win over Ecuador. FotMob"
+      }
+    ],
+    "players": [
+      {
+        "name": "Franck Kessi\u00e9",
+        "club": "Al-Ahli (captain, reached 100 international caps earlier in 2026) World Cup Wiki"
+      },
+      {
+        "name": "Amad Diallo",
+        "club": "Manchester United (electric, two-footed, coming off his best club season) Olympics"
+      },
+      {
+        "name": "Yan Diomand\u00e9",
+        "club": "RB Leipzig (one of Europe's most coveted young forwards) Olympics"
+      }
+    ]
+  },
+  "Croatia": {
+    "name": "Croatia",
+    "population": "3,822,345 (2026 mid-year estimate) Worldometer",
+    "rank": "#11 (current ranking) Wikipedia",
+    "rivals": "Serbia is the defining rivalry, rooted in the breakup of Yugoslavia and the wars of the 1990s, regarded as one of the most hostile in world football. Wikipedia",
+    "timeline": [
+      {
+        "year": "1994",
+        "event": "Admitted to FIFA ranked 125th. Wikipedia"
+      },
+      {
+        "year": "1998",
+        "event": "World Cup debut ends in third place, beating the Netherlands 2-1. gulfnews"
+      },
+      {
+        "year": "2018",
+        "event": "Reach their first World Cup final, losing to France."
+      },
+      {
+        "year": "2022",
+        "event": "Third place again, beating Morocco in the play-off. ESPN"
+      },
+      {
+        "year": "2026",
+        "event": "Modri\u0107 aims to become only the third male player ever to appear at six World Cups. World Cup Pass"
+      }
+    ],
+    "players": [
+      {
+        "name": "Luka Modri\u0107",
+        "club": "AC Milan (captain, chasing his 200th cap) World Cup Pass"
+      },
+      {
+        "name": "Josko Gvardiol",
+        "club": "Manchester City (Croatia's premier defender, back after shin surgery) World Cup Pass"
+      },
+      {
+        "name": "Mateo Kova\u010di\u0107",
+        "club": "Manchester City (one of four Croatian centurions, links defense and attack) World Cup Pass"
+      }
+    ]
+  },
+  "Cura\u00e7ao": {
+    "name": "Cura\u00e7ao",
+    "population": "approximately 185,487 (2026 estimate)",
+    "rank": "#82 (official 11 June 2026 ranking)",
+    "rivals": "Jamaica, after the decisive qualification battle for first place in CONCACAF qualifying, and Trinidad & Tobago, one of the traditional Caribbean rivalries dating back to the former Netherlands Antilles era.",
+    "timeline": [
+      {
+        "year": "1954",
+        "event": "First international match played by the Netherlands Antilles, the predecessor team to modern Cura\u00e7ao."
+      },
+      {
+        "year": "2010",
+        "event": "Following the dissolution of the Netherlands Antilles, Cura\u00e7ao begins competing as a separate national team."
+      },
+      {
+        "year": "2011",
+        "event": "Admitted to FIFA, allowing the nation to enter World Cup qualifying independently."
+      },
+      {
+        "year": "2017",
+        "event": "Win their first Caribbean Cup, defeating Jamaica in the final."
+      },
+      {
+        "year": "2019",
+        "event": "Reach the CONCACAF Gold Cup quarter-finals for the first time, narrowly losing to the United States."
+      },
+      {
+        "year": "18 November 2025",
+        "event": "A 0-0 draw away to Jamaica secures first-ever World Cup qualification."
+      }
+    ],
+    "players": [
+      {
+        "name": "Leandro Bacuna",
+        "club": "captain and the experienced heartbeat of the side."
+      },
+      {
+        "name": "Eloy Room",
+        "club": "veteran goalkeeper and one of the architects of the qualification campaign."
+      },
+      {
+        "name": "Livano Comenencia",
+        "club": "highly rated young midfielder who scored Cura\u00e7ao's first-ever World Cup goal."
+      }
+    ]
+  },
+  "Czechia": {
+    "name": "Czechia",
+    "population": "10,527,781 (2026 mid-year estimate)",
+    "rank": "around #39 in the June 2026 FIFA rankings.",
+    "rivals": "Slovakia, stemming from the peaceful split of Czechoslovakia in 1993, while historic encounters with Germany and Poland remain among the most significant fixtures in Central European football.",
+    "timeline": [
+      {
+        "year": "1901",
+        "event": "First international played by the Kingdom of Bohemia, a precursor to the modern national team."
+      },
+      {
+        "year": "1934",
+        "event": "Czechoslovakia reach their first World Cup final, losing 2-1 to Italy in Rome."
+      },
+      {
+        "year": "1962",
+        "event": "Reach a second World Cup final before falling to Brazil."
+      },
+      {
+        "year": "1976",
+        "event": "Win the European Championship, remembered for Anton\u00edn Panenka's iconic penalty in the final."
+      },
+      {
+        "year": "2006",
+        "event": "First World Cup appearance as an independent nation."
+      },
+      {
+        "year": "2026",
+        "event": "Return to the World Cup after a 20-year absence by winning the UEFA play-offs."
+      }
+    ],
+    "players": [
+      {
+        "name": "Tom\u00e1\u0161 Sou\u010dek",
+        "club": "West Ham United captain and the team's aerial threat from midfield."
+      },
+      {
+        "name": "Patrik Schick",
+        "club": "Bayer Leverkusen striker and Czechia's leading goalscoring weapon."
+      },
+      {
+        "name": "Vladim\u00edr Coufal",
+        "club": "experienced defender and key leader in the squad."
+      }
+    ]
+  },
+  "Ecuador": {
+    "name": "Ecuador",
+    "population": "approximately 18.8 million (2026 estimate)",
+    "rank": "#25 (June 2026 FIFA rankings)",
+    "rivals": "Peru is the traditional rivalry due to decades of border disputes and closely contested World Cup qualifying campaigns, while Colombia has become another frequent competitive opponent in modern CONMEBOL football.",
+    "timeline": [
+      {
+        "year": "1926",
+        "event": "Join FIFA."
+      },
+      {
+        "year": "2002",
+        "event": "Qualify for a first-ever World Cup under Hern\u00e1n Dar\u00edo G\u00f3mez."
+      },
+      {
+        "year": "2006",
+        "event": "Reach the Round of 16 in Germany, their best World Cup performance to date."
+      },
+      {
+        "year": "2022",
+        "event": "Return to the World Cup with one of the tournament's youngest squads."
+      },
+      {
+        "year": "June 2025",
+        "event": "A 0-0 draw away to Peru confirms qualification for the 2026 World Cup."
+      },
+      {
+        "year": "2026",
+        "event": "Enter the tournament having qualified for five of the last seven World Cups."
+      }
+    ],
+    "players": [
+      {
+        "name": "Mois\u00e9s Caicedo",
+        "club": "Chelsea midfielder and the engine of Ecuador's team."
+      },
+      {
+        "name": "Willian Pacho",
+        "club": "Paris Saint-Germain defender and one of South America's most highly regarded centre-backs."
+      },
+      {
+        "name": "Kendry P\u00e1ez",
+        "club": "teenage playmaker widely regarded as the country's next global star."
+      }
+    ]
+  }
+}

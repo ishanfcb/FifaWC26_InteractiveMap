@@ -1,0 +1,370 @@
+{
+  "Spain": {
+    "name": "Spain",
+    "population": "49,300,000 (2026 estimate)",
+    "rank": "#3 **[VERIFY June 2026 ranking]**",
+    "rivals": "Portugal is Spain's closest football rival due to geography and frequent high-profile encounters, while matches against Italy have defined several major international tournaments in the modern era.",
+    "timeline": [
+      {
+        "year": "1964",
+        "event": "Wins its first European Championship."
+      },
+      {
+        "year": "2008",
+        "event": "Begins a golden era by winning Euro 2008."
+      },
+      {
+        "year": "2010",
+        "event": "Wins its first FIFA World Cup, defeating the Netherlands in the final."
+      },
+      {
+        "year": "2012",
+        "event": "Becomes the first nation to win three consecutive major international tournaments."
+      },
+      {
+        "year": "2024",
+        "event": "Wins the UEFA European Championship."
+      },
+      {
+        "year": "2026",
+        "event": "Enters the World Cup as one of the tournament favourites."
+      }
+    ],
+    "players": [
+      {
+        "name": "Lamine Yamal",
+        "club": "generational talent and one of football's biggest stars."
+      },
+      {
+        "name": "Rodri",
+        "club": "midfield conductor and the foundation of Spain's tactical identity."
+      },
+      {
+        "name": "Nico Williams",
+        "club": "explosive winger capable of transforming matches."
+      }
+    ]
+  },
+  "Sweden": {
+    "name": "Sweden",
+    "population": "10,700,000 (2026 estimate)",
+    "rank": "#28 **[VERIFY June 2026 ranking]**",
+    "rivals": "Denmark is Sweden's principal football rival, while Norway remains another fiercely contested Scandinavian opponent.",
+    "timeline": [
+      {
+        "year": "1950",
+        "event": "Finishes third at the FIFA World Cup."
+      },
+      {
+        "year": "1958",
+        "event": "Reaches the World Cup final on home soil, losing to Brazil."
+      },
+      {
+        "year": "1994",
+        "event": "Finishes third at the World Cup in the United States."
+      },
+      {
+        "year": "2004",
+        "event": "Produces one of the strongest generations of the modern era led by Zlatan Ibrahimovi\u0107."
+      },
+      {
+        "year": "2018",
+        "event": "Reaches the World Cup quarter-finals."
+      },
+      {
+        "year": "2026",
+        "event": "Returns to the World Cup after missing the previous edition."
+      }
+    ],
+    "players": [
+      {
+        "name": "Alexander Isak",
+        "club": "Newcastle United striker and Sweden's biggest attacking threat."
+      },
+      {
+        "name": "Viktor Gy\u00f6keres",
+        "club": "prolific goalscorer entering the tournament in outstanding form."
+      },
+      {
+        "name": "Dejan Kulusevski",
+        "club": "creative attacker capable of unlocking compact defences."
+      }
+    ]
+  },
+  "Switzerland": {
+    "name": "Switzerland",
+    "population": "9,100,000 (2026 estimate)",
+    "rank": "#19 **[VERIFY June 2026 ranking]**",
+    "rivals": "Serbia has emerged as Switzerland's most politically and emotionally charged football rivalry in recent years, while encounters with Austria carry significance as a traditional Central European derby.",
+    "timeline": [
+      {
+        "year": "1934",
+        "event": "Reaches the World Cup quarter-finals."
+      },
+      {
+        "year": "1954",
+        "event": "Hosts the FIFA World Cup."
+      },
+      {
+        "year": "2006",
+        "event": "Becomes the first team eliminated from a World Cup without conceding a goal."
+      },
+      {
+        "year": "2021",
+        "event": "Defeats France in one of the biggest upsets in European Championship history."
+      },
+      {
+        "year": "2022",
+        "event": "Reaches the World Cup Round of 16."
+      },
+      {
+        "year": "2026",
+        "event": "Qualifies for another major tournament as one of Europe's most consistent nations."
+      }
+    ],
+    "players": [
+      {
+        "name": "Granit Xhaka",
+        "club": "captain and emotional leader."
+      },
+      {
+        "name": "Manuel Akanji",
+        "club": "defensive cornerstone and serial winner at club level."
+      },
+      {
+        "name": "Dan Ndoye",
+        "club": "dynamic winger entering his prime years."
+      }
+    ]
+  },
+  "Tunisia": {
+    "name": "Tunisia",
+    "population": "12,400,000 (2026 estimate)",
+    "rank": "#49 **[VERIFY June 2026 ranking]**",
+    "rivals": "Algeria is Tunisia's defining football rivalry, while encounters with Morocco and Egypt are among North Africa's most important fixtures.",
+    "timeline": [
+      {
+        "year": "1978",
+        "event": "Becomes the first African nation to win a World Cup match."
+      },
+      {
+        "year": "2004",
+        "event": "Wins the Africa Cup of Nations on home soil."
+      },
+      {
+        "year": "2018",
+        "event": "Records its first World Cup victory in forty years."
+      },
+      {
+        "year": "2022",
+        "event": "Defeats France at the World Cup but narrowly misses out on the knockout rounds."
+      },
+      {
+        "year": "2025",
+        "event": "Secures qualification for the 2026 World Cup."
+      },
+      {
+        "year": "2026",
+        "event": "Appears at a seventh World Cup."
+      }
+    ],
+    "players": [
+      {
+        "name": "Hannibal Mejbri",
+        "club": "creative midfielder and symbol of Tunisia's new generation."
+      },
+      {
+        "name": "Ellyes Skhiri",
+        "club": "experienced midfield anchor."
+      },
+      {
+        "name": "Seifeddine Jaziri",
+        "club": "proven goalscorer at international level."
+      }
+    ]
+  },
+  "T\u00fcrkiye": {
+    "name": "T\u00fcrkiye",
+    "population": "88,500,000 (2026 estimate)",
+    "rank": "#24 **[VERIFY June 2026 ranking]**",
+    "rivals": "Greece remains T\u00fcrkiye's most historic football rivalry, while matches against Croatia and Germany have become increasingly significant in the modern era.",
+    "timeline": [
+      {
+        "year": "1954",
+        "event": "Makes its World Cup debut."
+      },
+      {
+        "year": "2002",
+        "event": "Finishes third at the FIFA World Cup, the greatest achievement in Turkish football history."
+      },
+      {
+        "year": "2008",
+        "event": "Reaches the semi-finals of the UEFA European Championship."
+      },
+      {
+        "year": "2024",
+        "event": "Reaches the latter stages of Euro 2024 behind an emerging young core."
+      },
+      {
+        "year": "2025",
+        "event": "Secures qualification for the 2026 World Cup."
+      },
+      {
+        "year": "2026",
+        "event": "Returns to the tournament seeking to emulate the heroes of 2002."
+      }
+    ],
+    "players": [
+      {
+        "name": "Arda G\u00fcler",
+        "club": "one of world football's most gifted young playmakers."
+      },
+      {
+        "name": "Kenan Y\u0131ld\u0131z",
+        "club": "dynamic forward viewed as a future superstar."
+      },
+      {
+        "name": "Hakan \u00c7alhano\u011flu",
+        "club": "captain, set-piece specialist and midfield leader."
+      }
+    ]
+  },
+  "Uruguay": {
+    "name": "Uruguay",
+    "population": "3,420,000 (2026 estimate)",
+    "rank": "#13 **[VERIFY June 2026 ranking]**",
+    "rivals": "Argentina is Uruguay's defining football rival, with the rivalry dating back to the earliest years of international football. Encounters with Brazil are equally significant and have produced some of South America's most iconic matches.",
+    "timeline": [
+      {
+        "year": "1930",
+        "event": "Hosts and wins the inaugural FIFA World Cup."
+      },
+      {
+        "year": "1950",
+        "event": "Defeats Brazil in the legendary \"Maracanazo\" to win a second World Cup."
+      },
+      {
+        "year": "1980",
+        "event": "Wins the Mundialito tournament celebrating the World Cup's 50th anniversary."
+      },
+      {
+        "year": "2010",
+        "event": "Reaches the World Cup semi-finals for the first time in forty years."
+      },
+      {
+        "year": "2011",
+        "event": "Wins the Copa Am\u00e9rica, becoming the competition's most successful nation at the time."
+      },
+      {
+        "year": "2026",
+        "event": "Arrives with one of South America's most exciting generations under Marcelo Bielsa."
+      }
+    ],
+    "players": [
+      {
+        "name": "Federico Valverde",
+        "club": "Real Madrid midfielder and the engine of the team."
+      },
+      {
+        "name": "Darwin N\u00fa\u00f1ez",
+        "club": "explosive striker capable of changing matches on his own."
+      },
+      {
+        "name": "Ronald Ara\u00fajo",
+        "club": "defensive leader and one of the world's elite centre-backs."
+      }
+    ]
+  },
+  "USA": {
+    "name": "USA",
+    "population": "347,000,000 (2026 estimate)",
+    "rank": "#15 **[VERIFY June 2026 ranking]**",
+    "rivals": "Mexico is the defining rivalry in North American football, while encounters with Canada have gained increasing significance as all three nations continue to develop together.",
+    "timeline": [
+      {
+        "year": "1930",
+        "event": "Reaches the semi-finals of the inaugural FIFA World Cup."
+      },
+      {
+        "year": "1994",
+        "event": "Hosts the FIFA World Cup, helping transform the sport's popularity in the country."
+      },
+      {
+        "year": "2002",
+        "event": "Reaches the World Cup quarter-finals."
+      },
+      {
+        "year": "2022",
+        "event": "Returns to the knockout stages after missing the 2018 tournament."
+      },
+      {
+        "year": "2026",
+        "event": "Co-hosts the World Cup alongside Canada and Mexico."
+      },
+      {
+        "year": "2026",
+        "event": "Enters the tournament with the highest expectations of the modern era."
+      }
+    ],
+    "players": [
+      {
+        "name": "Christian Pulisic",
+        "club": "captain and the face of American football."
+      },
+      {
+        "name": "Weston McKennie",
+        "club": "midfield leader whose energy drives the side."
+      },
+      {
+        "name": "Folarin Balogun",
+        "club": "prolific striker expected to lead the attack for years to come."
+      }
+    ]
+  },
+  "Uzbekistan": {
+    "name": "Uzbekistan",
+    "population": "37,900,000 (2026 estimate)",
+    "rank": "#55 **[VERIFY June 2026 ranking]**",
+    "rivals": "Kazakhstan remains Uzbekistan's most historic regional rival, while matches against Iran and South Korea have often shaped the nation's qualification campaigns.",
+    "timeline": [
+      {
+        "year": "1992",
+        "event": "Begins competing as an independent nation following the dissolution of the Soviet Union."
+      },
+      {
+        "year": "1994",
+        "event": "Wins the Asian Games football tournament in Hiroshima."
+      },
+      {
+        "year": "2011",
+        "event": "Reaches the AFC Asian Cup semi-finals."
+      },
+      {
+        "year": "2023",
+        "event": "Wins the AFC U-20 Asian Cup, highlighting the country's growing youth development system."
+      },
+      {
+        "year": "2025",
+        "event": "Qualifies for its first FIFA World Cup."
+      },
+      {
+        "year": "2026",
+        "event": "Becomes one of the tournament's debutants and a symbol of Central Asia's footballing rise."
+      }
+    ],
+    "players": [
+      {
+        "name": "Abdukodir Khusanov",
+        "club": "elite young defender and the country's biggest football export."
+      },
+      {
+        "name": "Eldor Shomurodov",
+        "club": "captain, all-time leading scorer and national icon."
+      },
+      {
+        "name": "Abbosbek Fayzullaev",
+        "club": "creative midfielder regarded as one of Asia's brightest young talents."
+      }
+    ]
+  }
+}

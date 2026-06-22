@@ -1,0 +1,2153 @@
+
+        // --- Segmented Control Animation & Mode Toggling Setup ---
+        function initPillControl(containerId, callback) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const tabs = container.querySelectorAll(".pill-tab");
+            const slider = container.querySelector(".slider-bg");
+
+            function updateSlider(tab) {
+                slider.style.width = tab.offsetWidth + "px";
+                slider.style.transform = `translateX(${tab.offsetLeft}px)`;
+            }
+
+            // Init position instantly to avoid snapping on load
+            const activeTab = container.querySelector(".pill-tab.selected");
+            if (activeTab) {
+                slider.style.transition = 'none';
+                updateSlider(activeTab);
+                
+                // Force a reflow so the instant position is rendered before transitions are applied
+                void slider.offsetWidth; 
+                
+                slider.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                if (callback) callback(activeTab.textContent.trim());
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function() {
+                    // Update Active Styles
+                    tabs.forEach(t => t.classList.remove("selected"));
+                    this.classList.add("selected");
+                    updateSlider(this);
+
+                    if (callback) callback(this.textContent.trim());
+                });
+            });
+        }
+        
+        // Initialize View Control
+        initPillControl("view-pill-control", (selectedText) => {
+            if (selectedText === "Qualified") {
+                document.body.classList.add("view-qualified");
+            } else {
+                document.body.classList.remove("view-qualified");
+            }
+        });
+
+        // Initialize Theme Control
+        initPillControl("theme-pill-control", (selectedText) => {
+            document.body.classList.remove("theme-night", "theme-light");
+            if (selectedText === "Light") {
+                document.body.classList.add("theme-light");
+            } else {
+                document.body.classList.add("theme-night");
+            }
+        });
+
+        // --- STATIC SEED DATA (used as fallback if both APIs fail) ---
+        // Group colors stay static — only standings stats come from the API
+        const GROUP_COLORS = {
+            A: '#00d664', B: '#ff2346', C: '#ff8900', D: '#0048ff',
+            E: '#6a00ff', F: '#ccff00', G: '#ff338f', H: '#00ffb7',
+            I: '#9d00ff', J: '#00d1ff', K: '#ff5000', L: '#00b2ff'
+        };
+
+        // API name_en → TopoJSON feature name (for map click routing)
+        const API_TO_MAP_NAME = {
+            'United States': 'United States of America',
+            'USA': 'United States of America',
+            'Czech Republic': 'Czechia',
+            'South Korea': 'South Korea',
+            'Ivory Coast': 'Ivory Coast',
+            'Democratic Republic of the Congo': 'Democratic Republic of the Congo',
+            'Cape Verde': 'Cabo Verde',
+            'Scotland': 'Scotland',
+            'England': 'England',
+            'Iran': 'Iran',
+            'Turkey': 'Turkey'
+        };
+
+        // Display name overrides (API name → short display name)
+        const DISPLAY_NAME_OVERRIDES = {
+            'United States': 'USA',
+            'USA': 'USA',
+            'Czech Republic': 'Czechia',
+            'Democratic Republic of the Congo': 'Congo DR',
+            'Iran': 'Iran',
+            'Cape Verde': 'Cabo Verde',
+            'Ivory Coast': "Côte d'Ivoire",
+            'Turkey': 'Türkiye'
+        };
+
+        // iso2 override for teams whose API iso2 doesn't match flagcdn
+        const ISO_OVERRIDE = {
+            'SCO': 'gb-sct',
+            'ENG': 'gb-eng',
+            'USA': 'us',
+            'US':  'us'
+        };
+
+        // Hardcoded team corrections applied AFTER API data loads (last line of defence)
+        const TEAM_HARDCODES = {
+            'USA':                      { iso: 'us', mapName: 'United States of America' },
+            'United States':            { iso: 'us', mapName: 'United States of America' },
+            'Scotland':                 { iso: 'gb-sct', mapName: 'Scotland' },
+            'England':                  { iso: 'gb-eng', mapName: 'England' },
+            'Czechia':                  { iso: 'cz', mapName: 'Czechia' },
+            'Iran':                     { iso: 'ir', mapName: 'Iran' },
+            "Côte d'Ivoire":            { iso: 'ci', mapName: 'Ivory Coast' },
+            'Türkiye':                  { iso: 'tr', mapName: 'Turkey' },
+            'Congo DR':                 { iso: 'cd', mapName: 'Democratic Republic of the Congo' },
+            'Cabo Verde':               { iso: 'cv', mapName: 'Cabo Verde' },
+            'Korea Republic':           { iso: 'kr', mapName: 'South Korea' }
+        };
+
+        // The live mockData object — pre-seeded with team names/mapNames so the map
+        // highlights participating countries on first render (before the API responds).
+        // Stats (gp, w, d, l, gd, pts) are updated live by LiveDataService.
+        let mockData = {
+            standings: [
+                { group: "Group A", color: "#00d664", teams: [
+                    { name: "Mexico",       mapName: "Mexico",                    iso: "mx",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "South Africa", mapName: "South Africa",              iso: "za",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Korea Republic", mapName: "South Korea",             iso: "kr",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Czechia",      mapName: "Czechia",                   iso: "cz",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group B", color: "#ff2346", teams: [
+                    { name: "Canada",       mapName: "Canada",                    iso: "ca",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Bosnia and Herzegovina", mapName: "Bosnia and Herzegovina", iso: "ba", gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Qatar",        mapName: "Qatar",                     iso: "qa",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Switzerland",  mapName: "Switzerland",               iso: "ch",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group C", color: "#ff8900", teams: [
+                    { name: "Brazil",       mapName: "Brazil",                    iso: "br",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Morocco",      mapName: "Morocco",                   iso: "ma",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Haiti",        mapName: "Haiti",                     iso: "ht",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Scotland",     mapName: "Scotland",                  iso: "gb-sct", gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group D", color: "#0048ff", teams: [
+                    { name: "USA",          mapName: "United States of America",  iso: "us",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Paraguay",     mapName: "Paraguay",                  iso: "py",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Australia",    mapName: "Australia",                 iso: "au",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Türkiye",      mapName: "Turkey",                    iso: "tr",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group E", color: "#6a00ff", teams: [
+                    { name: "Germany",      mapName: "Germany",                   iso: "de",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Curaçao",      mapName: "Curaçao",                   iso: "cw",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Côte d'Ivoire", mapName: "Ivory Coast",             iso: "ci",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Ecuador",      mapName: "Ecuador",                   iso: "ec",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group F", color: "#ccff00", teams: [
+                    { name: "Netherlands",  mapName: "Netherlands",               iso: "nl",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Japan",        mapName: "Japan",                     iso: "jp",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Sweden",       mapName: "Sweden",                    iso: "se",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Tunisia",      mapName: "Tunisia",                   iso: "tn",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group G", color: "#ff338f", teams: [
+                    { name: "Belgium",      mapName: "Belgium",                   iso: "be",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Egypt",        mapName: "Egypt",                     iso: "eg",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Iran",         mapName: "Iran",                      iso: "ir",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "New Zealand",  mapName: "New Zealand",               iso: "nz",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group H", color: "#00ffb7", teams: [
+                    { name: "Spain",        mapName: "Spain",                     iso: "es",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Cabo Verde",   mapName: "Cabo Verde",                iso: "cv",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Saudi Arabia", mapName: "Saudi Arabia",              iso: "sa",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Uruguay",      mapName: "Uruguay",                   iso: "uy",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group I", color: "#9d00ff", teams: [
+                    { name: "France",       mapName: "France",                    iso: "fr",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Senegal",      mapName: "Senegal",                   iso: "sn",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Iraq",         mapName: "Iraq",                      iso: "iq",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Norway",       mapName: "Norway",                    iso: "no",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group J", color: "#00d1ff", teams: [
+                    { name: "Argentina",    mapName: "Argentina",                 iso: "ar",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Algeria",      mapName: "Algeria",                   iso: "dz",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Austria",      mapName: "Austria",                   iso: "at",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Jordan",       mapName: "Jordan",                    iso: "jo",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group K", color: "#ff5000", teams: [
+                    { name: "Portugal",     mapName: "Portugal",                  iso: "pt",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Congo DR",     mapName: "Democratic Republic of the Congo", iso: "cd", gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Uzbekistan",   mapName: "Uzbekistan",                iso: "uz",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Colombia",     mapName: "Colombia",                  iso: "co",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]},
+                { group: "Group L", color: "#00b2ff", teams: [
+                    { name: "England",      mapName: "England",                   iso: "gb-eng", gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Croatia",      mapName: "Croatia",                   iso: "hr",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Ghana",        mapName: "Ghana",                     iso: "gh",     gp:0,w:0,d:0,l:0,gd:0,pts:0 },
+                    { name: "Panama",       mapName: "Panama",                    iso: "pa",     gp:0,w:0,d:0,l:0,gd:0,pts:0 }
+                ]}
+            ],
+            matches: {}
+        };
+
+        // ============================================================
+        //  LIVE DATA SERVICE
+        // ============================================================
+        const LiveDataService = {
+            PRIMARY: 'https://worldcup26.ir:3050',
+            FALLBACK: 'https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json',
+            REFRESH_INTERVAL_MS: 10 * 60 * 1000,  // 10 minutes
+            LIVE_POLL_MS: 60 * 1000,               // 60 seconds during live matches
+            jwtToken: null,
+            refreshTimer: null,
+            isLive: false,
+
+            // ── Fetch wrapper with timeout + optional JWT ──
+            async fetchAPI(endpoint, retried = false) {
+                const controller = new AbortController();
+                const tid = setTimeout(() => controller.abort(), 8000);
+                try {
+                    const headers = {};
+                    if (this.jwtToken) headers['Authorization'] = `Bearer ${this.jwtToken}`;
+                    const res = await fetch(this.PRIMARY + endpoint, { headers, signal: controller.signal });
+                    clearTimeout(tid);
+                    if (res.status === 401 && !retried) {
+                        await this.reAuthenticate();
+                        return this.fetchAPI(endpoint, true);
+                    }
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.json();
+                } catch (e) {
+                    clearTimeout(tid);
+                    throw e;
+                }
+            },
+
+            // ── Re-authenticate (get JWT) ──
+            async reAuthenticate() {
+                try {
+                    const res = await fetch(this.PRIMARY + '/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: 'WC26MapApp',
+                            email: `wc26map_${Date.now()}@app.local`,
+                            password: 'WC26Map!2026'
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.token) this.jwtToken = data.token;
+                } catch(e) { /* silent */ }
+            },
+
+            // ── Build standings from joined teams + groups API data ──
+            buildStandings(teamsArr, groupsArr) {
+                // Build team lookup by id
+                const teamById = {};
+                teamsArr.forEach(t => {
+                    const iso2 = ISO_OVERRIDE[t.iso2] || t.iso2.toLowerCase();
+                    const apiName = t.name_en;
+                    const displayName = DISPLAY_NAME_OVERRIDES[apiName] || apiName;
+                    const mapName = API_TO_MAP_NAME[apiName] || apiName;
+                    teamById[t.id] = { name: displayName, mapName, iso: iso2, flag: t.flag, apiName };
+                });
+
+                // Build group standings
+                const standings = groupsArr.map(g => {
+                    const letter = g.name;
+                    const color = GROUP_COLORS[letter] || '#888';
+                    const teams = g.teams
+                        .map(entry => {
+                            const t = teamById[entry.team_id];
+                            if (!t) return null;
+                            const team = {
+                                name: t.name,
+                                mapName: t.mapName,
+                                iso: t.iso,
+                                flag: t.flag,
+                                gp: parseInt(entry.mp) || 0,
+                                w:  parseInt(entry.w)  || 0,
+                                d:  parseInt(entry.d)  || 0,
+                                l:  parseInt(entry.l)  || 0,
+                                gd: parseInt(entry.gd) || 0,
+                                pts: parseInt(entry.pts) || 0
+                            };
+                            // Apply hardcoded corrections (fixes bad API iso2 / mapName values)
+                            const hc = TEAM_HARDCODES[team.name];
+                            if (hc) {
+                                if (hc.iso)     team.iso     = hc.iso;
+                                if (hc.mapName) team.mapName = hc.mapName;
+                            }
+                            return team;
+                        })
+                        .filter(Boolean)
+                        .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gp - a.gp);
+
+                    return { group: `Group ${letter}`, color, teams };
+                });
+
+                return standings.sort((a, b) => {
+                    const la = a.group.replace('Group ', '');
+                    const lb = b.group.replace('Group ', '');
+                    return la.localeCompare(lb);
+                });
+            },
+
+            // ── Build matches lookup from games array ──
+            buildMatches(gamesArr) {
+                const matches = {};
+                const now = new Date();
+                // For each team, find their next upcoming match
+                const upcoming = gamesArr
+                    .filter(g => g.finished !== 'TRUE' && g.time_elapsed !== 'finished')
+                    .sort((a, b) => new Date(a.local_date) - new Date(b.local_date));
+
+                upcoming.forEach(g => {
+                    const hName = g.home_team_name_en;
+                    const aName = g.away_team_name_en;
+                    if (!hName || !aName) return;
+                    const hDisplay = DISPLAY_NAME_OVERRIDES[hName] || hName;
+                    const aDisplay = DISPLAY_NAME_OVERRIDES[aName] || aName;
+                    const hIso = (ISO_OVERRIDE[g.home_team_iso2] || (g.home_team_iso2 || '').toLowerCase());
+                    const aIso = (ISO_OVERRIDE[g.away_team_iso2] || (g.away_team_iso2 || '').toLowerCase());
+                    const dateStr = g.local_date ? g.local_date.split(' ')[0] : '';
+                    const timeStr = g.local_date ? g.local_date.split(' ')[1] : '';
+                    if (!matches[hDisplay]) {
+                        matches[hDisplay] = { opponent: aDisplay, flag: `https://flagcdn.com/w40/${aIso}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
+                    }
+                    if (!matches[aDisplay]) {
+                        matches[aDisplay] = { opponent: hDisplay, flag: `https://flagcdn.com/w40/${hIso}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
+                    }
+                });
+                matches['def'] = { opponent: 'TBD', flag: '🏳️', date: 'TBD', time: '' };
+                return matches;
+            },
+
+            // ── Check if any game is live; schedule appropriate refresh ──
+            checkLiveAndSchedule(gamesArr) {
+                const hasLive = gamesArr.some(g =>
+                    g.time_elapsed === 'live' ||
+                    g.time_elapsed === 'halftime' ||
+                    (g.finished !== 'TRUE' && g.finished !== 'FALSE' && g.time_elapsed)
+                );
+                const indicator = document.getElementById('live-indicator');
+                if (hasLive) {
+                    this.isLive = true;
+                    if (indicator) indicator.classList.add('visible');
+                } else {
+                    this.isLive = false;
+                    if (indicator) indicator.classList.remove('visible');
+                }
+                clearTimeout(this.refreshTimer);
+                const interval = hasLive ? this.LIVE_POLL_MS : this.REFRESH_INTERVAL_MS;
+                this.refreshTimer = setTimeout(() => this.refresh(), interval);
+            },
+
+            // ── In-place update of standings rows without full re-render ──
+            updateStandingsRows(newStandings) {
+                newStandings.forEach(groupData => {
+                    groupData.teams.forEach(team => {
+                        const rowId = `row-${team.name.replace(/\s+/g, '')}`;
+                        const row = document.getElementById(rowId);
+                        if (!row) return;
+                        const cells = row.querySelectorAll('.stat-cell, .gd-cell, .pts-cell');
+                        // cells order: GP, W, D, L, GD, PTS
+                        const vals = [team.gp, team.w, team.d, team.l, team.gd, team.pts];
+                        cells.forEach((cell, i) => {
+                            const newVal = String(vals[i]);
+                            if (cell.textContent !== newVal) {
+                                cell.textContent = newVal;
+                                // Brief flash to signal update
+                                cell.style.transition = 'none';
+                                cell.style.color = 'var(--ios-blue)';
+                                setTimeout(() => {
+                                    cell.style.transition = 'color 1s ease';
+                                    cell.style.color = '';
+                                }, 50);
+                            }
+                        });
+                    });
+                });
+            },
+
+            // ── Background refresh (runs every 10min or 60s if live) ──
+            async refresh() {
+                try {
+                    const [groupsData, gamesData] = await Promise.all([
+                        this.fetchAPI('/get/groups'),
+                        this.fetchAPI('/get/games')
+                    ]);
+                    // Rebuild standings with current teamsArr cached from init
+                    if (this._teamsArr) {
+                        const newStandings = this.buildStandings(this._teamsArr, groupsData.groups);
+                        mockData.standings = newStandings;
+                        this.updateStandingsRows(newStandings);
+                    }
+                    if (gamesData && gamesData.games) {
+                        mockData.matches = this.buildMatches(gamesData.games);
+                        this.checkLiveAndSchedule(gamesData.games);
+                    } else {
+                        this.checkLiveAndSchedule([]);
+                    }
+                } catch (e) {
+                    // Silently reschedule
+                    clearTimeout(this.refreshTimer);
+                    this.refreshTimer = setTimeout(() => this.refresh(), this.REFRESH_INTERVAL_MS);
+                }
+            },
+
+            // ── Fallback: parse openfootball JSON into standings ──
+            async loadFallback() {
+                try {
+                    const res = await fetch(this.FALLBACK);
+                    const data = await res.json();
+                    // openfootball doesn't have standings, so we compute from match scores
+                    const table = {}; // { teamName: { mp,w,d,l,gf,ga } }
+                    const groupMap = {}; // { teamName: groupLetter }
+
+                    if (data.matches) {
+                        data.matches.forEach(m => {
+                            if (!m.score || !m.group) return;
+                            const grp = m.group.replace('Group ', '');
+                            const h = m.team1, a = m.team2;
+                            const hg = m.score.ft[0], ag = m.score.ft[1];
+                            groupMap[h] = grp; groupMap[a] = grp;
+                            if (!table[h]) table[h] = {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                            if (!table[a]) table[a] = {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                            table[h].mp++; table[a].mp++;
+                            table[h].gf += hg; table[h].ga += ag;
+                            table[a].gf += ag; table[a].ga += hg;
+                            if (hg > ag) { table[h].w++; table[a].l++; }
+                            else if (hg < ag) { table[a].w++; table[h].l++; }
+                            else { table[h].d++; table[a].d++; }
+                        });
+                    }
+
+                    // Map openfootball team names → our display names
+                    const OF_NAME_MAP = {
+                        'South Korea': 'Korea Republic', 'Czech Republic': 'Czechia',
+                        'United States': 'USA', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+                        'Ivory Coast': "Côte d'Ivoire", 'Turkey': 'Türkiye',
+                        'DR Congo': 'Congo DR', 'Iran': 'Iran', 'Cape Verde': 'Cabo Verde'
+                    };
+                    const OF_ISO_MAP = {
+                        'Mexico':'mx','South Africa':'za','South Korea':'kr','Czech Republic':'cz',
+                        'Canada':'ca','Bosnia & Herzegovina':'ba','Qatar':'qa','Switzerland':'ch',
+                        'Brazil':'br','Morocco':'ma','Haiti':'ht','Scotland':'gb-sct',
+                        'United States':'us','Paraguay':'py','Australia':'au','Turkey':'tr',
+                        'Germany':'de','Curaçao':'cw','Ivory Coast':'ci','Ecuador':'ec',
+                        'Netherlands':'nl','Japan':'jp','Sweden':'se','Tunisia':'tn',
+                        'Belgium':'be','Egypt':'eg','Iran':'ir','New Zealand':'nz',
+                        'Spain':'es','Cape Verde':'cv','Saudi Arabia':'sa','Uruguay':'uy',
+                        'France':'fr','Senegal':'sn','Iraq':'iq','Norway':'no',
+                        'Argentina':'ar','Algeria':'dz','Austria':'at','Jordan':'jo',
+                        'Portugal':'pt','DR Congo':'cd','Uzbekistan':'uz','Colombia':'co',
+                        'England':'gb-eng','Croatia':'hr','Ghana':'gh','Panama':'pa'
+                    };
+                    const OF_MAPNAME = {
+                        'United States':'United States of America','Czech Republic':'Czechia',
+                        'South Korea':'South Korea','Ivory Coast':'Ivory Coast',
+                        'DR Congo':'Democratic Republic of the Congo','Cape Verde':'Cabo Verde',
+                        'Iran':'Iran','Turkey':'Turkey'
+                    };
+
+                    // Group by letter
+                    const byGroup = {};
+                    Object.entries(groupMap).forEach(([tname, grp]) => {
+                        if (!byGroup[grp]) byGroup[grp] = [];
+                        const s = table[tname] || {mp:0,w:0,d:0,l:0,gf:0,ga:0};
+                        const displayName = OF_NAME_MAP[tname] || tname;
+                        const mapName = OF_MAPNAME[tname] || tname;
+                        const iso = OF_ISO_MAP[tname] || 'un';
+                        byGroup[grp].push({
+                            name: displayName, mapName, iso,
+                            flag: `https://flagcdn.com/w40/${iso}.png`,
+                            gp: s.mp, w: s.w, d: s.d, l: s.l,
+                            gd: s.gf - s.ga, pts: s.w * 3 + s.d
+                        });
+                    });
+
+                    // Fill missing teams with zero stats
+                    const SEED = [
+                        {l:'A',teams:['Mexico','South Africa','South Korea','Czech Republic']},
+                        {l:'B',teams:['Canada','Bosnia & Herzegovina','Qatar','Switzerland']},
+                        {l:'C',teams:['Brazil','Morocco','Haiti','Scotland']},
+                        {l:'D',teams:['United States','Paraguay','Australia','Turkey']},
+                        {l:'E',teams:['Germany','Curaçao','Ivory Coast','Ecuador']},
+                        {l:'F',teams:['Netherlands','Japan','Sweden','Tunisia']},
+                        {l:'G',teams:['Belgium','Egypt','Iran','New Zealand']},
+                        {l:'H',teams:['Spain','Cape Verde','Saudi Arabia','Uruguay']},
+                        {l:'I',teams:['France','Senegal','Iraq','Norway']},
+                        {l:'J',teams:['Argentina','Algeria','Austria','Jordan']},
+                        {l:'K',teams:['Portugal','DR Congo','Uzbekistan','Colombia']},
+                        {l:'L',teams:['England','Croatia','Ghana','Panama']}
+                    ];
+                    SEED.forEach(({l, teams}) => {
+                        if (!byGroup[l]) byGroup[l] = [];
+                        teams.forEach(tname => {
+                            if (!byGroup[l].find(t => t.name === (OF_NAME_MAP[tname] || tname))) {
+                                const displayName = OF_NAME_MAP[tname] || tname;
+                                const mapName = OF_MAPNAME[tname] || tname;
+                                const iso = OF_ISO_MAP[tname] || 'un';
+                                byGroup[l].push({name: displayName, mapName, iso, flag: `https://flagcdn.com/w40/${iso}.png`, gp:0,w:0,d:0,l:0,gd:0,pts:0});
+                            }
+                        });
+                    });
+
+                    const standings = Object.entries(byGroup)
+                        .sort(([a],[b]) => a.localeCompare(b))
+                        .map(([letter, teams]) => ({
+                            group: `Group ${letter}`,
+                            color: GROUP_COLORS[letter] || '#888',
+                            teams: teams.sort((a,b) => b.pts - a.pts || b.gd - a.gd)
+                        }));
+
+                    mockData.standings = standings;
+                    document.getElementById('standings-content').innerHTML = '';
+                    renderStandingsDock(standings);
+
+                    if (typeof topoData !== 'undefined' && topoData) {
+                        g.selectAll('.country').attr('class', d => {
+                            const isParticipating = findTeamStandingsData(d.properties.name) !== null;
+                            return isParticipating ? 'country participating' : 'country';
+                        });
+                    }
+                } catch(e) {
+                    // Both APIs failed — use whatever static data we already have
+                    console.warn('[WC26] All data sources failed, using cached data');
+                }
+            },
+
+            // ── Entry point ──
+            async init() {
+                try {
+                    const [teamsData, groupsData, gamesData] = await Promise.all([
+                        this.fetchAPI('/get/teams'),
+                        this.fetchAPI('/get/groups'),
+                        this.fetchAPI('/get/games')
+                    ]);
+
+                    this._teamsArr = teamsData.teams;
+                    const standings = this.buildStandings(teamsData.teams, groupsData.groups);
+                    mockData.standings = standings;
+
+                    if (gamesData && gamesData.games) {
+                        mockData.matches = this.buildMatches(gamesData.games);
+                        this.checkLiveAndSchedule(gamesData.games);
+                    } else {
+                        this.checkLiveAndSchedule([]);
+                    }
+
+                    // Re-render the dock with live data
+                    document.getElementById('standings-content').innerHTML = '';
+                    renderStandingsDock(standings);
+
+                    // Also re-render the map participating countries
+                    // (in case map loaded before this resolves, update country classes)
+                    if (typeof topoData !== 'undefined' && topoData) {
+                        g.selectAll('.country').attr('class', d => {
+                            const isParticipating = findTeamStandingsData(d.properties.name) !== null;
+                            return isParticipating ? 'country participating' : 'country';
+                        });
+                    }
+
+                } catch(e) {
+                    // Primary API failed — try fallback
+                    this.loadFallback();
+                    // Schedule a retry in 5 minutes
+                    this.refreshTimer = setTimeout(() => this.init(), 5 * 60 * 1000);
+                }
+            }
+        };
+
+        // Legacy matches reference (kept for openCountryDetail compatibility)
+        const mockData_matches_legacy = {
+            "Mexico": { opponent: "Poland", flag: "🇵🇱", date: "June 25", time: "3:00 PM PST" },
+            "def": { opponent: "TBD", flag: "🏳️", date: "TBD", time: "" }
+        };
+
+        function getRankOrdinal(rank) {
+            const ords = ["th", "st", "nd", "rd"];
+            const v = rank % 100;
+            return rank + (ords[(v - 20) % 10] || ords[v] || ords[0]);
+        }
+
+        // --- MAP SETUP ---
+        const mapCanvas = d3.select("#map-canvas");
+        const svg = mapCanvas.append("svg");
+        const g = svg.append("g");
+        const tooltip = d3.select("#map-tooltip");
+
+        const projection = d3.geoNaturalEarth1()
+            .scale(Math.min(window.innerWidth, window.innerHeight) * 0.50)
+            .translate([window.innerWidth / 2, (window.innerHeight - 240) / 2]);
+
+        const path = d3.geoPath()
+            .projection(projection);
+
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .translateExtent([[-window.innerWidth * 0.2, -window.innerHeight * 0.2], [window.innerWidth * 1.2, window.innerHeight * 1.2]])
+            .on("zoom", zoomed);
+
+        svg.call(zoom);
+
+        function zoomed(event) {
+            g.attr("transform", event.transform);
+            
+            const k = event.transform.k;
+            g.selectAll(".country-label")
+                .style("font-size", `${10 / k}px`) 
+                .style("opacity", k > 2.5 ? 1 : 0); 
+        }
+
+        let topoData; 
+        let activeCountryId = null;
+
+        Promise.all([
+            d3.json("world-subunits.json")
+        ]).then(([geoData]) => {
+            topoData = geoData;
+            renderMap();
+            // Render dock with pre-seeded data immediately (API will update stats)
+            renderStandingsDock();
+            LiveDataService.init();
+        });
+
+        function renderMap() {
+            g.selectAll(".country")
+                .data(topoData.features)
+                .enter().append("path")
+                .attr("class", d => {
+                    const isParticipating = findTeamStandingsData(d.properties.name) !== null;
+                    return isParticipating ? "country participating" : "country";
+                })
+                .attr("d", path)
+                .on("mouseover", showTooltip)
+                .on("mousemove", moveTooltip)
+                .on("mouseout", hideTooltip)
+                .on("click", countryClick);
+                
+            g.selectAll(".country-label")
+                .data(topoData.features.filter(d => findTeamStandingsData(d.properties.name) !== null))
+                .enter().append("text")
+                .attr("class", "country-label")
+                .attr("transform", d => {
+                    if (d.properties.name === "France") {
+                        const proj = projection([2.21, 46.22]);
+                        return `translate(${proj[0]},${proj[1]})`;
+                    }
+                    const centroid = path.centroid(d);
+                    if (isNaN(centroid[0]) || isNaN(centroid[1])) return "translate(-9999,-9999)";
+                    return `translate(${centroid[0]},${centroid[1]})`;
+                })
+                .attr("dy", ".35em")
+                .text(d => d.properties.name);
+        }
+
+        // --- INTERACTION FUNCTIONS ---
+
+        function showTooltip(event, d) {
+            const countryName = d.properties.name;
+            const countryData = findTeamStandingsData(countryName);
+
+            if (countryData) {
+                tooltip.style("opacity", 1);
+                tooltip.html(`
+                    <img src="https://flagcdn.com/w40/${countryData.team.iso}.png" class="flag-rect" style="width: 20px; height: 14px; margin: 0; border-radius: 2px;">
+                    <span>${countryData.team.name} (${getRankOrdinal(countryData.rank)} in ${countryData.groupName})</span>
+                `);
+            } else {
+                tooltip.style("opacity", 0);
+            }
+        }
+
+        function moveTooltip(event) {
+            tooltip
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY + 10) + "px");
+        }
+
+        function hideTooltip() {
+            tooltip.style("opacity", 0);
+        }
+
+        function countryClick(event, d, countryElement, specificTeamName = null) {
+            if (event && event.stopPropagation) event.stopPropagation(); 
+            const mapName = d.properties.name;
+            const countryData = specificTeamName ? findTeamStandingsData(specificTeamName, true) : findTeamStandingsData(mapName);
+
+            if (countryData) {
+                const element = countryElement || d3.select(this);
+                setActiveCountry(element, d);
+                openCountryDetail(countryData.team.name, countryData);
+                highlightStandingsRow(countryData.team.name);
+                
+                const bounds = path.bounds(d);
+                const dx = bounds[1][0] - bounds[0][0];
+                const dy = bounds[1][1] - bounds[0][1];
+                const x = (bounds[0][0] + bounds[1][0]) / 2;
+                const y = (bounds[0][1] + bounds[1][1]) / 2;
+                
+                const scale = Math.max(1.5, Math.min(5, 0.20 / Math.max(dx / window.innerWidth, dy / window.innerHeight)));
+                const targetX = window.innerWidth / 2;
+                const targetY = (window.innerHeight - 240) / 2;
+
+                const translate = [targetX - scale * x, targetY - scale * y];
+
+                svg.transition()
+                    .duration(750)
+                    .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+            } else {
+                clearSelections();
+            }
+        }
+
+        function setActiveCountry(element, d) {
+            clearSelections();
+            element.classed("active", true);
+            activeCountryId = d.id;
+            d3.select(".main-canvas").classed("map-has-selection", true);
+        }
+
+        function clearSelections() {
+            g.selectAll(".country").classed("active", false);
+            activeCountryId = null;
+            d3.select(".main-canvas").classed("map-has-selection", false);
+            closePanels();
+            d3.selectAll(".table-row").classed("highlight", false);
+            resetZoom();
+        }
+
+        function resetZoom() {
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+        }
+
+        // --- STANDINGS RENDERING (BOTTOM DOCK) ---
+
+        function renderStandingsDock(standings) {
+            const standingsData = standings || mockData.standings;
+            const standingsContent = d3.select("#standings-content");
+
+            standingsData.forEach(groupGroup => {
+                const groupCard = standingsContent.append("div")
+                    .attr("class", "group-card")
+                    .style("--group-color", groupGroup.color)
+                    .style("--card-tint-start", groupGroup.color + "4D")
+                    .style("--card-tint-end", groupGroup.color + "05");
+
+                const table = groupCard.append("div")
+                    .attr("class", "standings-table");
+
+                const headerRow = table.append("div").attr("class", "table-row no-hover");
+
+                headerRow.append("span")
+                    .attr("class", "group-header-inline")
+                    .style("grid-column", "span 2")
+                    .text(groupGroup.group);
+
+                headerRow.append("span").attr("class", "header-cell").text("GP");
+                headerRow.append("span").attr("class", "header-cell").text("W");
+                headerRow.append("span").attr("class", "header-cell").text("D");
+                headerRow.append("span").attr("class", "header-cell").text("L");
+                headerRow.append("span").attr("class", "header-cell").text("GD");
+                headerRow.append("span").attr("class", "header-cell").text("PTS");
+
+                groupGroup.teams.forEach(team => {
+                    const row = table.append("div")
+                        .attr("class", "table-row")
+                        .attr("id", `row-${team.name.replace(/\s+/g, '')}`);
+
+                    row.on("click", (event) => standingsRowClick(event, team.name));
+
+                    const flagSrc = team.iso
+                        ? `https://flagcdn.com/w40/${team.iso}.png`
+                        : (team.flag && !team.flag.startsWith('http') ? '' : team.flag || '');
+
+                    row.append("span")
+                        .style("display", "flex")
+                        .style("align-items", "center")
+                        .style("justify-content", "center")
+                        .append("img")
+                        .attr("class", "flag-rect")
+                        .attr("src", flagSrc);
+
+                    row.append("span").attr("class", "country-name-cell").text(team.name);
+                    row.append("span").attr("class", "stat-cell").text(team.gp);
+                    row.append("span").attr("class", "stat-cell").text(team.w);
+                    row.append("span").attr("class", "stat-cell").text(team.d);
+                    row.append("span").attr("class", "stat-cell").text(team.l);
+                    row.append("span").attr("class", "gd-cell").text(team.gd);
+                    row.append("span").attr("class", "pts-cell").text(team.pts);
+                });
+            });
+        }
+
+        function standingsRowClick(event, countryName) {
+            const countryFeature = topoData.features.find(f => f.properties.name === countryName || (findTeamStandingsData(countryName) && f.properties.name === findTeamStandingsData(countryName).team.mapName));
+
+            if (countryFeature) {
+                const countryElement = g.selectAll(".country")
+                    .filter(d => d.properties.name === countryFeature.properties.name);
+
+                countryClick(event, countryFeature, countryElement, countryName);
+            }
+        }
+
+        // --- COUNTRY EDITORIAL DATA ---
+        // Populated for countries whose data is ready; others get graceful fallback.
+        const COUNTRY_EDITORIAL = {
+            'Argentina': {
+                continent: 'South America', language: 'Spanish',
+                population: 46654581,
+                fifaRank: 1,
+                wcWon: 3,
+                flagColors: ['#74ACDF', '#FFFFFF', '#74ACDF'],
+                overview: `Argentina are one of the most decorated nations in world football, winners of the World Cup in 1978, 1986, and 2022. La Albiceleste are synonymous with tactical ferocity and individual brilliance — a reputation cemented by Diego Maradona's hand-of-god triumph and, most recently, Lionel Messi lifting the golden trophy in Qatar. Their fiercest rivalry with Brazil, stretching back over a century through CONMEBOL Copa América battles and World Cup knockout clashes, defines South American football's very identity. Entering 2026 as the reigning world champions and FIFA's #1 ranked team, Argentina bring both the pressure of expectation and the swagger of recent glory.`,
+                rivals: `Brazil (The rivalry has also been referred to as the \"Superclassic of the Americas.\" FIFA has described it as the \"essence of football rivalry”), EnglandWith a rivalry stemming from the 1966 World Cup and intensified by the Falklands War of 1982, Argentina and England have had numerous confrontations in World Cup tournaments), Germany (Argentina has played Germany in seven FIFA World Cup matches including three World Cup finals. In 1986 Argentina won 3–2, but in 1990 and 2014 it was the Germans who were the victors by a 1–0 scoreline both times), Uruguay (Argentina has a long-standing rivalry with its neighbour, that came into existence from the early South American Championships, the 1928 Summer Olympics and the first World Cup final, held in 1930. The two teams have faced each other 197 times since 1902)`,
+                timeline: [
+                    { year: '1930',      event: `Runners-up at the inaugural World Cup, losing to Uruguay in Montevideo.` },
+                    { year: '1978',      event: `First World Cup title, hosted on home soil. Mario Kempes scores six goals to carry La Albiceleste.` },
+                    { year: '1986',      event: `Maradona drags Argentina to glory in Mexico — the Goal of the Century vs England enters football folklore.` },
+                    { year: '1978–1993', event: `Golden generation of Copa América dominance: five continental titles in fifteen years.` },
+                    { year: '2014',      event: `World Cup Final for the first time in 24 years; Götze's extra-time strike breaks Argentine hearts in Rio.` },
+                    { year: '2022',      event: `Messi's masterpiece — a 36-year wait ends in a penalty-shootout thriller over France in Lusail.` }
+                ],
+                form: [
+                    { opponent: 'Angola',      iso: 'ao', result: 'W' },
+                    { opponent: 'Puerto Rico', iso: 'pr', result: 'W' },
+                    { opponent: 'Venezuela',   iso: 've', result: 'W' },
+                    { opponent: 'Ecuador',     iso: 'ec', result: 'L' },
+                    { opponent: 'Venezuela',   iso: 've', result: 'W' }
+                ],
+                players: [
+                    { name: 'Lionel Messi',   club: 'Inter Miami' },
+                    { name: 'Julián Álvarez', club: 'Atlético Madrid' },
+                    { name: 'Nico Paz',       club: 'Como' }
+                ]
+            },
+            
+            'Algeria': {
+                continent: '—', language: '—',
+                population: 48022819,
+                fifaRank: 119641982198620102014202619902019,
+                wcWon: 0,
+                rivals: `rivalries with Egypt, Morocco, and Tunisia,  Nigeria, especially in the 1980s, and Mali due to sharing a common border and a long-standing competitive rivalry, and against Senegal.`,
+                overview: `Algeria joined FIFA on 1 January 1964, a year and a half after gaining independence. Has qualified for five FIFA World Cups, in 1982, 1986, 2010, 2014, and 2026. They’ve won the AFCON (African Cup of Nations) twice — as hosts in 1990, and again in Egypt in 2019.`,
+                timeline: [
+                    { year: `1957–1958`, event: `ALN —** In 1956, in Tunis, Tunisia, the first team representing Algeria was formed, the Armée de Libération Nationale (ALN) team led by Ahmed Benelfoul and Habib Draoua. In April 1958, the team was dissolved and was replaced by the FLN team.` },
+                    { year: `1958–1962`, event: `FLN —** The FLN football team was a team made up mainly of professional players in France, who then joined the Algerian independence movement of the National Liberation Front (FLN), and assisted in organizing football matches against national football teams. The FLN linked African football to anti-colonial resistance using the idea of Pan-Africanism as a legitimizing tool and symbol of national identity.` },
+                    { year: `1962`, event: `1980:** The Algerian football team was established in 1962 after gaining independence from France, as the successor of the FLN football team.[9] Under French rule, Algeria was not allowed to have a national team, the FLN football team was sort of a rebellion against the French colonization. All of their games were considered friendlies and were unrecognized by FIFA. After the Algerian national football team was officially recognized by FIFA in 1963, the team qualified to the 1968 Africa Cup of Nations` },
+                    { year: `1986 FIFA World Cup`, event: `In Mexico, at the 1986 World Cup, the Algerians were unable to pass the first round once again in a group that included Northern Ireland (1–1 draw), Brazil (1–0 loss), and Spain (3–0 loss).` },
+                    { year: `1990–2008`, event: `Algeria hosted the 1990 AFCON, in a rematch against Nigeria, Algeria won the AFCON for the first time.` },
+                    { year: `2008–2026`, event: `From 2008–2014, Algeria re-emerged as a major African side, qualifying for the 2010 World Cup and reaching the World Cup knockout stage for the first time in 2014 before narrowly losing to Germany.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Riyad Mahrez`, club: `Al-Ahli` },
+                    { name: `Rayan Aït-Nouri`, club: `Manchester City` },
+                    { name: `Ramy Bensebaini`, club: `Borussia Dortmund` },
+                ]
+            },
+            'Australia': {
+                continent: '—', language: '—',
+                population: 27220235,
+                fifaRank: 27,
+                wcWon: 0,
+                rivals: `new zealand, uruguay, japan`,
+                overview: ``,
+                timeline: [
+                    { year: `1922–2005`, event: `Australia dominated Oceania but repeatedly fell short in World Cup qualification, finally ending a 32-year drought by reaching the 2006 World Cup after a dramatic playoff victory over Uruguay.` },
+                    { year: `2006–2014`, event: `The "Golden Generation" era saw Australia reach the 2006 World Cup Round of 16, qualify for both the 2010 and 2014 World Cups, and establish itself as a leading Asian nation after joining the AFC in 2006.` },
+                    { year: `2015–2019`, event: `Under Ange Postecoglou, a new generation emerged and delivered Australia's greatest achievement by winning the 2015 AFC Asian Cup, though World Cup performances remained limited to group-stage exits.` },
+                    { year: `2022–2026`, event: `Australia enjoyed a resurgence by reaching the 2022 World Cup Round of 16 and securing direct qualification for the 2026 World Cup, confirming their status as one of Asia's most consistent football powers` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                ]
+            },
+            'Austria': {
+                continent: '—', language: '—',
+                population: 91072662026,
+                fifaRank: 2412026,
+                wcWon: 0,
+                rivals: `modern-era rivalries center on Switzerland (the 1954 World Cup quarter-final and the 2008 co-hosted Euros), Germany (the 1978 Córdoba match), and Czechoslovakia/Czech Republic. Australia Football`,
+                overview: ``,
+                timeline: [
+                    { year: `1904`, event: `ÖFB founded in Vienna; admitted to FIFA the following year.` },
+                    { year: `1931–1937`, event: `The Wunderteam era under Hugo Meisl, with Sindelar as the star — fourth place at the 1934 World Cup after a semi-final loss to Italy. Wikipedia` },
+                    { year: `1954`, event: `Best-ever World Cup finish (third place / semi-finals), highlighted by the 7–5 demolition of Switzerland. Australia Football` },
+                    { year: `2008`, event: `Co-hosted Euro 2008 with Switzerland, their first European Championship appearance, but exited in the group stage. Wikipedia` },
+                    { year: `2016–2024`, event: `Under Rangnick since 2022, Austria reached Euro 2020's round of 16 for the first time and topped their Euro 2024 group ahead of France and the Netherlands. Dawan Africa` },
+                    { year: `2025–2026`, event: `Qualified for the 2026 World Cup after 28 years away, sealing it with a 10-0 rout of San Marino, finishing top of qualifying Group H with 19 points from 8 matches. Dawan AfricaDawan Africa` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `David Alaba`, club: `Real Madrid (captain and defensive anchor of the squad) European Qualifiers` },
+                    { name: `Marcel Sabitzer`, club: `Borussia Dortmund (set to reach 100 caps at the tournament) European Qualifiers` },
+                    { name: `Marko Arnautović`, club: `Crvena Zvezda (37-year-old record goalscorer and most-capped player) European Qualifiers` },
+                ]
+            },
+            'Belgium': {
+                continent: '—', language: '—',
+                population: 117746422026,
+                fifaRank: 9112026,
+                wcWon: 0,
+                rivals: `the Netherlands is the principal and longest-running rivalry (over 125 official fixtures since 1905, the largest head-to-head dataset in world football), alongside France (78 fixtures, including the 2018 World Cup semi-final) and England (the 2018 World Cup group stage and third-place match). Australia Football`,
+                overview: ``,
+                timeline: [
+                    { year: `1904–1905`, event: `First official international, a 3-3 draw with France; RBFA co-founds FIFA, later UEFA. Wikipedia` },
+                    { year: `1920`, event: `Olympic gold at home, awarded after Czechoslovakia abandoned the contested final. Football History` },
+                    { year: `1980`, event: `Runners-up at Euro 1980, losing the final to West Germany. Fandom` },
+                    { year: `1986`, event: `Fourth-place finish at the World Cup — their best result for over 30 years. cbssports` },
+                    { year: `2015–2022`, event: `The golden generation holds the FIFA #1 ranking for a record 65 months. Australia Football` },
+                    { year: `2018`, event: `Best-ever World Cup finish — third place — after beating Brazil in the quarter-final and losing to eventual champions France in the semis. European Qualifiers` },
+                    { year: `2026`, event: `Qualify for a 15th World Cup appearance under coach Rudi Garcia. European Qualifiers` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Kevin De Bruyne`, club: `Napoli (almost certainly his last World Cup, pulling the strings as the No. 10) RG` },
+                    { name: `Romelu Lukaku`, club: `Napoli (Belgium's all-time leading scorer with 89 international goals, fitness a concern after injury-hit season) RG` },
+                    { name: `Jérémy Doku`, club: `Manchester City (led qualifying with five goals and two assists) World Soccer Talk` },
+                ]
+            },
+            'Bosnia and Herzegovina': {
+                continent: '—', language: '—',
+                population: 31142422026,
+                fifaRank: 6512026,
+                wcWon: 0,
+                rivals: `Croatia and Serbia are the primary regional rivals, with matches heightened by lingering ethnic divisions and the legacy of the 1990s Yugoslav wars, including the Bosnian War — a meaningful share of Bosnia's own Croat and Serb population tends to support the neighboring nations' teams instead. GrokipediaGrokipedia`,
+                overview: ``,
+                timeline: [
+                    { year: `1995`, event: `First international match, played in the immediate aftermath of the Bosnian War; admitted to FIFA the following year. Wikipedia` },
+                    { year: `2010`, event: `Lose to Portugal in the play-offs for the South Africa World Cup. FIFA` },
+                    { year: `2013`, event: `Climb to a highest-ever 13th in the FIFA world rankings while topping their qualifying group for Brazil 2014. World Cup Ranking` },
+                    { year: `2014`, event: `World Cup debut — a heartbreaking loss to Nigeria after a Džeko goal was controversially ruled out for offside, sandwiched between defeats to Argentina and Nigeria and a win over Iran. FourFourTwo` },
+                    { year: `2024`, event: `Sergej Barbarez appointed head coach, his first major managerial role after a playing career that included Bundesliga spells. FIFA` },
+                    { year: `2026`, event: `Beat Wales and then Italy on penalties in the play-offs to reach a second World Cup. FIFA` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Edin Džeko`, club: `Schalke 04 (captain and record goalscorer, still scoring for the national team at 40) Olympics` },
+                    { name: `Ermedin Demirović`, club: `VfB Stuttgart (Džeko's strike partner, often doing the "dirty work" up front) FourFourTwo` },
+                    { name: `Esmir Bajraktarević`, club: `PSV Eindhoven (21-year-old who scored the winning penalty in the play-off final against Italy) Olympics` },
+                ]
+            },
+            'Brazil': {
+                continent: '—', language: '—',
+                population: 2135626662026,
+                fifaRank: 62026,
+                wcWon: 5,
+                rivals: `Argentina is the defining rivalry, dating back to a first meeting in 1914 and known as the Clásico Sudamericano; Uruguay is the other great historic foe, born from the 1950 final. Wikipedia`,
+                overview: ``,
+                timeline: [
+                    { year: `1914`, event: `First international, a 3-0 loss to Argentina in Buenos Aires — the start of South America's fiercest rivalry. Wikipedia` },
+                    { year: `1950`, event: `Host the World Cup final at the Maracanã in front of an official crowd of 173,850 and lose 2-1 to Uruguay — the "Maracanazo," still Brazil's most painful defeat. Wikipedia)` },
+                    { year: `1958–1970`, event: `Pelé leads Brazil to the title in 1958 and again in 1970, cementing the golden era. FIFA` },
+                    { year: `1994 & 2002`, event: `Win on penalties against Italy in 1994; beat Germany in the 2002 final behind a Ronaldo brace. FIFANewsX` },
+                    { year: `2014`, event: `Host again and suffer a 7-1 semi-final defeat to Germany — the "Mineirazo" — finishing fourth. Wikipedia` },
+                    { year: `2025–2026`, event: `Appoint Carlo Ancelotti, their first-ever foreign head coach, as they bid to end the 24-year drought. Sports Preferred` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Vinícius Júnior`, club: `Real Madrid (leads the attack, among the favorites for the Golden Boot) FIFA World Cup News` },
+                    { name: `Neymar`, club: `Santos (recalled for what's expected to be his final major tournament in yellow) CBSSports.com` },
+                    { name: `Raphinha`, club: `Barcelona (Ancelotti is building much of the attack around him) Worldcup` },
+                ]
+            },
+            'Cabo Verde': {
+                continent: '—', language: '—',
+                population: 5296302026,
+                fifaRank: 67112026,
+                wcWon: 0,
+                rivals: `no deep historic rivalry given how new they are to this stage — their most meaningful recent on-pitch foe was Cameroon, the African powerhouse they denied automatic qualification, alongside regional meetings with Senegal and Mauritania in continental qualifying.`,
+                overview: ``,
+                timeline: [
+                    { year: `1978`, event: `First international, a 1-0 loss to Guinea. Wikipedia` },
+                    { year: `1982`, event: `Federation affiliates with CAF and FIFA. Wikipedia` },
+                    { year: `2014`, event: `Climb to a highest-ever 27th in the FIFA rankings. Wikipedia` },
+                    { year: `2023–2025`, event: `Top CAF Group D with 23 points, ahead of Cameroon and Angola. Bolavip` },
+                    { year: `October 2025`, event: `Clinch a first-ever World Cup berth with a 3-0 win over Eswatini. soccerway` },
+                    { year: `June 2026`, event: `Make their World Cup debut with a 0-0 draw against Spain. FotMob` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Ryan Mendes`, club: `Iğdır FK (captain, the nation's all-time leading scorer with 22 goals and most-capped player at 94 appearances, age 36) World Soccer Talk` },
+                    { name: `Roberto "Pico" Lopes`, club: `Shamrock Rovers (born in Ireland, first approached about playing for Cabo Verde via a LinkedIn message) Olympics` },
+                    { name: `Jamiro Monteiro`, club: `PEC Zwolle (provides midfield experience and control) Olympics` },
+                ]
+            },
+            
+            'Canada': {
+                continent: '—', language: '—',
+                population: 404677282026,
+                fifaRank: 30,
+                wcWon: 0,
+                rivals: `a generally friendly rivalry with the United States, which plays out most often in the Gold Cup, with the two now considered CONCACAF's two premier teams; the history with Mexico is far more lopsided — Canada has lost 22 of 35 all-time meetings since 1957, though recent results have been closer. Wikipedia + 2`,
+                overview: ``,
+                timeline: [
+                    { year: `1986`, event: `World Cup debut in Mexico; lose all three games without scoring. World Cup Ranking` },
+                    { year: `2000`, event: `Win the CONCACAF Gold Cup, beating Colombia 2-0 in the final — still their only continental title. FIFA World Cup News` },
+                    { year: `2022`, event: `End the 36-year World Cup drought; Davies scores their first-ever World Cup goal against Croatia, but they exit after three defeats. World Cup RankingWikipedia` },
+                    { year: `2023`, event: `Automatically qualify for the 2026 World Cup as co-hosts. Wikipedia` },
+                    { year: `June 2026`, event: `Open the home tournament with a 1-1 draw against Bosnia and Herzegovina. Wikipedia` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Alphonso Davies`, club: `Bayern Munich (captain, expected to miss the first two group games with a hamstring injury) FourFourTwo` },
+                    { name: `Jonathan David`, club: `Juventus (Canada's all-time leading scorer, enters as one of their biggest attacking threats) Yahoo Sports` },
+                    { name: `Stephen Eustáquio`, club: `FC Porto (vice-captain, the screening midfielder shielding the back line) Squawka` },
+                ]
+            },
+            'Colombia': {
+                continent: '—', language: '—',
+                population: 539362262026,
+                fifaRank: 13,
+                wcWon: 0,
+                rivals: `Argentina is the defining rival, from the 1994 qualifying shock to a heartbreaking 1-0 loss in the 2024 Copa América final. Grokipedia`,
+                overview: ``,
+                timeline: [
+                    { year: `1924`, event: `Colombian Football Federation founded.` },
+                    { year: `1962`, event: `First World Cup appearance.` },
+                    { year: `1993`, event: `Stun Argentina 5-0 in Buenos Aires during qualifying, fueling talk of Colombia as a genuine title contender. Al Día News` },
+                    { year: `1994`, event: `Group-stage exit overshadowed by Escobar's own goal and his subsequent murder — a tragedy that ended the golden generation. Al Día News` },
+                    { year: `2014`, event: `Best-ever finish, reaching the quarter-finals as James Rodríguez wins the Golden Boot. MLSsoccer.com` },
+                    { year: `2025`, event: `Clinch 2026 qualification with a 3-0 win over Bolivia. mexc` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `James Rodríguez`, club: `Minnesota United (captain, second all-time leading scorer for the national team) MLSsoccer.com` },
+                    { name: `Luis Díaz`, club: `Bayern Munich (the new face of the attack) Decatur Daily` },
+                    { name: `David Ospina`, club: `Atlético Nacional (Colombia's most-capped player) Wikipedia` },
+                ]
+            },
+            'DR Congo': {
+                continent: '—', language: '—',
+                population: 1164521622026,
+                fifaRank: 43,
+                wcWon: 0,
+                rivals: `Senegal, after the dramatic 2-0-to-3-2 collapse that cost them automatic qualification, and Nigeria, their play-off final opponents, with Nigeria later filing a complaint to FIFA over the Leopards' use of allegedly ineligible players. ESPN`,
+                overview: ``,
+                timeline: [
+                    { year: `1948`, event: `First international, played as Belgian Congo against Northern Rhodesia. Wikipedia` },
+                    { year: `1974`, event: `Become the third African nation to play at a World Cup, as Zaire. Sport News Africa` },
+                    { year: `1968 & 1974`, event: `Win the Africa Cup of Nations twice. Wikipedia` },
+                    { year: `September 2025`, event: `Lead Senegal 2-0 in Kinshasa before conceding three late goals to lose 3-2, missing direct qualification. Sport News Africa` },
+                    { year: `Early 2026`, event: `Beat Cameroon in the African play-off semi-final, then Nigeria in the final. aol` },
+                    { year: `31 March 2026`, event: `Beat Jamaica 1-0 after extra time in Guadalajara to seal a first World Cup return in 52 years. Dawan Africa` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Chancel Mbemba`, club: `Lille (captain, the nation's most-capped player with 107 appearances) Wikipedia` },
+                    { name: `Yoane Wissa`, club: `Newcastle United (the Leopards' dangerman) Olympics` },
+                    { name: `Cédric Bakambu`, club: `Real Betis (one goal shy of the national scoring record) HEAVY` },
+                ]
+            },
+            "Côte d'Ivoire": {
+                continent: '—', language: '—',
+                population: 334943462026,
+                fifaRank: 30,
+                wcWon: 0,
+                rivals: `Ghana is the principal rival, including AFCON finals in both 1992 and 2015, alongside Nigeria (the 2024 AFCON final) and old continental foe Cameroon. Australia Football`,
+                overview: ``,
+                timeline: [
+                    { year: `1960`, event: `First international.` },
+                    { year: `1992`, event: `First AFCON title, winning an 11-10 penalty shootout over Ghana. Football History` },
+                    { year: `2006–2014`, event: `Three consecutive World Cups with the Drogba-Touré generation, never past the group stage. NewsX` },
+                    { year: `2015`, event: `Second AFCON title, again on penalties (9-8) against Ghana. Football History` },
+                    { year: `2023/2024`, event: `Win a stunning third AFCON title at home after nearly being eliminated in the group stage and changing coaches mid-tournament. Australia Football` },
+                    { year: `2026`, event: `Return to the World Cup, opening with a 1-0 win over Ecuador. FotMob` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Franck Kessié`, club: `Al-Ahli (captain, reached 100 international caps earlier in 2026) World Cup Wiki` },
+                    { name: `Amad Diallo`, club: `Manchester United (electric, two-footed, coming off his best club season) Olympics` },
+                    { name: `Yan Diomandé`, club: `RB Leipzig (one of Europe's most coveted young forwards) Olympics` },
+                ]
+            },
+            'Croatia': {
+                continent: '—', language: '—',
+                population: 38223452026,
+                fifaRank: 11,
+                wcWon: 0,
+                rivals: `Serbia is the defining rivalry, rooted in the breakup of Yugoslavia and the wars of the 1990s, regarded as one of the most hostile in world football. Wikipedia`,
+                overview: ``,
+                timeline: [
+                    { year: `1994`, event: `Admitted to FIFA ranked 125th. Wikipedia` },
+                    { year: `1998`, event: `World Cup debut ends in third place, beating the Netherlands 2-1. gulfnews` },
+                    { year: `2018`, event: `Reach their first World Cup final, losing to France.` },
+                    { year: `2022`, event: `Third place again, beating Morocco in the play-off. ESPN` },
+                    { year: `2026`, event: `Modrić aims to become only the third male player ever to appear at six World Cups. World Cup Pass` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Luka Modrić`, club: `AC Milan (captain, chasing his 200th cap) World Cup Pass` },
+                    { name: `Josko Gvardiol`, club: `Manchester City (Croatia's premier defender, back after shin surgery) World Cup Pass` },
+                    { name: `Mateo Kovačić`, club: `Manchester City (one of four Croatian centurions, links defense and attack) World Cup Pass` },
+                ]
+            },
+            'Curaçao': {
+                continent: '—', language: '—',
+                population: 1854872026,
+                fifaRank: 83,
+                wcWon: 0,
+                rivals: `Jamaica, after the decisive qualification battle for first place in CONCACAF qualifying, and Trinidad & Tobago, one of the traditional Caribbean rivalries dating back to the former Netherlands Antilles era.`,
+                overview: ``,
+                timeline: [
+                    { year: `1954`, event: `First international match played by the Netherlands Antilles, the predecessor team to modern Curaçao.` },
+                    { year: `2010`, event: `Following the dissolution of the Netherlands Antilles, Curaçao begins competing as a separate national team.` },
+                    { year: `2011`, event: `Admitted to FIFA, allowing the nation to enter World Cup qualifying independently.` },
+                    { year: `2017`, event: `Win their first Caribbean Cup, defeating Jamaica in the final.` },
+                    { year: `2019`, event: `Reach the CONCACAF Gold Cup quarter-finals for the first time, narrowly losing to the United States.` },
+                    { year: `18 November 2025`, event: `A 0-0 draw away to Jamaica secures first-ever World Cup qualification.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Leandro Bacuna`, club: `captain and the experienced heartbeat of the side.` },
+                    { name: `Eloy Room`, club: `veteran goalkeeper and one of the architects of the qualification campaign.` },
+                    { name: `Livano Comenencia`, club: `highly rated young midfielder who scored Curaçao's first-ever World Cup goal.` },
+                ]
+            },
+            'Czechia': {
+                continent: '—', language: '—',
+                population: 105277812026,
+                fifaRank: 40,
+                wcWon: 0,
+                rivals: `Slovakia, stemming from the peaceful split of Czechoslovakia in 1993, while historic encounters with Germany and Poland remain among the most significant fixtures in Central European football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1901`, event: `First international played by the Kingdom of Bohemia, a precursor to the modern national team.` },
+                    { year: `1934`, event: `Czechoslovakia reach their first World Cup final, losing 2-1 to Italy in Rome.` },
+                    { year: `1962`, event: `Reach a second World Cup final before falling to Brazil.` },
+                    { year: `1976`, event: `Win the European Championship, remembered for Antonín Panenka's iconic penalty in the final.` },
+                    { year: `2006`, event: `First World Cup appearance as an independent nation.` },
+                    { year: `2026`, event: `Return to the World Cup after a 20-year absence by winning the UEFA play-offs.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Tomáš Souček`, club: `West Ham United captain and the team's aerial threat from midfield.` },
+                    { name: `Patrik Schick`, club: `Bayer Leverkusen striker and Czechia's leading goalscoring weapon.` },
+                    { name: `Vladimír Coufal`, club: `experienced defender and key leader in the squad.` },
+                ]
+            },
+            'Ecuador': {
+                continent: '—', language: '—',
+                population: 1882026,
+                fifaRank: 23,
+                wcWon: 0,
+                rivals: `Peru is the traditional rivalry due to decades of border disputes and closely contested World Cup qualifying campaigns, while Colombia has become another frequent competitive opponent in modern CONMEBOL football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1926`, event: `Join FIFA.` },
+                    { year: `2002`, event: `Qualify for a first-ever World Cup under Hernán Darío Gómez.` },
+                    { year: `2006`, event: `Reach the Round of 16 in Germany, their best World Cup performance to date.` },
+                    { year: `2022`, event: `Return to the World Cup with one of the tournament's youngest squads.` },
+                    { year: `June 2025`, event: `A 0-0 draw away to Peru confirms qualification for the 2026 World Cup.` },
+                    { year: `2026`, event: `Enter the tournament having qualified for five of the last seven World Cups.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Moisés Caicedo`, club: `Chelsea midfielder and the engine of Ecuador's team.` },
+                    { name: `Willian Pacho`, club: `Paris Saint-Germain defender and one of South America's most highly regarded centre-backs.` },
+                    { name: `Kendry Páez`, club: `teenage playmaker widely regarded as the country's next global star.` },
+                ]
+            },
+            
+            "Egypt": {
+                continent: '—', language: '—',
+                population: 1192026,
+                fifaRank: 29,
+                wcWon: 0,
+                rivals: `Algeria remains the defining rivalry, intensified by the heated 2010 World Cup qualification play-off in Sudan, while clashes with Morocco and Tunisia are among North Africa's most fiercely contested fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1920`, event: `Become the first African nation to compete at the Olympic football tournament.` },
+                    { year: `1934`, event: `Become the first African nation ever to play at a FIFA World Cup.` },
+                    { year: `1957`, event: `Win the inaugural Africa Cup of Nations.` },
+                    { year: `2006–2010`, event: `Capture three consecutive AFCON titles, a continental record.` },
+                    { year: `2018`, event: `Return to the World Cup after a 28-year absence, led by Mohamed Salah.` },
+                    { year: `2026`, event: `Qualify for their fourth World Cup appearance and second of the Salah era.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mohamed Salah`, club: `Liverpool captain and Egypt's greatest modern footballer.` },
+                    { name: `Omar Marmoush`, club: `Manchester City forward and Salah's principal attacking partner.` },
+                    { name: `Mohamed Abdelmonem`, club: `defensive leader and cornerstone of the back line.` },
+                ]
+            },
+            "England": {
+                continent: '—', language: '—',
+                population: 571060002026,
+                fifaRank: 42026,
+                wcWon: 1,
+                rivals: `Germany remains England's defining football rivalry, shaped by decades of major tournament clashes. Argentina also occupies a unique place in English football culture due to the 1986 World Cup quarter-final, while Scotland is the oldest international rivalry in world football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1872`, event: `Play Scotland in the first official international football match.` },
+                    { year: `1966`, event: `Win their only World Cup, defeating West Germany 4-2 after extra time at Wembley.` },
+                    { year: `1990`, event: `Reach the World Cup semi-finals in Italy.` },
+                    { year: `2018`, event: `Reach a first World Cup semi-final in 28 years under Gareth Southgate.` },
+                    { year: `2021 & 2024`, event: `Reach consecutive European Championship finals.` },
+                    { year: `2026`, event: `Arrive as one of the tournament favourites under Thomas Tuchel.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Jude Bellingham`, club: `Real Madrid (already one of the world's premier midfielders).` },
+                    { name: `Harry Kane`, club: `Bayern Munich (England's all-time leading goalscorer).` },
+                    { name: `Bukayo Saka`, club: `Arsenal (arguably England's most dangerous wide attacker).` },
+                ]
+            },
+            "France": {
+                continent: '—', language: '—',
+                population: 666500002026,
+                fifaRank: 3,
+                wcWon: 2,
+                rivals: `Germany has traditionally been France's principal football rival, while clashes with Italy, England and Belgium have become major fixtures in modern European football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Participate in the inaugural FIFA World Cup.` },
+                    { year: `1984`, event: `Win their first major trophy, the European Championship.` },
+                    { year: `1998`, event: `Win their first World Cup on home soil, defeating Brazil 3-0.` },
+                    { year: `2006`, event: `Reach a second World Cup final.` },
+                    { year: `2018`, event: `Win their second World Cup, defeating Croatia.` },
+                    { year: `2022`, event: `Reach another final before losing to Argentina on penalties.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Kylian Mbappé`, club: `Real Madrid (captain and France's all-time leading scorer).` },
+                    { name: `Aurélien Tchouaméni`, club: `Real Madrid (the midfield anchor).` },
+                    { name: `William Saliba`, club: `Arsenal (one of Europe's most highly-rated defenders).` },
+                ]
+            },
+            "Germany": {
+                continent: '—', language: '—',
+                population: 838000002026,
+                fifaRank: 102026,
+                wcWon: 4,
+                rivals: `The Netherlands remains Germany's most famous football rivalry, while matches against England, Italy and France have produced some of the defining moments in World Cup history.`,
+                overview: ``,
+                timeline: [
+                    { year: `1954`, event: `Win their first World Cup in the "Miracle of Bern."` },
+                    { year: `1974`, event: `Beat the Netherlands to win a second World Cup.` },
+                    { year: `1990`, event: `Win a third World Cup, defeating Argentina.` },
+                    { year: `2014`, event: `Win a fourth World Cup after defeating Argentina in Brazil.` },
+                    { year: `2018 & 2022`, event: `Suffer consecutive group-stage eliminations.` },
+                    { year: `2024`, event: `Reach the European Championship quarter-finals and begin a new era under Julian Nagelsmann.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Jamal Musiala`, club: `Bayern Munich (Germany's creative centrepiece).` },
+                    { name: `Florian Wirtz`, club: `Liverpool **[VERIFY club if publishing]** (one of Europe's most gifted attacking midfielders).` },
+                    { name: `Antonio Rüdiger`, club: `Real Madrid (leader of the defence).` },
+                ]
+            },
+            "Ghana": {
+                continent: '—', language: '—',
+                population: 369000002026,
+                fifaRank: 65,
+                wcWon: 0,
+                rivals: `Nigeria is Ghana's defining football rivalry, dating back to the Jalco Cup era and often described as one of Africa's fiercest sporting rivalries. Encounters with Côte d'Ivoire are also highly significant in West African football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1963`, event: `Win their first Africa Cup of Nations.` },
+                    { year: `1965`, event: `Retain the AFCON title.` },
+                    { year: `2006`, event: `Reach the Round of 16 in their first-ever World Cup appearance.` },
+                    { year: `2010`, event: `Reach the World Cup quarter-finals, losing to Uruguay on penalties after the infamous Luis Suárez handball.` },
+                    { year: `2022`, event: `Defeat South Korea at the World Cup but fail to progress from the group stage.` },
+                    { year: `2026`, event: `Return to the World Cup after topping their CAF qualification group.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mohammed Kudus`, club: `Tottenham Hotspur **[VERIFY club]** (Ghana's most explosive attacker).` },
+                    { name: `Antoine Semenyo`, club: `Bournemouth (physical, direct and increasingly influential).` },
+                    { name: `Thomas Partey`, club: `**[VERIFY club]** (the experienced midfield leader).` },
+                ]
+            },
+            "Haiti": {
+                continent: '—', language: '—',
+                population: 119060952026,
+                fifaRank: 832026,
+                wcWon: 0,
+                rivals: `Jamaica is Haiti's most frequent modern Caribbean rival, while matches against Trinidad & Tobago and Cuba have historically carried significant regional importance.`,
+                overview: ``,
+                timeline: [
+                    { year: `1957`, event: `Haiti plays its first World Cup qualifying campaign.` },
+                    { year: `1973`, event: `Wins the CONCACAF Championship on home soil, securing a first World Cup appearance.` },
+                    { year: `1974`, event: `Makes its only previous World Cup appearance, famously taking the lead against Italy before losing 3-1.` },
+                    { year: `2019`, event: `Reaches the Gold Cup semi-finals, defeating Canada in one of the nation's greatest modern victories.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup, ending a 52-year absence.` },
+                    { year: `2026`, event: `Returns to football's biggest stage as one of the tournament's major underdog stories.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Duckens Nazon`, club: `the nation's all-time leading goalscorer and attacking focal point.` },
+                    { name: `Danley Jean Jacques`, club: `a midfield engine increasingly attracting European attention.` },
+                    { name: `Frantzdy Pierrot`, club: `powerful striker and aerial threat.` },
+                ]
+            },
+            "IR Iran": {
+                continent: '—', language: '—',
+                population: 924000002026,
+                fifaRank: 20,
+                wcWon: 0,
+                rivals: `South Korea remains Iran's defining football rivalry, while encounters with Saudi Arabia carry broader geopolitical significance and consistently rank among Asian football's highest-profile fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1968`, event: `Win their first AFC Asian Cup.` },
+                    { year: `1976`, event: `Complete a hat-trick of consecutive Asian Cup titles.` },
+                    { year: `1978`, event: `Make their World Cup debut in Argentina.` },
+                    { year: `1998`, event: `Record their first World Cup victory, defeating the United States 2-1.` },
+                    { year: `2018`, event: `Earn four points in a difficult group featuring Spain and Portugal.` },
+                    { year: `2026`, event: `Qualify for a fourth consecutive World Cup and seventh overall.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mehdi Taremi`, club: `Iran's most accomplished striker of the modern era.` },
+                    { name: `Sardar Azmoun`, club: `one of the nation's highest-scoring forwards ever.` },
+                    { name: `Mohammad Mohebi`, club: `direct, pacey winger who emerged as a key figure during qualifying.` },
+                ]
+            },
+            "Iraq": {
+                continent: '—', language: '—',
+                population: 483000002026,
+                fifaRank: 57,
+                wcWon: 0,
+                rivals: `Iran is Iraq's principal football rival, with meetings often among the most emotionally charged fixtures in Asia. Saudi Arabia also remains a major regional competitor.`,
+                overview: ``,
+                timeline: [
+                    { year: `1986`, event: `Makes its first World Cup appearance in Mexico.` },
+                    { year: `2007`, event: `Wins the AFC Asian Cup against overwhelming odds amid ongoing conflict at home.` },
+                    { year: `2015`, event: `Reaches the Asian Cup semi-finals.` },
+                    { year: `2023`, event: `Wins the Gulf Cup on home soil in Basra.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup, ending a 40-year wait.` },
+                    { year: `2026`, event: `Returns to the World Cup as one of Asia's most compelling stories.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Aymen Hussein`, club: `prolific striker and hero of recent qualification campaigns.` },
+                    { name: `Zidane Iqbal`, club: `technically gifted midfielder developed at Manchester United.` },
+                    { name: `Ali Jasim`, club: `one of the most exciting young attackers in Asian football.` },
+                ]
+            },
+            
+            'Japan': {
+                continent: '—', language: '—',
+                population: 1226000002026,
+                fifaRank: 18,
+                wcWon: 0,
+                rivals: `South Korea remains Japan's fiercest football rival, with the rivalry stretching back decades and carrying significant historical and cultural weight. Encounters with Australia have also become major fixtures in modern Asian football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1992`, event: `Win their first AFC Asian Cup.` },
+                    { year: `1998`, event: `Qualify for their first World Cup.` },
+                    { year: `2002`, event: `Reach the Round of 16 as co-hosts of the World Cup.` },
+                    { year: `2010`, event: `Reach the Round of 16 again in South Africa.` },
+                    { year: `2022`, event: `Defeat both Germany and Spain to top their group before narrowly losing to Croatia on penalties.` },
+                    { year: `2026`, event: `Qualify comfortably and arrive as Asia's highest-ranked representative.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Kaoru Mitoma`, club: `Brighton winger whose dribbling makes him one of Asia's most dangerous attackers.` },
+                    { name: `Takefusa Kubo`, club: `creative playmaker and the face of Japan's next generation.` },
+                    { name: `Wataru Endo`, club: `captain and midfield leader whose tactical discipline underpins the entire team.` },
+                ]
+            },
+            'Jordan': {
+                continent: '—', language: '—',
+                population: 117000002026,
+                fifaRank: 63,
+                wcWon: 0,
+                rivals: `Iraq is Jordan's most emotionally charged regional rivalry, while encounters with Saudi Arabia and Syria have traditionally drawn significant interest across the Arab football landscape.`,
+                overview: ``,
+                timeline: [
+                    { year: `1953`, event: `Jordan plays its first official international match.` },
+                    { year: `2004`, event: `Reaches the Asian Cup quarter-finals for the first time.` },
+                    { year: `2013`, event: `Falls one step short of World Cup qualification, losing an intercontinental play-off to Uruguay.` },
+                    { year: `2024`, event: `Reaches the AFC Asian Cup final, the greatest achievement in the nation's football history.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 FIFA World Cup.` },
+                    { year: `2026`, event: `Makes its World Cup debut.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mousa Al-Tamari`, club: `the face of Jordanian football and the country's first major European success story.` },
+                    { name: `Yazan Al-Naimat`, club: `prolific forward and hero of the Asian Cup run.` },
+                    { name: `Mahmoud Al-Mardi`, club: `experienced attacker who consistently delivers in major tournaments.` },
+                ]
+            },
+            'Korea Republic': {
+                continent: '—', language: '—',
+                population: 517000002026,
+                fifaRank: 25,
+                wcWon: 0,
+                rivals: `Japan is the defining rivalry in Asian football, shaped by geography, history and sporting competition. Encounters with Iran have also become some of the continent's most important fixtures over the last three decades.`,
+                overview: ``,
+                timeline: [
+                    { year: `1956`, event: `Win the inaugural AFC Asian Cup.` },
+                    { year: `1986`, event: `Begin a streak of consecutive World Cup qualifications that continues today.` },
+                    { year: `2002`, event: `Reach the World Cup semi-finals on home soil, the best-ever performance by an Asian nation.` },
+                    { year: `2012`, event: `Win Olympic bronze in London.` },
+                    { year: `2022`, event: `Reach the Round of 16 after defeating Portugal.` },
+                    { year: `2026`, event: `Qualify for an eleventh consecutive World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Son Heung-min`, club: `Tottenham Hotspur captain and the greatest Korean footballer of the modern era.` },
+                    { name: `Lee Kang-in`, club: `creative playmaker capable of deciding matches with a single moment.` },
+                    { name: `Kim Min-jae`, club: `defensive leader and one of Asia's most accomplished defenders.` },
+                ]
+            },
+            'Mexico': {
+                continent: '—', language: '—',
+                population: 1320000002026,
+                fifaRank: 14,
+                wcWon: 0,
+                rivals: `The United States is Mexico's defining modern rivalry, reflecting the shifting balance of power within CONCACAF. Matches against Argentina have also developed special significance due to repeated World Cup eliminations.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Participate in the inaugural FIFA World Cup.` },
+                    { year: `1970`, event: `Reach the quarter-finals while hosting the World Cup.` },
+                    { year: `1986`, event: `Reach the quarter-finals again as hosts.` },
+                    { year: `1993`, event: `Win their first CONCACAF Gold Cup.` },
+                    { year: `2022`, event: `Fail to progress from the group stage for the first time since 1978.` },
+                    { year: `2026`, event: `Become the first nation to host matches at three separate men's World Cups.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Santiago Giménez`, club: `the striker expected to lead Mexico's next generation.` },
+                    { name: `Edson Álvarez`, club: `midfield anchor and emotional leader.` },
+                    { name: `Julián Quiñones`, club: `dynamic attacker whose emergence added another dimension to the side.` },
+                ]
+            },
+            'Morocco': {
+                continent: '—', language: '—',
+                population: 386000002026,
+                fifaRank: 6,
+                wcWon: 0,
+                rivals: `Algeria is Morocco's fiercest football rivalry, extending beyond sport and reflecting decades of regional competition. Egypt and Tunisia are also major continental rivals.`,
+                overview: ``,
+                timeline: [
+                    { year: `1970`, event: `Become the first African nation to earn a World Cup point.` },
+                    { year: `1986`, event: `Become the first African nation to win a World Cup group.` },
+                    { year: `2004`, event: `Reach the Africa Cup of Nations final.` },
+                    { year: `2022`, event: `Become the first African and Arab semi-finalists in World Cup history.` },
+                    { year: `2025`, event: `Qualify comfortably for the 2026 World Cup.` },
+                    { year: `2026`, event: `Arrive with realistic ambitions of another deep tournament run.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Achraf Hakimi`, club: `captain, leader and one of the world's best attacking full-backs.` },
+                    { name: `Sofyan Amrabat`, club: `the midfield heartbeat of the Atlas Lions.` },
+                    { name: `Brahim Díaz`, club: `creative attacker capable of unlocking any defence.` },
+                ]
+            },
+            'Netherlands': {
+                continent: '—', language: '—',
+                population: 181000002026,
+                fifaRank: 8,
+                wcWon: 0,
+                rivals: `Germany is the Netherlands' defining football rivalry, rooted in both history and some of the sport's most iconic matches. Belgium, in the Low Countries derby, remains another major opponent.`,
+                overview: ``,
+                timeline: [
+                    { year: `1974`, event: `Reach their first World Cup final under Johan Cruyff and Total Football.` },
+                    { year: `1978`, event: `Reach a second consecutive World Cup final.` },
+                    { year: `1988`, event: `Win the European Championship, their only major international title.` },
+                    { year: `2010`, event: `Reach a third World Cup final before losing to Spain.` },
+                    { year: `2014`, event: `Finish third after defeating Brazil 3-0.` },
+                    { year: `2026`, event: `Enter the tournament with another highly talented generation built around a strong defensive core.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Virgil van Dijk`, club: `captain and defensive leader.` },
+                    { name: `Xavi Simons`, club: `the creative focal point of the next Dutch generation.` },
+                    { name: `Jeremie Frimpong`, club: `one of the most dangerous attacking wing-backs in world football.` },
+                ]
+            },
+            'New Zealand': {
+                continent: '—', language: '—',
+                population: 53500002026,
+                fifaRank: 85,
+                wcWon: 0,
+                rivals: `Australia remains New Zealand's biggest sporting rival across all codes, while recent competitive meetings with New Caledonia have gained significance within Oceania.`,
+                overview: ``,
+                timeline: [
+                    { year: `1982`, event: `Makes its first World Cup appearance in Spain.` },
+                    { year: `2010`, event: `Goes unbeaten at the World Cup, drawing all three group matches including one against reigning champions Italy.` },
+                    { year: `2016`, event: `Wins the OFC Nations Cup.` },
+                    { year: `2022`, event: `Qualifies for the intercontinental play-off but falls short against Costa Rica.` },
+                    { year: `2025`, event: `Secures direct qualification as Oceania receives an automatic World Cup berth for the first time.` },
+                    { year: `2026`, event: `Appears at its third FIFA World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Chris Wood`, club: `Nottingham Forest captain and New Zealand's all-time leading goalscorer.` },
+                    { name: `Liberato Cacace`, club: `attacking full-back and key creative outlet.` },
+                    { name: `Tyler Bindon`, club: `highly rated young defender viewed as a cornerstone of the future.` },
+                ]
+            },
+            'Norway': {
+                continent: '—', language: '—',
+                population: 56500002026,
+                fifaRank: 31,
+                wcWon: 0,
+                rivals: `Sweden is Norway's traditional football rival, while Denmark forms part of the fiercely contested Scandinavian triangle.`,
+                overview: ``,
+                timeline: [
+                    { year: `1938`, event: `Makes its World Cup debut.` },
+                    { year: `1994`, event: `Returns to the World Cup after a 56-year absence.` },
+                    { year: `1998`, event: `Reaches the Round of 16 after defeating Brazil.` },
+                    { year: `2000`, event: `Appears at the European Championship, then begins a long absence from major tournaments.` },
+                    { year: `2025`, event: `Qualifies for the 2026 World Cup behind a golden generation.` },
+                    { year: `2026`, event: `Returns to football's biggest stage after 28 years away.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Erling Haaland`, club: `Manchester City striker and one of the world's most prolific goalscorers.` },
+                    { name: `Martin Ødegaard`, club: `Arsenal captain and creative heartbeat of the team.` },
+                    { name: `Antonio Nusa`, club: `explosive young winger regarded as Norway's next breakout star.` },
+                ]
+            },
+            
+            'Panama': {
+                continent: '—', language: '—',
+                population: 46500002026,
+                fifaRank: 34,
+                wcWon: 0,
+                rivals: `Costa Rica is Panama's fiercest football rivalry, while matches against the United States and Honduras have become increasingly significant in modern CONCACAF competition.`,
+                overview: ``,
+                timeline: [
+                    { year: `2005`, event: `Reach their first Gold Cup final.` },
+                    { year: `2013`, event: `Agonisingly miss World Cup qualification after conceding two late goals against the United States.` },
+                    { year: `2018`, event: `Qualify for their first FIFA World Cup.` },
+                    { year: `2023`, event: `Reach the CONCACAF Nations League final.` },
+                    { year: `2025`, event: `Secure qualification for the 2026 World Cup.` },
+                    { year: `2026`, event: `Appear at their second World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Adalberto Carrasquilla`, club: `midfield leader and one of CONCACAF's most influential players.` },
+                    { name: `José Fajardo`, club: `proven goalscorer in regional competition.` },
+                    { name: `Michael Murillo`, club: `attacking full-back with major tournament experience.` },
+                ]
+            },
+            'Paraguay': {
+                continent: '—', language: '—',
+                population: 69500002026,
+                fifaRank: 41,
+                wcWon: 0,
+                rivals: `Argentina is Paraguay's most historic football rival, while clashes with Uruguay and Brazil have frequently shaped World Cup qualification campaigns.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Participate in the inaugural FIFA World Cup.` },
+                    { year: `1998`, event: `Reach the Round of 16, narrowly losing to eventual champions France.` },
+                    { year: `2010`, event: `Reach the World Cup quarter-finals for the first time.` },
+                    { year: `2011`, event: `Reach the Copa América final without winning a match in regulation time.` },
+                    { year: `2025`, event: `Qualify for the World Cup after missing the previous three editions.` },
+                    { year: `2026`, event: `Return to the tournament for the first time since South Africa 2010.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Julio Enciso`, club: `Chelsea **[VERIFY club]**, creative star and face of the new generation.` },
+                    { name: `Miguel Almirón`, club: `experienced attacking leader.` },
+                    { name: `Diego Gómez`, club: `dynamic midfielder attracting growing international attention.` },
+                ]
+            },
+            'Portugal': {
+                continent: '—', language: '—',
+                population: 104500002026,
+                fifaRank: 5,
+                wcWon: 0,
+                rivals: `Spain is Portugal's defining football rivalry, producing some of the most anticipated fixtures in international football. Historic encounters with France have also shaped the country's modern football story.`,
+                overview: ``,
+                timeline: [
+                    { year: `1966`, event: `Reach the World Cup semi-finals on their debut, inspired by Eusébio.` },
+                    { year: `2004`, event: `Reach the European Championship final on home soil.` },
+                    { year: `2006`, event: `Reach a second World Cup semi-final.` },
+                    { year: `2016`, event: `Win the UEFA European Championship, the first major trophy in their history.` },
+                    { year: `2019`, event: `Win the inaugural UEFA Nations League.` },
+                    { year: `2026`, event: `Compete in what could be Cristiano Ronaldo's final World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Cristiano Ronaldo`, club: `one of the greatest footballers in history and still capable of deciding major matches.` },
+                    { name: `Bruno Fernandes`, club: `the creative leader who dictates Portugal's attacking rhythm.` },
+                    { name: `Vitinha`, club: `elegant midfielder increasingly viewed as one of the world's best in his position.` },
+                ]
+            },
+            'Qatar': {
+                continent: '—', language: '—',
+                population: 31000002026,
+                fifaRank: 56,
+                wcWon: 0,
+                rivals: `Saudi Arabia remains Qatar's most significant football rival, while encounters with the UAE have often carried extra intensity within Gulf football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1970`, event: `Qatar Football Association is established.` },
+                    { year: `1992`, event: `Wins its first Gulf Cup.` },
+                    { year: `2019`, event: `Wins the AFC Asian Cup for the first time, defeating Japan 3-1 in the final.` },
+                    { year: `2022`, event: `Hosts the FIFA World Cup, becoming the first Arab nation to do so.` },
+                    { year: `2025`, event: `Qualifies for the 2026 World Cup through AFC qualifying.` },
+                    { year: `2026`, event: `Competes in its second consecutive World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Akram Afif`, club: `arguably the greatest player in Qatari football history.` },
+                    { name: `Almoez Ali`, club: `all-time leading goalscorer and Asian Cup hero.` },
+                    { name: `Lucas Mendes`, club: `defensive leader and cornerstone of the back line.` },
+                ]
+            },
+            'Saudi Arabia': {
+                continent: '—', language: '—',
+                population: 395000002026,
+                fifaRank: 61,
+                wcWon: 0,
+                rivals: `Iran is Saudi Arabia's defining football rivalry, while matches against Qatar and Iraq consistently rank among the region's most anticipated fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1984`, event: `Wins its first AFC Asian Cup.` },
+                    { year: `1994`, event: `Reaches the Round of 16 at its World Cup debut.` },
+                    { year: `2007`, event: `Reaches the AFC Asian Cup final.` },
+                    { year: `2022`, event: `Defeats Argentina 2-1 in one of World Cup history's biggest shocks.` },
+                    { year: `2025`, event: `Secures qualification for a seventh World Cup appearance.` },
+                    { year: `2026`, event: `Returns as one of Asia's most experienced tournament nations.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Salem Al-Dawsari`, club: `scorer of the winning goal against Argentina and national icon.` },
+                    { name: `Musab Al-Juwayr`, club: `highly regarded midfielder representing the next generation.` },
+                    { name: `Hassan Kadesh`, club: `experienced defensive leader.` },
+                ]
+            },
+            'Scotland': {
+                continent: '—', language: '—',
+                population: 55500002026,
+                fifaRank: 42,
+                wcWon: 0,
+                rivals: `England is Scotland's defining football rivalry and the oldest international fixture in world football. Encounters with Ireland also carry significant historical importance.`,
+                overview: ``,
+                timeline: [
+                    { year: `1872`, event: `Plays England in the first official international football match.` },
+                    { year: `1974`, event: `Goes unbeaten at the World Cup but is eliminated on goal difference.` },
+                    { year: `1978`, event: `Arrives in Argentina amid huge expectations before suffering a disappointing exit.` },
+                    { year: `1998`, event: `Makes its most recent World Cup appearance prior to 2026.` },
+                    { year: `2021`, event: `Returns to a major tournament after a 23-year absence by qualifying for Euro 2020.` },
+                    { year: `2026`, event: `Qualifies for its first World Cup in 28 years.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Scott McTominay`, club: `midfield leader and one of Scotland's most important goalscorers.` },
+                    { name: `Andrew Robertson`, club: `captain and emotional heartbeat of the side.` },
+                    { name: `Billy Gilmour`, club: `creative midfielder capable of controlling the tempo of matches.` },
+                ]
+            },
+            'Senegal': {
+                continent: '—', language: '—',
+                population: 197000002026,
+                fifaRank: 15,
+                wcWon: 0,
+                rivals: `Morocco and Algeria have emerged as Senegal's principal continental rivals, while clashes with Côte d'Ivoire consistently rank among Africa's biggest fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `2002`, event: `Reach the World Cup quarter-finals on their debut, defeating defending champions France in the opening match.` },
+                    { year: `2019`, event: `Reach the Africa Cup of Nations final.` },
+                    { year: `2022`, event: `Win the Africa Cup of Nations for the first time.` },
+                    { year: `2022`, event: `Reach the World Cup Round of 16.` },
+                    { year: `2025`, event: `Qualify comfortably for the 2026 World Cup.` },
+                    { year: `2026`, event: `Arrive as one of Africa's strongest contenders.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Nicolas Jackson`, club: `dynamic forward capable of stretching any defence.` },
+                    { name: `Pape Matar Sarr`, club: `midfield engine entering his prime years.` },
+                    { name: `Kalidou Koulibaly`, club: `captain and defensive leader with vast tournament experience.` },
+                ]
+            },
+            'South Africa': {
+                continent: '—', language: '—',
+                population: 645000002026,
+                fifaRank: 60,
+                wcWon: 0,
+                rivals: `Nigeria is South Africa's most significant modern football rivalry, while encounters with Zimbabwe carry additional regional importance in Southern Africa.`,
+                overview: ``,
+                timeline: [
+                    { year: `1996`, event: `Wins the Africa Cup of Nations on home soil.` },
+                    { year: `1998`, event: `Makes its World Cup debut in France.` },
+                    { year: `2010`, event: `Hosts the first FIFA World Cup held in Africa.` },
+                    { year: `2024`, event: `Finishes third at the Africa Cup of Nations, their best result in over two decades.` },
+                    { year: `2025`, event: `Qualifies for the 2026 FIFA World Cup.` },
+                    { year: `2026`, event: `Returns to the World Cup after a long absence.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Ronwen Williams`, club: `captain and one of Africa's most accomplished goalkeepers.` },
+                    { name: `Teboho Mokoena`, club: `midfield leader and set-piece specialist.` },
+                    { name: `Relebohile Mofokeng`, club: `exciting young attacker widely viewed as the future of South African football.` },
+                ]
+            },
+            
+            'Spain': {
+                continent: '—', language: '—',
+                population: 493000002026,
+                fifaRank: 2,
+                wcWon: 1,
+                rivals: `Portugal is Spain's closest football rival due to geography and frequent high-profile encounters, while matches against Italy have defined several major international tournaments in the modern era.`,
+                overview: ``,
+                timeline: [
+                    { year: `1964`, event: `Wins its first European Championship.` },
+                    { year: `2008`, event: `Begins a golden era by winning Euro 2008.` },
+                    { year: `2010`, event: `Wins its first FIFA World Cup, defeating the Netherlands in the final.` },
+                    { year: `2012`, event: `Becomes the first nation to win three consecutive major international tournaments.` },
+                    { year: `2024`, event: `Wins the UEFA European Championship.` },
+                    { year: `2026`, event: `Enters the World Cup as one of the tournament favourites.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Lamine Yamal`, club: `generational talent and one of football's biggest stars.` },
+                    { name: `Rodri`, club: `midfield conductor and the foundation of Spain's tactical identity.` },
+                    { name: `Nico Williams`, club: `explosive winger capable of transforming matches.` },
+                ]
+            },
+            'Sweden': {
+                continent: '—', language: '—',
+                population: 107000002026,
+                fifaRank: 38,
+                wcWon: 0,
+                rivals: `Denmark is Sweden's principal football rival, while Norway remains another fiercely contested Scandinavian opponent.`,
+                overview: ``,
+                timeline: [
+                    { year: `1950`, event: `Finishes third at the FIFA World Cup.` },
+                    { year: `1958`, event: `Reaches the World Cup final on home soil, losing to Brazil.` },
+                    { year: `1994`, event: `Finishes third at the World Cup in the United States.` },
+                    { year: `2004`, event: `Produces one of the strongest generations of the modern era led by Zlatan Ibrahimović.` },
+                    { year: `2018`, event: `Reaches the World Cup quarter-finals.` },
+                    { year: `2026`, event: `Returns to the World Cup after missing the previous edition.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Alexander Isak`, club: `Newcastle United striker and Sweden's biggest attacking threat.` },
+                    { name: `Viktor Gyökeres`, club: `prolific goalscorer entering the tournament in outstanding form.` },
+                    { name: `Dejan Kulusevski`, club: `creative attacker capable of unlocking compact defences.` },
+                ]
+            },
+            'Switzerland': {
+                continent: '—', language: '—',
+                population: 91000002026,
+                fifaRank: 19,
+                wcWon: 0,
+                rivals: `Serbia has emerged as Switzerland's most politically and emotionally charged football rivalry in recent years, while encounters with Austria carry significance as a traditional Central European derby.`,
+                overview: ``,
+                timeline: [
+                    { year: `1934`, event: `Reaches the World Cup quarter-finals.` },
+                    { year: `1954`, event: `Hosts the FIFA World Cup.` },
+                    { year: `2006`, event: `Becomes the first team eliminated from a World Cup without conceding a goal.` },
+                    { year: `2021`, event: `Defeats France in one of the biggest upsets in European Championship history.` },
+                    { year: `2022`, event: `Reaches the World Cup Round of 16.` },
+                    { year: `2026`, event: `Qualifies for another major tournament as one of Europe's most consistent nations.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Granit Xhaka`, club: `captain and emotional leader.` },
+                    { name: `Manuel Akanji`, club: `defensive cornerstone and serial winner at club level.` },
+                    { name: `Dan Ndoye`, club: `dynamic winger entering his prime years.` },
+                ]
+            },
+            'Tunisia': {
+                continent: '—', language: '—',
+                population: 124000002026,
+                fifaRank: 45,
+                wcWon: 0,
+                rivals: `Algeria is Tunisia's defining football rivalry, while encounters with Morocco and Egypt are among North Africa's most important fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1978`, event: `Becomes the first African nation to win a World Cup match.` },
+                    { year: `2004`, event: `Wins the Africa Cup of Nations on home soil.` },
+                    { year: `2018`, event: `Records its first World Cup victory in forty years.` },
+                    { year: `2022`, event: `Defeats France at the World Cup but narrowly misses out on the knockout rounds.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup.` },
+                    { year: `2026`, event: `Appears at a seventh World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Hannibal Mejbri`, club: `creative midfielder and symbol of Tunisia's new generation.` },
+                    { name: `Ellyes Skhiri`, club: `experienced midfield anchor.` },
+                    { name: `Seifeddine Jaziri`, club: `proven goalscorer at international level.` },
+                ]
+            },
+            'Türkiye': {
+                continent: '—', language: '—',
+                population: 885000002026,
+                fifaRank: 22,
+                wcWon: 0,
+                rivals: `Greece remains Türkiye's most historic football rivalry, while matches against Croatia and Germany have become increasingly significant in the modern era.`,
+                overview: ``,
+                timeline: [
+                    { year: `1954`, event: `Makes its World Cup debut.` },
+                    { year: `2002`, event: `Finishes third at the FIFA World Cup, the greatest achievement in Turkish football history.` },
+                    { year: `2008`, event: `Reaches the semi-finals of the UEFA European Championship.` },
+                    { year: `2024`, event: `Reaches the latter stages of Euro 2024 behind an emerging young core.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup.` },
+                    { year: `2026`, event: `Returns to the tournament seeking to emulate the heroes of 2002.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Arda Güler`, club: `one of world football's most gifted young playmakers.` },
+                    { name: `Kenan Yıldız`, club: `dynamic forward viewed as a future superstar.` },
+                    { name: `Hakan Çalhanoğlu`, club: `captain, set-piece specialist and midfield leader.` },
+                ]
+            },
+            'Uruguay': {
+                continent: '—', language: '—',
+                population: 34200002026,
+                fifaRank: 16,
+                wcWon: 2,
+                rivals: `Argentina is Uruguay's defining football rival, with the rivalry dating back to the earliest years of international football. Encounters with Brazil are equally significant and have produced some of South America's most iconic matches.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Hosts and wins the inaugural FIFA World Cup.` },
+                    { year: `1950`, event: `Defeats Brazil in the legendary "Maracanazo" to win a second World Cup.` },
+                    { year: `1980`, event: `Wins the Mundialito tournament celebrating the World Cup's 50th anniversary.` },
+                    { year: `2010`, event: `Reaches the World Cup semi-finals for the first time in forty years.` },
+                    { year: `2011`, event: `Wins the Copa América, becoming the competition's most successful nation at the time.` },
+                    { year: `2026`, event: `Arrives with one of South America's most exciting generations under Marcelo Bielsa.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Federico Valverde`, club: `Real Madrid midfielder and the engine of the team.` },
+                    { name: `Darwin Núñez`, club: `explosive striker capable of changing matches on his own.` },
+                    { name: `Ronald Araújo`, club: `defensive leader and one of the world's elite centre-backs.` },
+                ]
+            },
+            'USA': {
+                continent: '—', language: '—',
+                population: 3470000002026,
+                fifaRank: 17,
+                wcWon: 0,
+                rivals: `Mexico is the defining rivalry in North American football, while encounters with Canada have gained increasing significance as all three nations continue to develop together.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Reaches the semi-finals of the inaugural FIFA World Cup.` },
+                    { year: `1994`, event: `Hosts the FIFA World Cup, helping transform the sport's popularity in the country.` },
+                    { year: `2002`, event: `Reaches the World Cup quarter-finals.` },
+                    { year: `2022`, event: `Returns to the knockout stages after missing the 2018 tournament.` },
+                    { year: `2026`, event: `Co-hosts the World Cup alongside Canada and Mexico.` },
+                    { year: `2026`, event: `Enters the tournament with the highest expectations of the modern era.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Christian Pulisic`, club: `captain and the face of American football.` },
+                    { name: `Weston McKennie`, club: `midfield leader whose energy drives the side.` },
+                    { name: `Folarin Balogun`, club: `prolific striker expected to lead the attack for years to come.` },
+                ]
+            },
+            'Uzbekistan': {
+                continent: '—', language: '—',
+                population: 379000002026,
+                fifaRank: 50,
+                wcWon: 0,
+                rivals: `Kazakhstan remains Uzbekistan's most historic regional rival, while matches against Iran and South Korea have often shaped the nation's qualification campaigns.`,
+                overview: ``,
+                timeline: [
+                    { year: `1992`, event: `Begins competing as an independent nation following the dissolution of the Soviet Union.` },
+                    { year: `1994`, event: `Wins the Asian Games football tournament in Hiroshima.` },
+                    { year: `2011`, event: `Reaches the AFC Asian Cup semi-finals.` },
+                    { year: `2023`, event: `Wins the AFC U-20 Asian Cup, highlighting the country's growing youth development system.` },
+                    { year: `2025`, event: `Qualifies for its first FIFA World Cup.` },
+                    { year: `2026`, event: `Becomes one of the tournament's debutants and a symbol of Central Asia's footballing rise.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Abdukodir Khusanov`, club: `elite young defender and the country's biggest football export.` },
+                    { name: `Eldor Shomurodov`, club: `captain, all-time leading scorer and national icon.` },
+                    { name: `Abbosbek Fayzullaev`, club: `creative midfielder regarded as one of Asia's brightest young talents.` },
+                ]
+            },
+        };
+
+        // Fallback editorial stub for countries not yet in COUNTRY_EDITORIAL
+        function getEditorial(name, isoCode) {
+            if (COUNTRY_EDITORIAL[name]) return COUNTRY_EDITORIAL[name];
+            return {
+                continent: '—', language: '—',
+                population: null, fifaRank: null, wcWon: null,
+                rivals: null,
+                flagColors: ['#1C2340', '#3A4B86'],
+                overview: 'Country data coming soon.',
+                timeline: [], form: [], players: []
+            };
+        }
+
+        // ── Gradient builder — smooth flag-colour ambient blend ──
+        function buildFlagGradient(countryName) {
+            const accentColor = (typeof FLAG_COLORS !== 'undefined' && FLAG_COLORS[countryName]) 
+                ? FLAG_COLORS[countryName] 
+                : '#1E5C46';
+            return `linear-gradient(135deg, ${accentColor} 0%, #0A0E1F 100%)`;
+        }
+        function hexRgba(hex, a) {
+            const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+            return `rgba(${r},${g},${b},${a})`;
+        }
+        function darkenHex(hex, t) {
+            return '#' + [hex.slice(1,3),hex.slice(3,5),hex.slice(5,7)]
+                .map(c => Math.round(parseInt(c,16)*(1-t)).toString(16).padStart(2,'0')).join('');
+        }
+        function fmtPop(n) {
+            if (!n) return '—';
+            if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
+            if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+            return n.toLocaleString();
+        }
+
+        // ── DOM Timeline ──
+        function renderInfoTimeline(entries, container, accentColor) {
+            if (!entries || !entries.length) return;
+            entries.forEach((entry, i) => {
+                const card = el('div', 'ic-timeline-card');
+                const yr = el('div', 'ic-timeline-year'); yr.textContent = entry.year;
+                const ev = el('div', 'ic-timeline-event'); ev.textContent = entry.event;
+                card.appendChild(yr); card.appendChild(ev);
+                container.appendChild(card);
+            });
+        }
+
+        // ── Drag-to-scroll (mouse + touch + inertia) ──
+        function initDragScroll(el) {
+            let down = false, startX, scrollLeft, velX = 0, lastX, raf;
+            el.addEventListener('mousedown', e => {
+                down = true; el.classList.add('dragging');
+                startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft;
+                lastX = e.pageX; velX = 0; cancelAnimationFrame(raf);
+            });
+            el.addEventListener('mouseleave', () => { down = false; el.classList.remove('dragging'); });
+            el.addEventListener('mouseup', () => { down = false; el.classList.remove('dragging'); coast(el); });
+            el.addEventListener('mousemove', e => {
+                if (!down) return; e.preventDefault();
+                const x = e.pageX - el.offsetLeft;
+                velX = e.pageX - lastX; lastX = e.pageX;
+                el.scrollLeft = scrollLeft - (x - startX) * 1.2;
+            });
+            el.addEventListener('touchstart', e => {
+                startX = e.touches[0].pageX; scrollLeft = el.scrollLeft; velX = 0; lastX = startX;
+                cancelAnimationFrame(raf);
+            }, { passive: true });
+            el.addEventListener('touchmove', e => {
+                const x = e.touches[0].pageX;
+                velX = x - lastX; lastX = x;
+                el.scrollLeft = scrollLeft - (x - startX);
+            }, { passive: true });
+            el.addEventListener('touchend', () => coast(el));
+            function coast(el) {
+                cancelAnimationFrame(raf);
+                (function step() {
+                    if (Math.abs(velX) < 0.5) return;
+                    el.scrollLeft -= velX; velX *= 0.92;
+                    raf = requestAnimationFrame(step);
+                })();
+            }
+        }
+
+        // --- COUNTRY DETAIL RENDERING (RIGHT PANEL) ---
+        function openCountryDetail(countryName, countryData) {
+            const rightPanel = d3.select('#right-panel');
+            const content = document.getElementById('country-detail-content');
+            content.innerHTML = '';
+
+            const iso = countryData.team.iso;
+            const groupColor = (() => {
+                for (const g of mockData.standings)
+                    if (g.teams.some(t => t.name === countryName)) return g.color;
+                return '#888';
+            })();
+            const ed = getEditorial(countryName, iso);
+
+            // ── Header ──
+            const header = el('div', 'ic-header');
+            const gradBg = el('div', 'ic-header-gradient');
+            gradBg.style.background = buildFlagGradient(countryName);
+            header.appendChild(gradBg);
+
+            const flagBox = el('div', 'ic-flag-box');
+            const flagImg = el('img');
+            flagImg.src = `https://flagcdn.com/w320/${iso}.png`;
+            flagImg.alt = countryName;
+            flagBox.appendChild(flagImg);
+            header.appendChild(flagBox);
+
+            const textBlock = el('div', 'ic-header-text');
+            const groupLbl = el('div', 'ic-group-label'); groupLbl.textContent = countryData.groupName.toUpperCase();
+            const nameEl = el('div', 'ic-country-name'); nameEl.textContent = countryName;
+            
+            textBlock.appendChild(groupLbl);
+            textBlock.appendChild(nameEl);
+            header.appendChild(textBlock);
+            content.appendChild(header);
+
+            // ── Stat strip ──
+            const statsRow = el('div', 'ic-stats');
+            statsRow.appendChild(makeTile('Population', ed.population ? fmtPop(ed.population) : null, ''));
+            statsRow.appendChild(makeTile('FIFA Rank', ed.fifaRank ? `#${ed.fifaRank}` : null, ''));
+            statsRow.appendChild(makeTile('WC Won', ed.wcWon !== null ? ed.wcWon : null, ''));
+            statsRow.appendChild(makeFormTile(ed.form));
+            content.appendChild(statsRow);
+
+            // ── Body ──
+            const body = el('div', 'ic-body');
+
+            body.appendChild(divider());
+            const ovHead = el('div', 'ic-section-heading'); ovHead.textContent = 'Footballing Overview';
+            const ovText = el('p', 'ic-overview'); ovText.textContent = ed.overview;
+            body.appendChild(ovHead); body.appendChild(ovText);
+
+            body.appendChild(divider());
+            const tlPanel = el('div', 'ic-timeline-panel');
+            const tlTitle = el('div', 'ic-timeline-title'); tlTitle.textContent = 'Timeline';
+            const tlScroll = el('div', 'ic-timeline-scroll');
+            tlPanel.appendChild(tlTitle); tlPanel.appendChild(tlScroll);
+            body.appendChild(tlPanel);
+
+            body.appendChild(divider());
+            const plSec = el('div', 'ic-players');
+            const plHead = el('div', 'ic-section-heading'); plHead.textContent = 'Players to Watch';
+            const plList = el('div', 'ic-player-list');
+            ed.players.forEach(p => {
+                const item = el('div', 'ic-player-item');
+                const avatar = el('div', 'ic-player-avatar');
+                const initials = p.name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+                avatar.textContent = initials;
+                
+                const info = el('div', 'ic-player-info');
+                const pName = el('div', 'ic-player-name'); pName.textContent = p.name;
+                const pClub = el('div', 'ic-player-club'); pClub.textContent = p.club;
+                
+                info.appendChild(pName); info.appendChild(pClub);
+                item.appendChild(avatar); item.appendChild(info);
+                plList.appendChild(item);
+            });
+            plSec.appendChild(plHead); plSec.appendChild(plList);
+            body.appendChild(plSec);
+
+            content.appendChild(body);
+            rightPanel.classed('open', true);
+
+            // Build timeline after DOM is in place
+            requestAnimationFrame(() => {
+                renderInfoTimeline(ed.timeline, tlScroll, groupColor);
+                initDragScroll(tlScroll);
+            });
+        }
+
+        // ── tiny DOM helpers ──
+        function el(tag, cls) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            return e;
+        }
+        function makeTile(label, value, extraCls='') {
+            const t = el('div', 'ic-tile');
+            if (value === null) {
+                t.innerHTML = `<div class="ic-tile-value ${extraCls}"><span class="ic-skeleton">...</span></div><div class="ic-tile-label">${label}</div>`;
+            } else {
+                t.innerHTML = `<div class="ic-tile-value ${extraCls}">${value}</div><div class="ic-tile-label">${label}</div>`;
+            }
+            return t;
+        }
+        function makeFormTile(form) {
+            const t = el('div', 'ic-tile');
+            const val = el('div', 'ic-tile-value');
+            if (!form || !form.length) {
+                val.innerHTML = '<span class="ic-skeleton">...</span>';
+            } else {
+                const dots = el('div', 'ic-form-dots');
+                form.forEach(m => {
+                    const dot = el('div', `ic-form-dot ${m.result==='W'?'win':m.result==='L'?'loss':'draw'}`);
+                    dots.appendChild(dot);
+                });
+                val.appendChild(dots);
+            }
+            const lbl = el('div', 'ic-tile-label'); lbl.textContent = 'Form';
+            t.appendChild(val); t.appendChild(lbl);
+            return t;
+        }
+        function divider() {
+            return el('div', 'ic-divider');
+        }
+
+        function highlightStandingsRow(countryName) {
+            d3.selectAll(".table-row").classed("highlight", false);
+            const rowId = `row-${countryName.replace(/\s+/g, '')}`;
+            d3.select(`#${rowId}`).classed("highlight", true);
+            
+            const rowEl = document.getElementById(rowId);
+            if(rowEl) {
+                rowEl.closest('.group-card').scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function closePanels() {
+            d3.select("#right-panel").classed("open", false);
+        }
+
+        function findTeamStandingsData(countryName, requireExactNameMatch = false) {
+            for (let i = 0; i < mockData.standings.length; i++) {
+                const group = mockData.standings[i];
+                const teamRank = group.teams.findIndex(t => 
+                    t.name === countryName || (!requireExactNameMatch && t.mapName === countryName)
+                );
+                if (teamRank !== -1) {
+                    return {
+                        groupName: group.group,
+                        team: group.teams[teamRank],
+                        rank: teamRank + 1 
+                    };
+                }
+            }
+            return null;
+        }
+
+        // --- GENERAL SETUP ---
+
+        d3.select("#map-canvas").on("click", (event) => {
+            if (event.target.tagName === "svg" || event.target.tagName === "g") {
+                 clearSelections();
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            projection
+                .scale(Math.min(width, height) * 0.50)
+                .translate([width / 2, (height - 240) / 2]); 
+                
+            zoom.translateExtent([[-width, -height], [width * 2, height * 2]]);
+
+            svg.attr("width", width).attr("height", height);
+            g.selectAll(".country").attr("d", path);
+            
+            g.selectAll(".country-label").attr("transform", d => {
+                if (d.properties.name === "France") {
+                    const proj = projection([2.21, 46.22]);
+                    return `translate(${proj[0]},${proj[1]})`;
+                }
+                const centroid = path.centroid(d);
+                if (isNaN(centroid[0]) || isNaN(centroid[1])) return "translate(-9999,-9999)";
+                return `translate(${centroid[0]},${centroid[1]})`;
+            });
+        });
+
+        // --- CAROUSEL SCROLLING ---
+        document.getElementById("scroll-left").addEventListener("click", () => {
+            document.getElementById("bottom-dock").scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        document.getElementById("scroll-right").addEventListener("click", () => {
+            document.getElementById("bottom-dock").scrollBy({ left: 300, behavior: 'smooth' });
+        });
+
+    

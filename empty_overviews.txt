@@ -1,0 +1,482 @@
+Australia
+s greatest achievement by winning the 2015 AFC Asian Cup, though World Cup performances remained limited to group-stage exits.` },
+                    { year: `2022–2026`, event: `Australia enjoyed a resurgence by reaching the 2022 World Cup Round of 16 and securing direct qualification for the 2026 World Cup, confirming their status as one of Asia's most consistent football powers` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                ]
+            },
+            'Austria
+s round of 16 for the first time and topped their Euro 2024 group ahead of France and the Netherlands. Dawan Africa` },
+                    { year: `2025–2026`, event: `Qualified for the 2026 World Cup after 28 years away, sealing it with a 10-0 rout of San Marino, finishing top of qualifying Group H with 19 points from 8 matches. Dawan AfricaDawan Africa` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `David Alaba`, club: `Real Madrid (captain and defensive anchor of the squad) European Qualifiers` },
+                    { name: `Marcel Sabitzer`, club: `Borussia Dortmund (set to reach 100 caps at the tournament) European Qualifiers` },
+                    { name: `Marko Arnautović`, club: `Crvena Zvezda (37-year-old record goalscorer and most-capped player) European Qualifiers` },
+                ]
+            },
+            'Belgium
+s all-time leading scorer with 89 international goals, fitness a concern after injury-hit season) RG` },
+                    { name: `Jérémy Doku`, club: `Manchester City (led qualifying with five goals and two assists) World Soccer Talk` },
+                ]
+            },
+            'Bosnia and Herzegovina
+s strike partner, often doing the "dirty work" up front) FourFourTwo` },
+                    { name: `Esmir Bajraktarević`, club: `PSV Eindhoven (21-year-old who scored the winning penalty in the play-off final against Italy) Olympics` },
+                ]
+            },
+            'Brazil
+s fiercest rivalry. Wikipedia` },
+                    { year: `1950`, event: `Host the World Cup final at the Maracanã in front of an official crowd of 173,850 and lose 2-1 to Uruguay — the "Maracanazo," still Brazil's most painful defeat. Wikipedia)` },
+                    { year: `1958–1970`, event: `Pelé leads Brazil to the title in 1958 and again in 1970, cementing the golden era. FIFA` },
+                    { year: `1994 & 2002`, event: `Win on penalties against Italy in 1994; beat Germany in the 2002 final behind a Ronaldo brace. FIFANewsX` },
+                    { year: `2014`, event: `Host again and suffer a 7-1 semi-final defeat to Germany — the "Mineirazo" — finishing fourth. Wikipedia` },
+                    { year: `2025–2026`, event: `Appoint Carlo Ancelotti, their first-ever foreign head coach, as they bid to end the 24-year drought. Sports Preferred` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Vinícius Júnior`, club: `Real Madrid (leads the attack, among the favorites for the Golden Boot) FIFA World Cup News` },
+                    { name: `Neymar`, club: `Santos (recalled for what's expected to be his final major tournament in yellow) CBSSports.com` },
+                    { name: `Raphinha`, club: `Barcelona (Ancelotti is building much of the attack around him) Worldcup` },
+                ]
+            },
+            'Cabo Verde
+s all-time leading scorer with 22 goals and most-capped player at 94 appearances, age 36) World Soccer Talk` },
+                    { name: `Roberto "Pico" Lopes`, club: `Shamrock Rovers (born in Ireland, first approached about playing for Cabo Verde via a LinkedIn message) Olympics` },
+                    { name: `Jamiro Monteiro`, club: `PEC Zwolle (provides midfield experience and control) Olympics` },
+                ]
+            },
+            
+            'Canada
+s all-time leading scorer, enters as one of their biggest attacking threats) Yahoo Sports` },
+                    { name: `Stephen Eustáquio`, club: `FC Porto (vice-captain, the screening midfielder shielding the back line) Squawka` },
+                ]
+            },
+            'Colombia
+s own goal and his subsequent murder — a tragedy that ended the golden generation. Al Día News` },
+                    { year: `2014`, event: `Best-ever finish, reaching the quarter-finals as James Rodríguez wins the Golden Boot. MLSsoccer.com` },
+                    { year: `2025`, event: `Clinch 2026 qualification with a 3-0 win over Bolivia. mexc` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `James Rodríguez`, club: `Minnesota United (captain, second all-time leading scorer for the national team) MLSsoccer.com` },
+                    { name: `Luis Díaz`, club: `Bayern Munich (the new face of the attack) Decatur Daily` },
+                    { name: `David Ospina`, club: `Atlético Nacional (Colombia's most-capped player) Wikipedia` },
+                ]
+            },
+            'DR Congo
+s most-capped player with 107 appearances) Wikipedia` },
+                    { name: `Yoane Wissa`, club: `Newcastle United (the Leopards' dangerman) Olympics` },
+                    { name: `Cédric Bakambu`, club: `Real Betis (one goal shy of the national scoring record) HEAVY` },
+                ]
+            },
+            "Côte d'Ivoire": {
+                continent: '—', language: '—',
+                population: 334943462026,
+                fifaRank: 30,
+                wcWon: 0,
+                rivals: `Ghana is the principal rival, including AFCON finals in both 1992 and 2015, alongside Nigeria (the 2024 AFCON final) and old continental foe Cameroon. Australia Football`,
+                overview: ``,
+                timeline: [
+                    { year: `1960`, event: `First international.` },
+                    { year: `1992`, event: `First AFCON title, winning an 11-10 penalty shootout over Ghana. Football History` },
+                    { year: `2006–2014`, event: `Three consecutive World Cups with the Drogba-Touré generation, never past the group stage. NewsX` },
+                    { year: `2015`, event: `Second AFCON title, again on penalties (9-8) against Ghana. Football History` },
+                    { year: `2023/2024`, event: `Win a stunning third AFCON title at home after nearly being eliminated in the group stage and changing coaches mid-tournament. Australia Football` },
+                    { year: `2026`, event: `Return to the World Cup, opening with a 1-0 win over Ecuador. FotMob` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Franck Kessié`, club: `Al-Ahli (captain, reached 100 international caps earlier in 2026) World Cup Wiki` },
+                    { name: `Amad Diallo`, club: `Manchester United (electric, two-footed, coming off his best club season) Olympics` },
+                    { name: `Yan Diomandé`, club: `RB Leipzig (one of Europe's most coveted young forwards) Olympics` },
+                ]
+            },
+            'Croatia
+s premier defender, back after shin surgery) World Cup Pass` },
+                    { name: `Mateo Kovačić`, club: `Manchester City (one of four Croatian centurions, links defense and attack) World Cup Pass` },
+                ]
+            },
+            'Curaçao
+s first-ever World Cup goal.` },
+                ]
+            },
+            'Czechia
+s iconic penalty in the final.` },
+                    { year: `2006`, event: `First World Cup appearance as an independent nation.` },
+                    { year: `2026`, event: `Return to the World Cup after a 20-year absence by winning the UEFA play-offs.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Tomáš Souček`, club: `West Ham United captain and the team's aerial threat from midfield.` },
+                    { name: `Patrik Schick`, club: `Bayer Leverkusen striker and Czechia's leading goalscoring weapon.` },
+                    { name: `Vladimír Coufal`, club: `experienced defender and key leader in the squad.` },
+                ]
+            },
+            'Ecuador
+s youngest squads.` },
+                    { year: `June 2025`, event: `A 0-0 draw away to Peru confirms qualification for the 2026 World Cup.` },
+                    { year: `2026`, event: `Enter the tournament having qualified for five of the last seven World Cups.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Moisés Caicedo`, club: `Chelsea midfielder and the engine of Ecuador's team.` },
+                    { name: `Willian Pacho`, club: `Paris Saint-Germain defender and one of South America's most highly regarded centre-backs.` },
+                    { name: `Kendry Páez`, club: `teenage playmaker widely regarded as the country's next global star.` },
+                ]
+            },
+            
+            "Egypt": {
+                continent: '—', language: '—',
+                population: 1192026,
+                fifaRank: 29,
+                wcWon: 0,
+                rivals: `Algeria remains the defining rivalry, intensified by the heated 2010 World Cup qualification play-off in Sudan, while clashes with Morocco and Tunisia are among North Africa's most fiercely contested fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1920`, event: `Become the first African nation to compete at the Olympic football tournament.` },
+                    { year: `1934`, event: `Become the first African nation ever to play at a FIFA World Cup.` },
+                    { year: `1957`, event: `Win the inaugural Africa Cup of Nations.` },
+                    { year: `2006–2010`, event: `Capture three consecutive AFCON titles, a continental record.` },
+                    { year: `2018`, event: `Return to the World Cup after a 28-year absence, led by Mohamed Salah.` },
+                    { year: `2026`, event: `Qualify for their fourth World Cup appearance and second of the Salah era.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mohamed Salah`, club: `Liverpool captain and Egypt's greatest modern footballer.` },
+                    { name: `Omar Marmoush`, club: `Manchester City forward and Salah's principal attacking partner.` },
+                    { name: `Mohamed Abdelmonem`, club: `defensive leader and cornerstone of the back line.` },
+                ]
+            },
+            "England": {
+                continent: '—', language: '—',
+                population: 571060002026,
+                fifaRank: 42026,
+                wcWon: 1,
+                rivals: `Germany remains England's defining football rivalry, shaped by decades of major tournament clashes. Argentina also occupies a unique place in English football culture due to the 1986 World Cup quarter-final, while Scotland is the oldest international rivalry in world football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1872`, event: `Play Scotland in the first official international football match.` },
+                    { year: `1966`, event: `Win their only World Cup, defeating West Germany 4-2 after extra time at Wembley.` },
+                    { year: `1990`, event: `Reach the World Cup semi-finals in Italy.` },
+                    { year: `2018`, event: `Reach a first World Cup semi-final in 28 years under Gareth Southgate.` },
+                    { year: `2021 & 2024`, event: `Reach consecutive European Championship finals.` },
+                    { year: `2026`, event: `Arrive as one of the tournament favourites under Thomas Tuchel.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Jude Bellingham`, club: `Real Madrid (already one of the world's premier midfielders).` },
+                    { name: `Harry Kane`, club: `Bayern Munich (England's all-time leading goalscorer).` },
+                    { name: `Bukayo Saka`, club: `Arsenal (arguably England's most dangerous wide attacker).` },
+                ]
+            },
+            "France": {
+                continent: '—', language: '—',
+                population: 666500002026,
+                fifaRank: 3,
+                wcWon: 2,
+                rivals: `Germany has traditionally been France's principal football rival, while clashes with Italy, England and Belgium have become major fixtures in modern European football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1930`, event: `Participate in the inaugural FIFA World Cup.` },
+                    { year: `1984`, event: `Win their first major trophy, the European Championship.` },
+                    { year: `1998`, event: `Win their first World Cup on home soil, defeating Brazil 3-0.` },
+                    { year: `2006`, event: `Reach a second World Cup final.` },
+                    { year: `2018`, event: `Win their second World Cup, defeating Croatia.` },
+                    { year: `2022`, event: `Reach another final before losing to Argentina on penalties.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Kylian Mbappé`, club: `Real Madrid (captain and France's all-time leading scorer).` },
+                    { name: `Aurélien Tchouaméni`, club: `Real Madrid (the midfield anchor).` },
+                    { name: `William Saliba`, club: `Arsenal (one of Europe's most highly-rated defenders).` },
+                ]
+            },
+            "Germany": {
+                continent: '—', language: '—',
+                population: 838000002026,
+                fifaRank: 102026,
+                wcWon: 4,
+                rivals: `The Netherlands remains Germany's most famous football rivalry, while matches against England, Italy and France have produced some of the defining moments in World Cup history.`,
+                overview: ``,
+                timeline: [
+                    { year: `1954`, event: `Win their first World Cup in the "Miracle of Bern."` },
+                    { year: `1974`, event: `Beat the Netherlands to win a second World Cup.` },
+                    { year: `1990`, event: `Win a third World Cup, defeating Argentina.` },
+                    { year: `2014`, event: `Win a fourth World Cup after defeating Argentina in Brazil.` },
+                    { year: `2018 & 2022`, event: `Suffer consecutive group-stage eliminations.` },
+                    { year: `2024`, event: `Reach the European Championship quarter-finals and begin a new era under Julian Nagelsmann.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Jamal Musiala`, club: `Bayern Munich (Germany's creative centrepiece).` },
+                    { name: `Florian Wirtz`, club: `Liverpool **[VERIFY club if publishing]** (one of Europe's most gifted attacking midfielders).` },
+                    { name: `Antonio Rüdiger`, club: `Real Madrid (leader of the defence).` },
+                ]
+            },
+            "Ghana": {
+                continent: '—', language: '—',
+                population: 369000002026,
+                fifaRank: 65,
+                wcWon: 0,
+                rivals: `Nigeria is Ghana's defining football rivalry, dating back to the Jalco Cup era and often described as one of Africa's fiercest sporting rivalries. Encounters with Côte d'Ivoire are also highly significant in West African football.`,
+                overview: ``,
+                timeline: [
+                    { year: `1963`, event: `Win their first Africa Cup of Nations.` },
+                    { year: `1965`, event: `Retain the AFCON title.` },
+                    { year: `2006`, event: `Reach the Round of 16 in their first-ever World Cup appearance.` },
+                    { year: `2010`, event: `Reach the World Cup quarter-finals, losing to Uruguay on penalties after the infamous Luis Suárez handball.` },
+                    { year: `2022`, event: `Defeat South Korea at the World Cup but fail to progress from the group stage.` },
+                    { year: `2026`, event: `Return to the World Cup after topping their CAF qualification group.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mohammed Kudus`, club: `Tottenham Hotspur **[VERIFY club]** (Ghana's most explosive attacker).` },
+                    { name: `Antoine Semenyo`, club: `Bournemouth (physical, direct and increasingly influential).` },
+                    { name: `Thomas Partey`, club: `**[VERIFY club]** (the experienced midfield leader).` },
+                ]
+            },
+            "Haiti": {
+                continent: '—', language: '—',
+                population: 119060952026,
+                fifaRank: 832026,
+                wcWon: 0,
+                rivals: `Jamaica is Haiti's most frequent modern Caribbean rival, while matches against Trinidad & Tobago and Cuba have historically carried significant regional importance.`,
+                overview: ``,
+                timeline: [
+                    { year: `1957`, event: `Haiti plays its first World Cup qualifying campaign.` },
+                    { year: `1973`, event: `Wins the CONCACAF Championship on home soil, securing a first World Cup appearance.` },
+                    { year: `1974`, event: `Makes its only previous World Cup appearance, famously taking the lead against Italy before losing 3-1.` },
+                    { year: `2019`, event: `Reaches the Gold Cup semi-finals, defeating Canada in one of the nation's greatest modern victories.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup, ending a 52-year absence.` },
+                    { year: `2026`, event: `Returns to football's biggest stage as one of the tournament's major underdog stories.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Duckens Nazon`, club: `the nation's all-time leading goalscorer and attacking focal point.` },
+                    { name: `Danley Jean Jacques`, club: `a midfield engine increasingly attracting European attention.` },
+                    { name: `Frantzdy Pierrot`, club: `powerful striker and aerial threat.` },
+                ]
+            },
+            "IR Iran": {
+                continent: '—', language: '—',
+                population: 924000002026,
+                fifaRank: 20,
+                wcWon: 0,
+                rivals: `South Korea remains Iran's defining football rivalry, while encounters with Saudi Arabia carry broader geopolitical significance and consistently rank among Asian football's highest-profile fixtures.`,
+                overview: ``,
+                timeline: [
+                    { year: `1968`, event: `Win their first AFC Asian Cup.` },
+                    { year: `1976`, event: `Complete a hat-trick of consecutive Asian Cup titles.` },
+                    { year: `1978`, event: `Make their World Cup debut in Argentina.` },
+                    { year: `1998`, event: `Record their first World Cup victory, defeating the United States 2-1.` },
+                    { year: `2018`, event: `Earn four points in a difficult group featuring Spain and Portugal.` },
+                    { year: `2026`, event: `Qualify for a fourth consecutive World Cup and seventh overall.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mehdi Taremi`, club: `Iran's most accomplished striker of the modern era.` },
+                    { name: `Sardar Azmoun`, club: `one of the nation's highest-scoring forwards ever.` },
+                    { name: `Mohammad Mohebi`, club: `direct, pacey winger who emerged as a key figure during qualifying.` },
+                ]
+            },
+            "Iraq": {
+                continent: '—', language: '—',
+                population: 483000002026,
+                fifaRank: 57,
+                wcWon: 0,
+                rivals: `Iran is Iraq's principal football rival, with meetings often among the most emotionally charged fixtures in Asia. Saudi Arabia also remains a major regional competitor.`,
+                overview: ``,
+                timeline: [
+                    { year: `1986`, event: `Makes its first World Cup appearance in Mexico.` },
+                    { year: `2007`, event: `Wins the AFC Asian Cup against overwhelming odds amid ongoing conflict at home.` },
+                    { year: `2015`, event: `Reaches the Asian Cup semi-finals.` },
+                    { year: `2023`, event: `Wins the Gulf Cup on home soil in Basra.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 World Cup, ending a 40-year wait.` },
+                    { year: `2026`, event: `Returns to the World Cup as one of Asia's most compelling stories.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Aymen Hussein`, club: `prolific striker and hero of recent qualification campaigns.` },
+                    { name: `Zidane Iqbal`, club: `technically gifted midfielder developed at Manchester United.` },
+                    { name: `Ali Jasim`, club: `one of the most exciting young attackers in Asian football.` },
+                ]
+            },
+            
+            'Japan
+s highest-ranked representative.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Kaoru Mitoma`, club: `Brighton winger whose dribbling makes him one of Asia's most dangerous attackers.` },
+                    { name: `Takefusa Kubo`, club: `creative playmaker and the face of Japan's next generation.` },
+                    { name: `Wataru Endo`, club: `captain and midfield leader whose tactical discipline underpins the entire team.` },
+                ]
+            },
+            'Jordan
+s football history.` },
+                    { year: `2025`, event: `Secures qualification for the 2026 FIFA World Cup.` },
+                    { year: `2026`, event: `Makes its World Cup debut.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Mousa Al-Tamari`, club: `the face of Jordanian football and the country's first major European success story.` },
+                    { name: `Yazan Al-Naimat`, club: `prolific forward and hero of the Asian Cup run.` },
+                    { name: `Mahmoud Al-Mardi`, club: `experienced attacker who consistently delivers in major tournaments.` },
+                ]
+            },
+            'Korea Republic
+s most accomplished defenders.` },
+                ]
+            },
+            'Mexico
+s World Cups.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Santiago Giménez`, club: `the striker expected to lead Mexico's next generation.` },
+                    { name: `Edson Álvarez`, club: `midfield anchor and emotional leader.` },
+                    { name: `Julián Quiñones`, club: `dynamic attacker whose emergence added another dimension to the side.` },
+                ]
+            },
+            'Morocco
+s best attacking full-backs.` },
+                    { name: `Sofyan Amrabat`, club: `the midfield heartbeat of the Atlas Lions.` },
+                    { name: `Brahim Díaz`, club: `creative attacker capable of unlocking any defence.` },
+                ]
+            },
+            'Netherlands
+New Zealand
+s all-time leading goalscorer.` },
+                    { name: `Liberato Cacace`, club: `attacking full-back and key creative outlet.` },
+                    { name: `Tyler Bindon`, club: `highly rated young defender viewed as a cornerstone of the future.` },
+                ]
+            },
+            'Norway
+s biggest stage after 28 years away.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Erling Haaland`, club: `Manchester City striker and one of the world's most prolific goalscorers.` },
+                    { name: `Martin Ødegaard`, club: `Arsenal captain and creative heartbeat of the team.` },
+                    { name: `Antonio Nusa`, club: `explosive young winger regarded as Norway's next breakout star.` },
+                ]
+            },
+            
+            'Panama
+s most influential players.` },
+                    { name: `José Fajardo`, club: `proven goalscorer in regional competition.` },
+                    { name: `Michael Murillo`, club: `attacking full-back with major tournament experience.` },
+                ]
+            },
+            'Paraguay
+Portugal
+s final World Cup.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Cristiano Ronaldo`, club: `one of the greatest footballers in history and still capable of deciding major matches.` },
+                    { name: `Bruno Fernandes`, club: `the creative leader who dictates Portugal's attacking rhythm.` },
+                    { name: `Vitinha`, club: `elegant midfielder increasingly viewed as one of the world's best in his position.` },
+                ]
+            },
+            'Qatar
+Saudi Arabia
+s biggest shocks.` },
+                    { year: `2025`, event: `Secures qualification for a seventh World Cup appearance.` },
+                    { year: `2026`, event: `Returns as one of Asia's most experienced tournament nations.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Salem Al-Dawsari`, club: `scorer of the winning goal against Argentina and national icon.` },
+                    { name: `Musab Al-Juwayr`, club: `highly regarded midfielder representing the next generation.` },
+                    { name: `Hassan Kadesh`, club: `experienced defensive leader.` },
+                ]
+            },
+            'Scotland
+s most important goalscorers.` },
+                    { name: `Andrew Robertson`, club: `captain and emotional heartbeat of the side.` },
+                    { name: `Billy Gilmour`, club: `creative midfielder capable of controlling the tempo of matches.` },
+                ]
+            },
+            'Senegal
+s strongest contenders.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Nicolas Jackson`, club: `dynamic forward capable of stretching any defence.` },
+                    { name: `Pape Matar Sarr`, club: `midfield engine entering his prime years.` },
+                    { name: `Kalidou Koulibaly`, club: `captain and defensive leader with vast tournament experience.` },
+                ]
+            },
+            'South Africa
+s most accomplished goalkeepers.` },
+                    { name: `Teboho Mokoena`, club: `midfield leader and set-piece specialist.` },
+                    { name: `Relebohile Mofokeng`, club: `exciting young attacker widely viewed as the future of South African football.` },
+                ]
+            },
+            
+            'Spain
+s biggest stars.` },
+                    { name: `Rodri`, club: `midfield conductor and the foundation of Spain's tactical identity.` },
+                    { name: `Nico Williams`, club: `explosive winger capable of transforming matches.` },
+                ]
+            },
+            'Sweden
+s biggest attacking threat.` },
+                    { name: `Viktor Gyökeres`, club: `prolific goalscorer entering the tournament in outstanding form.` },
+                    { name: `Dejan Kulusevski`, club: `creative attacker capable of unlocking compact defences.` },
+                ]
+            },
+            'Switzerland
+s most consistent nations.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Granit Xhaka`, club: `captain and emotional leader.` },
+                    { name: `Manuel Akanji`, club: `defensive cornerstone and serial winner at club level.` },
+                    { name: `Dan Ndoye`, club: `dynamic winger entering his prime years.` },
+                ]
+            },
+            'Tunisia
+s new generation.` },
+                    { name: `Ellyes Skhiri`, club: `experienced midfield anchor.` },
+                    { name: `Seifeddine Jaziri`, club: `proven goalscorer at international level.` },
+                ]
+            },
+            'Türkiye
+s most gifted young playmakers.` },
+                    { name: `Kenan Yıldız`, club: `dynamic forward viewed as a future superstar.` },
+                    { name: `Hakan Çalhanoğlu`, club: `captain, set-piece specialist and midfield leader.` },
+                ]
+            },
+            'Uruguay
+s 50th anniversary.` },
+                    { year: `2010`, event: `Reaches the World Cup semi-finals for the first time in forty years.` },
+                    { year: `2011`, event: `Wins the Copa América, becoming the competition's most successful nation at the time.` },
+                    { year: `2026`, event: `Arrives with one of South America's most exciting generations under Marcelo Bielsa.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Federico Valverde`, club: `Real Madrid midfielder and the engine of the team.` },
+                    { name: `Darwin Núñez`, club: `explosive striker capable of changing matches on his own.` },
+                    { name: `Ronald Araújo`, club: `defensive leader and one of the world's elite centre-backs.` },
+                ]
+            },
+            'USA
+s popularity in the country.` },
+                    { year: `2002`, event: `Reaches the World Cup quarter-finals.` },
+                    { year: `2022`, event: `Returns to the knockout stages after missing the 2018 tournament.` },
+                    { year: `2026`, event: `Co-hosts the World Cup alongside Canada and Mexico.` },
+                    { year: `2026`, event: `Enters the tournament with the highest expectations of the modern era.` },
+                ],
+                form: [], // TODO: Source from live API
+                players: [
+                    { name: `Christian Pulisic`, club: `captain and the face of American football.` },
+                    { name: `Weston McKennie`, club: `midfield leader whose energy drives the side.` },
+                    { name: `Folarin Balogun`, club: `prolific striker expected to lead the attack for years to come.` },
+                ]
+            },
+            'Uzbekistan
