@@ -780,6 +780,83 @@
     </div>
 
     <script>
+
+const ISO3_TO_ALPHA2 = {
+  // Group A
+  "MEX": "mx",
+  "USA": "us",
+  "CAN": "ca",
+  "URU": "uy",
+  // Group B
+  "SUI": "ch",   // Switzerland — FIFA uses SUI, alpha-2 is ch
+  "BIH": "ba",   // Bosnia and Herzegovina
+  "QAT": "qa",
+  // Group C
+  "BRA": "br",
+  "MAR": "ma",
+  "SCO": "gb-sct",  // Scotland — flagcdn supports gb-sct
+  "HAI": "ht",
+  // Group D
+  "AUS": "au",
+  "PRY": "py",   // Paraguay
+  "TUR": "tr",   // Türkiye
+  // Group E
+  "GER": "de",
+  "CIV": "ci",   // Côte d'Ivoire
+  "ECU": "ec",
+  "CUW": "cw",   // Curaçao — NOT cu (Cuba)
+  // Group F
+  "NED": "nl",   // Netherlands — FIFA uses NED
+  "JPN": "jp",
+  "SWE": "se",
+  "TUN": "tn",
+  // Group G
+  "EGY": "eg",
+  "BEL": "be",
+  "IRN": "ir",   // IR Iran
+  "NZL": "nz",
+  // Group H
+  "ESP": "es",
+  "CPV": "cv",   // Cabo Verde — NOT cp
+  "KSA": "sa",   // Saudi Arabia
+  // Group I
+  "NOR": "no",
+  "FRA": "fr",
+  "SEN": "sn",
+  "IRQ": "iq",
+  // Group J
+  "ARG": "ar",
+  "AUT": "at",
+  "JOR": "jo",
+  "ALG": "dz",   // Algeria — alpha-2 is dz
+  // Group K
+  "COL": "co",
+  "COD": "cd",   // Congo DR — NOT co (Colombia)
+  "POR": "pt",
+  "UZB": "uz",
+  // Group L
+  "KOR": "kr",   // Korea Republic — NOT ko
+  "GHA": "gh",
+  "GER": "de",
+  "ENG": "gb-eng",  // England — flagcdn supports gb-eng
+  "CRO": "hr",   // Croatia
+  "CZE": "cz",
+  "PAN": "pa",
+  "RSA": "za",   // South Africa
+  "SCT": "gb-sct",
+  "SEN": "sn",
+};
+
+function getAlpha2(code) {
+  const alpha2 = ISO3_TO_ALPHA2[code?.toUpperCase()];
+  if (!alpha2) {
+    console.warn(`[flags] No alpha-2 mapping found for code: "${code}" — falling back to UN flag`);
+    return "un";
+  }
+  return alpha2;
+}
+
+
         // --- Segmented Control Animation & Mode Toggling Setup ---
         function initPillControl(containerId, callback) {
             const container = document.getElementById(containerId);
@@ -1105,10 +1182,10 @@
                     const dateStr = g.local_date ? g.local_date.split(' ')[0] : '';
                     const timeStr = g.local_date ? g.local_date.split(' ')[1] : '';
                     if (!matches[hDisplay]) {
-                        matches[hDisplay] = { opponent: aDisplay, flag: `https://flagcdn.com/w40/${(aIso || 'un').slice(0, 2).toLowerCase()}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
+                        matches[hDisplay] = { opponent: aDisplay, flag: `https://flagcdn.com/w40/${getAlpha2(aIso)}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
                     }
                     if (!matches[aDisplay]) {
-                        matches[aDisplay] = { opponent: hDisplay, flag: `https://flagcdn.com/w40/${(hIso || 'un').slice(0, 2).toLowerCase()}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
+                        matches[aDisplay] = { opponent: hDisplay, flag: `https://flagcdn.com/w40/${getAlpha2(hIso)}.png`, date: dateStr, time: timeStr, isFlagUrl: true };
                     }
                 });
                 matches['def'] = { opponent: 'TBD', flag: '🏳️', date: 'TBD', time: '' };
@@ -1253,7 +1330,7 @@
                         const iso = OF_ISO_MAP[tname] || 'un';
                         byGroup[grp].push({
                             name: displayName, mapName, iso,
-                            flag: `https://flagcdn.com/w40/${(iso || 'un').slice(0, 2).toLowerCase()}.png`,
+                            flag: `https://flagcdn.com/w40/${getAlpha2(iso)}.png`,
                             gp: s.mp, w: s.w, d: s.d, l: s.l,
                             gd: s.gf - s.ga, pts: s.w * 3 + s.d
                         });
@@ -1281,7 +1358,7 @@
                                 const displayName = OF_NAME_MAP[tname] || tname;
                                 const mapName = OF_MAPNAME[tname] || tname;
                                 const iso = OF_ISO_MAP[tname] || 'un';
-                                byGroup[l].push({name: displayName, mapName, iso, flag: `https://flagcdn.com/w40/${(iso || 'un').slice(0, 2).toLowerCase()}.png`, gp:0,w:0,d:0,l:0,gd:0,pts:0});
+                                byGroup[l].push({name: displayName, mapName, iso, flag: `https://flagcdn.com/w40/${getAlpha2(iso)}.png`, gp:0,w:0,d:0,l:0,gd:0,pts:0});
                             }
                         });
                     });
@@ -1446,7 +1523,7 @@
             if (countryData) {
                 tooltip.style("opacity", 1);
                 tooltip.html(`
-                    <img src="https://flagcdn.com/w40/${(countryData.team.iso || 'un').slice(0, 2).toLowerCase()}.png" class="flag-rect" style="width: 20px; height: 14px; margin: 0; border-radius: 2px;">
+                    <img src="https://flagcdn.com/w40/${getAlpha2(countryData.team.iso)}.png" class="flag-rect" style="width: 20px; height: 14px; margin: 0; border-radius: 2px;">
                     <span>${countryData.team.name} (${getRankOrdinal(countryData.rank)} in ${countryData.groupName})</span>
                 `);
             } else {
@@ -1557,7 +1634,7 @@
                     row.on("click", (event) => standingsRowClick(event, team.name));
 
                     const flagSrc = team.iso
-                        ? `https://flagcdn.com/w40/${(team.iso || 'un').slice(0, 2).toLowerCase()}.png`
+                        ? `https://flagcdn.com/w40/${getAlpha2(team.iso)}.png`
                         : (team.flag && !team.flag.startsWith('http') ? '' : team.flag || '');
 
                     row.append("span")
@@ -2765,7 +2842,7 @@
 
             const flagBox = el('div', 'ic-flag-box');
             const flagImg = el('img');
-            flagImg.src = `https://flagcdn.com/w320/${(iso || "un").slice(0, 2).toLowerCase()}.png`;
+            flagImg.src = `https://flagcdn.com/w320/${getAlpha2(iso)}.png`;
             flagImg.alt = countryName;
             flagBox.appendChild(flagImg);
             header.appendChild(flagBox);
