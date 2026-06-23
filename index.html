@@ -848,12 +848,12 @@ const ISO3_TO_ALPHA2 = {
 };
 
 function getAlpha2(code) {
-  const alpha2 = ISO3_TO_ALPHA2[code?.toUpperCase()];
-  if (!alpha2) {
-    console.warn(`[flags] No alpha-2 mapping found for code: "${code}" — falling back to UN flag`);
-    return "un";
+  if (!code) return "un";
+  const upperCode = code.toUpperCase();
+  if (ISO3_TO_ALPHA2[upperCode]) {
+    return ISO3_TO_ALPHA2[upperCode];
   }
-  return alpha2;
+  return code.toLowerCase();
 }
 
 
