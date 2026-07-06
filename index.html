@@ -163,24 +163,29 @@
             border-radius: 24px;
             pointer-events: auto;
             width: 100%;
-            padding: 16px 0;
-            overflow: visible;
+            padding: 0;
+            overflow-x: auto;
+            overflow-y: visible;
             box-sizing: border-box;
             transition: background-color 0.3s var(--ease-cubic), border-color 0.3s var(--ease-cubic);
+            scrollbar-width: none;
         }
+        .bottom-dock::-webkit-scrollbar { display: none; }
 
         .dock-content {
             display: flex;
             flex-direction: row;
-            overflow-x: auto;
-            overflow-y: visible;
+            overflow: visible;
             padding: 0 16px;
             gap: 12px;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            min-width: max-content;
+            width: max-content;
             height: 100%;
             box-sizing: border-box;
-            align-items: center;
+            align-items: flex-end;
+            padding-bottom: 0;
         }
         
         .dock-content::-webkit-scrollbar {
@@ -227,20 +232,20 @@
             display: grid;
             grid-template-columns: 28px 1fr 28px 28px 28px 28px 32px 32px;
             align-items: center;
-            height: 32px;
+            height: 26px;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: background-color 0.1s;
             column-gap: 4px;
-            padding: 3px 12px;
-            line-height: 1.2;
+            padding: 2px 10px;
+            line-height: 1.1;
         }
 
         .table-row.no-hover {
             cursor: default;
             margin-bottom: 0;
-            height: 32px;
-            padding: 3px 12px;
+            height: 26px;
+            padding: 2px 10px;
             background: linear-gradient(135deg, var(--group-color) 0%, var(--bg-color) 100%);
             border-radius: 0;
         }
@@ -413,23 +418,10 @@
 
         /* APPLE STYLE SIDE PANEL */
         .right-side-panel {
-            position: fixed;
-            right: -500px;
-            top: 88px;
-            width: min(460px, calc(100vw - 32px));
-            background: var(--panel-bg);
-            border-radius: 32px;
-            z-index: 1200;
-            transition: right .4s cubic-bezier(.4,0,.2,1);
-            max-height: calc(100vh - 130px);
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-            color: var(--panel-text-primary);
+            display: none !important;
         }
         .right-side-panel::-webkit-scrollbar { display: none; }
-        .right-side-panel.open { right: 24px; }
+        .right-side-panel.open { display: none !important; }
 
         /* ── INFO CARD STYLES ─────────────────────────────────────────── */
         .right-panel-content { padding: 0; }
@@ -643,13 +635,13 @@
         /* CAROUSEL ARROWS */
         .bottom-dock-wrapper {
             position: fixed;
-            bottom: 24px;
+            bottom: 8px;
             left: 24px;
             right: 24px;
-            height: 200px;
+            height: 155px;
             z-index: 900;
-            pointer-events: none; /* Let clicks pass through except on buttons/dock */
-            overflow-y: visible;
+            pointer-events: none;
+            overflow: visible;
         }
         
         .carousel-arrow {
@@ -1059,6 +1051,237 @@
         .bracket-col--inactive .match-card-divider {
             margin: 0;
         }
+
+    
+/* =====================================================================
+   TIMELINE PANEL — Neon vertical slider style
+   ===================================================================== */
+.timeline-panel {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  width: 50vw;
+  height: calc(100vh - 60px);
+  background: linear-gradient(160deg, rgba(8,10,18,0.97) 0%, rgba(10,15,24,0.95) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(255,255,255,0.06);
+  transform: translateX(100%);
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.timeline-panel.open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Header row */
+.tl-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 36px 18px 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+  position: relative;
+}
+.tl-flag {
+  width: 40px;
+  height: 28px;
+  border-radius: 4px;
+  object-fit: cover;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.tl-country {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.tl-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 200ms, transform 250ms;
+}
+.tl-close:hover { color: #fff; transform: rotate(90deg); }
+
+/* Main layout: track col + content col */
+.tl-body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---- Left column: year labels + neon track ---- */
+.tl-track-col {
+  position: relative;
+  width: 190px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Year label list positioned absolutely so we can scroll it */
+.tl-years {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 36px 0;
+}
+.tl-year-lbl {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.25);
+  text-align: right;
+  padding-right: 36px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 250ms ease, transform 200ms ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.tl-year-lbl:hover { color: rgba(255,255,255,0.55); }
+.tl-year-lbl.active {
+  color: rgba(173,255,47,0.95);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Vertical track line */
+.tl-line {
+  position: absolute;
+  right: 18px;
+  top: 36px;
+  bottom: 36px;
+  width: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+/* Neon progress fill */
+.tl-glow-fill {
+  position: absolute;
+  right: 18px;
+  top: 36px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #ADFF2F, #6ec800);
+  box-shadow: 0 0 8px 3px rgba(173,255,47,0.55), 0 0 20px 6px rgba(173,255,47,0.2);
+  height: 0;
+  transition: height 300ms ease;
+}
+
+/* Draggable thumb knob */
+.tl-thumb {
+  position: absolute;
+  right: 9px; /* visually center on 2px track */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(10,14,22,0.95);
+  border: 2px solid #ADFF2F;
+  box-shadow: 0 0 14px 5px rgba(173,255,47,0.65), inset 0 0 5px rgba(173,255,47,0.2);
+  cursor: grab;
+  z-index: 10;
+  top: 36px;
+  transition: box-shadow 200ms, transform 150ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tl-thumb::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ADFF2F;
+  box-shadow: 0 0 5px 2px rgba(173,255,47,0.9);
+}
+.tl-thumb:hover, .tl-thumb.dragging {
+  transform: scale(1.2);
+  box-shadow: 0 0 22px 8px rgba(173,255,47,0.75), inset 0 0 8px rgba(173,255,47,0.3);
+  cursor: grabbing;
+}
+
+/* ---- Right column: entry content ---- */
+.tl-content-col {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 36px 40px 60px 24px;
+  scrollbar-width: none;
+}
+.tl-content-col::-webkit-scrollbar { display: none; }
+
+.tl-entry-year {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ADFF2F;
+  text-shadow: 0 0 12px rgba(173,255,47,0.5);
+  margin-bottom: 14px;
+}
+.tl-entry-text {
+  font-size: 16px;
+  line-height: 1.78;
+  color: rgba(255,255,255,0.87);
+}
+.tl-entry-wrap {
+  animation: tlFadeIn 280ms ease both;
+}
+@keyframes tlFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Prev / Next nav */
+.tl-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+.tl-nav-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.55);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 200ms;
+}
+.tl-nav-btn:hover:not(:disabled) {
+  background: rgba(173,255,47,0.1);
+  color: #ADFF2F;
+  border-color: rgba(173,255,47,0.35);
+}
+.tl-nav-btn:disabled { opacity: 0.2; cursor: default; }
+.tl-counter {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.07em;
+  margin-left: 4px;
+}
 
     </style>
 </head>
@@ -2292,6 +2515,7 @@ function getAlpha2(code) {
                 setActiveCountry(element, d);
                 openCountryDetail(countryData.team.name, countryData);
                 highlightStandingsRow(countryData.team.name);
+                openTimeline(countryData.team.name);
                 
                 const bounds = path.bounds(d);
                 const dx = bounds[1][0] - bounds[0][0];
@@ -2300,7 +2524,7 @@ function getAlpha2(code) {
                 const y = (bounds[0][1] + bounds[1][1]) / 2;
                 
                 const scale = Math.max(1.5, Math.min(5, 0.20 / Math.max(dx / window.innerWidth, dy / window.innerHeight)));
-                const targetX = window.innerWidth / 2;
+                const targetX = window.innerWidth / 4;
                 const targetY = (window.innerHeight - 240) / 2;
 
                 const translate = [targetX - scale * x, targetY - scale * y];
@@ -3709,6 +3933,7 @@ function getAlpha2(code) {
 
         function closePanels() {
             d3.select("#right-panel").classed("open", false);
+            if (typeof closeTimeline === 'function') closeTimeline();
         }
 
         function findTeamStandingsData(countryName, requireExactNameMatch = false) {
@@ -3762,12 +3987,1814 @@ function getAlpha2(code) {
 
         // --- CAROUSEL SCROLLING ---
         document.getElementById("scroll-left").addEventListener("click", () => {
-            document.getElementById("standings-content").scrollBy({ left: -300, behavior: 'smooth' });
+            document.getElementById("bottom-dock").scrollBy({ left: -300, behavior: 'smooth' });
         });
         document.getElementById("scroll-right").addEventListener("click", () => {
-            document.getElementById("standings-content").scrollBy({ left: 300, behavior: 'smooth' });
+            document.getElementById("bottom-dock").scrollBy({ left: 300, behavior: 'smooth' });
         });
+        initDragScroll(document.getElementById("bottom-dock"));
 
-    </script>
+    
+const TIMELINE_DATA = {
+"Argentina": [
+{
+"year": "1867â€“1893: British Origins â€”",
+"text": "Football arrived in Argentina through British railway workers, sailors, and schoolteachers in Buenos Aires. The Argentine Association Football League, founded in 1893, became one of the oldest football federations outside the British Isles, reflecting the sport's deep colonial-commercial ties to English immigrant communities."
+},
+{
+"year": "1901â€“1916: Early Rivalries and Continental Founding â€”",
+"text": "Argentina played its first international against Uruguay in 1901, beginning the world's oldest continuing international rivalry. In 1916, Argentina co-founded CONMEBOL and hosted the inaugural Copa AmÃ©rica, cementing its role as a pillar of South American football."
+},
+{
+"year": "1930: First World Cup Final â€”",
+"text": "Argentina reached the final of the first-ever FIFA World Cup in Uruguay, losing 4â€“2 to the hosts. The achievement confirmed Argentina as one of the sport's earliest global powers, built on a distinctive technical style known as \"la nuestra.\""
+},
+{
+"year": "1978: Home Triumph â€”",
+"text": "Hosting the World Cup amid political dictatorship, Argentina won its first title, defeating the Netherlands in the final. The victory, though shadowed by controversy over the era's authoritarian regime, ignited lasting national football pride."
+},
+{
+"year": "1986: Maradona's World Cup â€”",
+"text": "Diego Maradona single-handedly carried Argentina to a second world title in Mexico, scoring the \"Hand of God\" and \"Goal of the Century\" against England. It remains one of the most iconic individual World Cup performances in history."
+},
+{
+"year": "1990â€“2010: Turbulent Decades â€”",
+"text": "Argentina reached the 1990 final but lost to West Germany, then endured decades of near-misses, quarterfinal exits, and generational transitions despite producing stars like Gabriel Batistuta and later Lionel Messi."
+},
+{
+"year": "2014â€“2022: The Messi Era Fulfilled â€”",
+"text": "After heartbreak in the 2014 final, Argentina won the 2021 Copa AmÃ©rica and then triumphed at the 2022 Qatar World Cup, defeating France on penalties in a final widely regarded as one of the greatest ever played."
+}
+],
+"Algeria": [
+{
+"year": "1958â€“1962: The FLN Team â€”",
+"text": "During the Algerian War of Independence, professional players based in France formed the FLN football team, aligning the sport with the National Liberation Front's anti-colonial cause. Though unrecognized by FIFA and limited to friendlies, the team became a powerful symbol of Algerian identity and Pan-African solidarity."
+},
+{
+"year": "1962â€“1963: Independence and Recognition â€”",
+"text": "Following independence from France, Algeria formed its official national football federation, succeeding the FLN team. FIFA recognition arrived in 1963, allowing Algeria to compete internationally for the first time as a sovereign nation."
+},
+{
+"year": "1982: The GijÃ³n Shock â€”",
+"text": "At its first World Cup in Spain, Algeria stunned West Germany 2â€“1, one of the greatest upsets in tournament history. The achievement was overshadowed by the infamous \"Disgrace of GijÃ³n,\" in which West Germany and Austria arranged a result to eliminate Algeria."
+},
+{
+"year": "1990: Continental Champions â€”",
+"text": "Hosting the Africa Cup of Nations, Algeria defeated Nigeria to claim its first continental title, marking the high point of a golden generation and a source of enduring national pride."
+},
+{
+"year": "1990sâ€“2000s: Decline Amid Turmoil â€”",
+"text": "Algeria's football stagnated during a decade of civil conflict, missing World Cups and struggling for continental relevance."
+},
+{
+"year": "2010â€“2014: Resurgence â€”",
+"text": "Algeria returned to the World Cup in 2010 and, in 2014, reached the knockout stage for the first time, narrowly falling to Germany in extra time."
+},
+{
+"year": "2019â€“2021: Belmadi Era â€”",
+"text": "Under coach Djamel Belmadi, Algeria won the 2019 Africa Cup of Nations and the 2021 FIFA Arab Cup, restoring its status as a continental power before a shock group-stage exit at AFCON 2021."
+}
+],
+"Australia": [
+{
+"year": "1880sâ€“1911: Colonial Beginnings â€”",
+"text": "British settlers introduced football to Australia in the late 19th century, though it remained a minority sport overshadowed by rugby and Australian rules football. The Commonwealth Football Association, formed in 1911, laid early organizational groundwork."
+},
+{
+"year": "1922â€“1956: Isolation and Growth â€”",
+"text": "Renamed the Australian Soccer Football Association, the sport developed largely through immigrant communities, remaining geographically and competitively isolated from world football's major centers."
+},
+{
+"year": "1974: First World Cup â€”",
+"text": "Australia qualified for its first World Cup in West Germany via the Oceania confederation, a landmark achievement despite failing to win a match."
+},
+{
+"year": "1974â€“2005: The Long Drought â€”",
+"text": "Australia endured three decades without World Cup qualification, repeatedly falling in intercontinental playoffs despite producing capable teams, a period defining the frustration of Oceania's limited pathway."
+},
+{
+"year": "2005â€“2006: Golden Generation â€”",
+"text": "A penalty-shootout win over Uruguay in 2005 ended the drought. Led by Harry Kewell, Mark Viduka, and Tim Cahill, Australia reached the 2006 World Cup's round of 16, its best result to date."
+},
+{
+"year": "2006: Switch to Asia â€”",
+"text": "Seeking stronger competition, Australia left the Oceania Football Confederation to join the Asian Football Confederation, transforming its qualification path and continental ambitions."
+},
+{
+"year": "2015: Asian Champions â€”",
+"text": "Hosting the AFC Asian Cup, Australia won its first continental title, confirming its integration into Asian football's elite tier."
+},
+{
+"year": "2018â€“2022: Continued Presence â€”",
+"text": "Australia maintained consistent World Cup qualification, again reaching the round of 16 in Qatar 2022 behind a resilient, well-organized squad."
+}
+],
+"Austria": [
+{
+"year": "1894â€“1904: Viennese Origins â€”",
+"text": "Football took root in Vienna through British expatriates and local clubs, quickly making the city a footballing hub of the Austro-Hungarian Empire. Austria formed its football federation in 1904, among the earliest in continental Europe."
+},
+{
+"year": "1930s: The Wunderteam â€”",
+"text": "Under coach Hugo Meisl, Austria developed the \"Wunderteam,\" a technically gifted side built on the Danubian passing style. The team dazzled Europe and reached the 1934 World Cup semifinals, narrowly losing to eventual champions Italy."
+},
+{
+"year": "1938: Annexation's Disruption â€”",
+"text": "Germany's annexation of Austria dissolved the national team, absorbing several Austrian stars into the German squad for the 1938 World Cup and abruptly ending the Wunderteam era."
+},
+{
+"year": "1954: Third Place â€”",
+"text": "Rebuilding after the war, Austria achieved a surprising third-place finish at the 1954 World Cup in Switzerland, its best World Cup result and a final flourish of its mid-century footballing identity."
+},
+{
+"year": "1960sâ€“1990s: Extended Decline â€”",
+"text": "Austria's fortunes faded for decades, marked by inconsistent qualification and limited international impact, despite maintaining a stable domestic league."
+},
+{
+"year": "1998â€“2018: Sporadic Appearances â€”",
+"text": "Austria qualified intermittently for major tournaments, including the 1998 World Cup and co-hosting Euro 2008, without matching its historic peaks."
+},
+{
+"year": "2020s: Modern Revival â€”",
+"text": "Under coaches Franco Foda and later Ralf Rangnick, Austria built a disciplined, high-pressing identity, reaching Euro 2020's knockout stage and impressing at Euro 2024 with a strong group-stage campaign."
+}
+],
+"Belgium": [
+{
+"year": "1895â€“1904: Early Organization â€”",
+"text": "The Royal Belgian Football Association was founded in 1895, making it one of the oldest federations in the world. Belgium was a founding member of FIFA in 1904, reflecting its early institutional importance in organizing international football."
+},
+{
+"year": "1920: Olympic Champions â€”",
+"text": "Hosting the 1920 Antwerp Olympics, Belgium won the football tournament, though the victory came under contentious circumstances after opponents Czechoslovakia walked off in protest of refereeing decisions."
+},
+{
+"year": "1930â€“1970: Modest Consistency â€”",
+"text": "Belgium participated in early World Cups, including the inaugural 1930 tournament, but remained a mid-tier European side for decades without major breakthroughs."
+},
+{
+"year": "1980â€“1986: European and World Recognition â€”",
+"text": "Belgium reached the final of Euro 1980, losing narrowly to West Germany, then achieved its best World Cup result in 1986, reaching the semifinals in Mexico behind the skill of Enzo Scifo."
+},
+{
+"year": "1990sâ€“2000s: Fading Relevance â€”",
+"text": "Belgian football entered a quiet period, missing major tournaments and struggling to develop consistent talent pipelines despite a passionate domestic following."
+},
+{
+"year": "2010s: The Golden Generation â€”",
+"text": "A revamped youth development system produced an extraordinary generation including Eden Hazard, Kevin De Bruyne, and Romelu Lukaku. Belgium rose to the top of the FIFA world rankings, reaching the 2018 World Cup semifinals and securing third place, its best-ever finish."
+},
+{
+"year": "2020â€“2022: Continued Contention â€”",
+"text": "Belgium remained a top-ranked side through the early 2020s, though aging stars and inconsistent tournament results at Euro 2020 and the 2022 World Cup signaled the golden generation's twilight."
+}
+],
+"Bosnia and Herzegovina": [
+{
+"year": "1920sâ€“1991: Yugoslav Football â€”",
+"text": "Football developed in Bosnia under Yugoslavia, with clubs like FK Sarajevo and Å½eljezniÄ�ar competing prominently in the Yugoslav First League. Bosnian players regularly featured for the unified Yugoslav national team, contributing to its continental strength."
+},
+{
+"year": "1992â€“1995: War and Formation â€”",
+"text": "Amid the Bosnian War and the breakup of Yugoslavia, Bosnia and Herzegovina formed its own football federation in 1992. FIFA recognition followed in 1996, allowing Bosnia to compete independently as the war concluded."
+},
+{
+"year": "1996â€“2000s: Building a Nation's Team â€”",
+"text": "In the postwar years, Bosnia worked to establish football infrastructure and unify players across its ethnically divided regions, a slow process complicated by the country's political structure."
+},
+{
+"year": "2011â€“2013: Emergence of a Golden Generation â€”",
+"text": "Led by Edin DÅ¾eko, Miralem PjaniÄ‡, and Zvjezdan MisimoviÄ‡, Bosnia produced its strongest generation, contending seriously for major tournament qualification for the first time."
+},
+{
+"year": "2014: First World Cup â€”",
+"text": "Bosnia and Herzegovina qualified for its first World Cup in Brazil, a landmark achievement for the young nation. Despite an eliminated group-stage exit, the milestone represented a historic point of national unity and pride."
+},
+{
+"year": "2015â€“2022: Consolidation Challenges â€”",
+"text": "Bosnia struggled to replicate its 2014 qualification, often finishing narrowly outside major tournaments despite continuing to produce technically gifted players."
+}
+],
+"Brazil": [
+{
+"year": "1894â€“1914: British Introduction â€”",
+"text": "Charles Miller, a Brazilian of British descent, introduced football to SÃ£o Paulo in 1894, and the sport spread rapidly among clubs and communities. The Brazilian Football Confederation formed in 1914, unifying the country's growing football culture."
+},
+{
+"year": "1930sâ€“1950: Early Struggles and Heartbreak â€”",
+"text": "Brazil participated in early World Cups without major success, culminating in the devastating 1950 Maracanazo, a home-soil final loss to Uruguay that became a defining national trauma."
+},
+{
+"year": "1958â€“1970: The PelÃ© Dynasty â€”",
+"text": "Brazil won its first World Cup in 1958 behind a teenage PelÃ©, then repeated in 1962. The 1970 team, featuring PelÃ©, Jairzinho, and TostÃ£o, is widely regarded as the greatest side in football history, securing a third title and permanent possession of the Jules Rimet Trophy."
+},
+{
+"year": "1980sâ€“1994: The Long Wait â€”",
+"text": "Despite producing dazzling teams under Zico and SÃ³crates, Brazil endured a 24-year title drought until winning a tense, defensively organized World Cup in 1994."
+},
+{
+"year": "2002: Fifth Title â€”",
+"text": "Led by Ronaldo's remarkable comeback from injury, alongside Rivaldo and Ronaldinho, Brazil won a record fifth World Cup in Japan and South Korea, reaffirming its status as football's most successful nation."
+},
+{
+"year": "2014: Historic Collapse â€”",
+"text": "Hosting the World Cup, Brazil suffered a shocking 7â€“1 semifinal defeat to Germany, a national humiliation that prompted deep introspection about its footballing identity."
+},
+{
+"year": "2018â€“2022: Rebuilding â€”",
+"text": "Brazil rebuilt around Neymar and a new generation, reaching the quarterfinals in 2018 and 2022 without recapturing past glories."
+}
+],
+"Cabo Verde": [
+{
+"year": "1975â€“1982: Post-Independence Foundations â€”",
+"text": "Following independence from Portugal in 1975, Cabo Verde established its football federation in 1982, beginning the slow process of building organized football across its scattered island geography. Limited resources and a small population meant progress was gradual."
+},
+{
+"year": "1986: FIFA Recognition â€”",
+"text": "Cabo Verde gained FIFA affiliation in 1986, allowing the archipelago nation to formally enter international competition, though it remained a minor presence in African football for decades."
+},
+{
+"year": "1990sâ€“2000s: The Diaspora Advantage â€”",
+"text": "Cabo Verde's football development leaned heavily on its large diaspora, particularly in Portugal and the Netherlands, where Cabo Verdean-descended players raised through European academies became eligible to represent the national team."
+},
+{
+"year": "2007â€“2013: Rising Competitiveness â€”",
+"text": "Cabo Verde's team, nicknamed the \"Blue Sharks,\" began climbing FIFA rankings, benefiting from improved organization and an influx of dual-nationality talent."
+},
+{
+"year": "2013: Historic AFCON Debut â€”",
+"text": "Cabo Verde qualified for its first Africa Cup of Nations, reaching the quarterfinals in a remarkable debut that stunned the continent and signaled its arrival as a competitive force."
+},
+{
+"year": "2015â€“2023: Sustained Progress â€”",
+"text": "Cabo Verde continued qualifying periodically for AFCON, steadily building infrastructure and a more professionalized football culture despite its small size."
+},
+{
+"year": "2024â€“2025: World Cup Qualification â€”",
+"text": "Cabo Verde secured qualification for the 2026 World Cup, becoming one of the smallest nations by population ever to reach the tournament, a landmark achievement built on disciplined organization and diaspora talent."
+}
+],
+"Canada": [
+{
+"year": "1876â€“1912: Early Development â€”",
+"text": "Football arrived in Canada through British immigrants in the late 19th century, with the Dominion of Canada Football Association forming in 1912 to organize the growing sport across provinces."
+},
+{
+"year": "1957â€“1976: International Emergence â€”",
+"text": "Canada joined FIFA in 1957, though the national team remained largely undeveloped internationally, overshadowed domestically by ice hockey and other sports for decades."
+},
+{
+"year": "1986: First World Cup â€”",
+"text": "Canada qualified for its first World Cup in Mexico, going scoreless in three group matches, but the achievement remains a landmark in Canadian football history."
+},
+{
+"year": "1990sâ€“2000s: Gold Cup Success â€”",
+"text": "Canada won the CONCACAF Gold Cup in 2000, its first major continental title, though the men's program subsequently struggled with inconsistency and funding challenges."
+},
+{
+"year": "2000sâ€“2010s: Extended World Cup Absence â€”",
+"text": "Canada failed to qualify for the World Cup for over three decades following 1986, a period marked by institutional instability and competition from more established CONCACAF rivals."
+},
+{
+"year": "2018: Hosting Announcement â€”",
+"text": "FIFA announced Canada as a co-host of the 2026 World Cup alongside the United States and Mexico, providing new investment and motivation for the national program's development."
+},
+{
+"year": "2021â€“2022: Historic Qualification â€”",
+"text": "Under coach John Herdman, Canada topped CONCACAF qualifying and returned to the World Cup in 2022, led by Alphonso Davies, ending a 36-year absence."
+}
+],
+"Colombia": [
+{
+"year": "1924â€“1948: Early Foundations â€”",
+"text": "Football developed in Colombia through regional clubs, with the Colombian Football Federation forming in 1924. The sport remained regionally fragmented for decades before national structures matured."
+},
+{
+"year": "1949â€“1954: El Dorado â€”",
+"text": "Colombia's domestic league experienced a remarkable boom known as \"El Dorado,\" attracting star foreign players, including several from Argentina, due to a dispute with FIFA that allowed clubs to sign players without transfer fees. The era elevated Colombian football's profile despite its irregular status."
+},
+{
+"year": "1962: First World Cup â€”",
+"text": "Colombia qualified for its first World Cup in Chile, achieving a memorable draw with the Soviet Union despite an early group-stage exit."
+},
+{
+"year": "1970sâ€“1980s: Extended Absence â€”",
+"text": "Colombia failed to qualify for subsequent World Cups for decades, a period of inconsistency despite periodic flashes of individual talent."
+},
+{
+"year": "1990: Return and Recognition â€”",
+"text": "Colombia returned to the World Cup in 1990, reaching the round of 16 behind the flamboyant goalkeeping of RenÃ© Higuita, signaling renewed competitiveness."
+},
+{
+"year": "1994: Tragedy â€”",
+"text": "Colombia entered the 1994 World Cup with high expectations but exited early; defender AndrÃ©s Escobar's own goal was followed by his murder shortly after returning home, a tragedy that cast a long shadow over Colombian football."
+},
+{
+"year": "2014: Golden Generation â€”",
+"text": "Led by James RodrÃ­guez, who won the tournament's Golden Boot, Colombia reached the World Cup quarterfinals, its best-ever finish and a symbol of the nation's footballing revival."
+},
+{
+"year": "2018â€“2022: Consolidation and Miss â€”",
+"text": "Colombia continued as a consistent CONMEBOL contender before narrowly missing the 2022 World Cup, prompting a rebuilding phase."
+}
+],
+"Congo DR": [
+{
+"year": "1919â€“1960: Colonial Origins â€”",
+"text": "Football was introduced under Belgian colonial rule in the Congo Free State and later Belgian Congo, with organized competition emerging in urban centers like LÃ©opoldville (now Kinshasa) in the early 20th century."
+},
+{
+"year": "1960â€“1964: Independence and Formation â€”",
+"text": "Following independence in 1960, the country formed its national football federation, initially competing as the Republic of the Congo before later renaming to Zaire under Mobutu Sese Seko's regime."
+},
+{
+"year": "1968 & 1974: Continental Champions â€”",
+"text": "As Zaire, the team won back-to-back Africa Cup of Nations titles in 1968 and 1974, becoming the first sub-Saharan African nation to win the tournament twice and establishing itself as a continental power."
+},
+{
+"year": "1974: World Cup Debut and Humiliation â€”",
+"text": "Zaire became the first sub-Saharan African nation to qualify for the World Cup, but the tournament in West Germany proved disastrous, including a 9â€“0 defeat to Yugoslavia, partly attributed to political pressure and disorganization under Mobutu's regime."
+},
+{
+"year": "1970sâ€“1990s: Decline â€”",
+"text": "Political instability, economic crisis, and Mobutu's authoritarian rule undermined football development for decades, causing the national team to fade from continental prominence."
+},
+{
+"year": "1997: Renaming to DR Congo â€”",
+"text": "Following Mobutu's fall, the country was renamed the Democratic Republic of the Congo, and its football federation followed suit, seeking to rebuild amid ongoing conflict."
+},
+{
+"year": "2000sâ€“2019: Gradual Rebuilding â€”",
+"text": "DR Congo periodically qualified for AFCON, drawing on a rich diaspora talent pool, particularly players raised in Belgium and France, though sustained success remained elusive."
+},
+{
+"year": "2019â€“2023: Renewed Continental Presence â€”",
+"text": "DR Congo reached the AFCON semifinals in 2019 and again in 2023, signaling a steady resurgence built on organizational stability and diaspora recruitment."
+}
+],
+"CÃ´te d'Ivoire": [
+{
+"year": "1893â€“1960: Colonial Football â€”",
+"text": "Football arrived in CÃ´te d'Ivoire under French colonial administration, with organized clubs emerging in Abidjan in the early 20th century as part of broader French West African sporting culture."
+},
+{
+"year": "1960â€“1969: Independence and Federation â€”",
+"text": "Following independence in 1960, CÃ´te d'Ivoire formed its national football federation and joined FIFA, beginning its journey as an independent footballing nation within a rapidly developing West African football landscape."
+},
+{
+"year": "1992: First Continental Title â€”",
+"text": "CÃ´te d'Ivoire won its first Africa Cup of Nations in 1992, defeating Ghana in a marathon penalty shootout, establishing the country as a rising force in African football."
+},
+{
+"year": "2006: First World Cup â€”",
+"text": "Led by a golden generation including Didier Drogba, CÃ´te d'Ivoire qualified for its first World Cup in Germany, drawing widespread attention for its talent depth despite a group-stage exit in a difficult draw."
+},
+{
+"year": "2010â€“2014: Golden Generation's Peak â€”",
+"text": "CÃ´te d'Ivoire fielded one of Africa's most talented squads, featuring Drogba, Yaya TourÃ©, and Salomon Kalou, reaching consecutive World Cups in 2010 and 2014, though knockout-stage success remained elusive."
+},
+{
+"year": "2015: Second AFCON Title â€”",
+"text": "CÃ´te d'Ivoire won a tense, penalty-decided Africa Cup of Nations final against Ghana, capping the golden generation's international legacy with a long-awaited second continental crown."
+},
+{
+"year": "2015â€“2023: Transition Period â€”",
+"text": "Following the golden generation's retirement, CÃ´te d'Ivoire experienced inconsistency, missing the 2022 World Cup and facing questions about squad rebuilding."
+},
+{
+"year": "2024: Home Triumph â€”",
+"text": "Hosting the Africa Cup of Nations, CÃ´te d'Ivoire overcame an early coaching crisis and poor form to win the tournament on home soil, a dramatic third continental title."
+}
+],
+"Croatia": [
+{
+"year": "1912â€“1940: Early Development â€”",
+"text": "Football developed in Croatia under Austro-Hungarian and later Yugoslav administration, with Zagreb emerging as an early hub of organized competition. Croatian clubs and players contributed significantly to Yugoslav football throughout the 20th century."
+},
+{
+"year": "1941â€“1945: Wartime Independence â€”",
+"text": "During World War II, an independent Croatian state briefly fielded its own national team, though this period was politically fraught and not recognized by FIFA."
+},
+{
+"year": "1945â€“1990: Yugoslav Era â€”",
+"text": "Croatian players became integral to Yugoslavia's national team, contributing to its status as one of Europe's technically respected footballing nations throughout the Cold War period."
+},
+{
+"year": "1990â€“1992: Independence and Formation â€”",
+"text": "Amid Yugoslavia's dissolution and the outbreak of war, Croatia declared independence and formed its own football federation, gaining FIFA recognition in 1992."
+},
+{
+"year": "1996â€“1998: Rapid Emergence â€”",
+"text": "Croatia's debut major tournament came at Euro 1996, reaching the quarterfinals. Two years later, led by Davor Å uker, Croatia stunned the world by finishing third at the 1998 World Cup in France, an extraordinary result for a nation just years removed from war."
+},
+{
+"year": "2000sâ€“2010s: Consistent Quality â€”",
+"text": "Croatia remained a reliable tournament qualifier, consistently punching above its small population through a strong domestic development pipeline."
+},
+{
+"year": "2018: World Cup Final â€”",
+"text": "Led by Luka ModriÄ‡, Croatia reached its first World Cup final, narrowly losing to France, a result that confirmed its status as a genuine footballing power."
+},
+{
+"year": "2022: Third Place Again â€”",
+"text": "Croatia secured another third-place World Cup finish in Qatar, reinforcing its remarkable consistency at the highest level despite its size."
+}
+],
+"CuraÃ§ao": [
+{
+"year": "1921â€“1950s: Colonial Football â€”",
+"text": "Football developed in CuraÃ§ao under Dutch colonial administration, with organized clubs forming in the early 20th century as part of the wider Netherlands Antilles footballing structure."
+},
+{
+"year": "1932â€“1959: Netherlands Antilles Era â€”",
+"text": "CuraÃ§ao's football was organized under the Netherlands Antilles federation, competing internationally as a combined territory representing several Caribbean islands under Dutch sovereignty."
+},
+{
+"year": "1959â€“2010: Regional Competition â€”",
+"text": "As part of the Netherlands Antilles, the team competed sporadically in CONCACAF competitions, achieving limited success but building a foundation of organized football across the islands."
+},
+{
+"year": "2010: Dissolution and Independence â€”",
+"text": "Following the dissolution of the Netherlands Antilles as a political entity, CuraÃ§ao formed its own independent football federation, gaining separate recognition to compete internationally."
+},
+{
+"year": "2011â€“2016: Establishing Identity â€”",
+"text": "CuraÃ§ao's new federation worked to establish infrastructure and international standing, competing in early CONCACAF qualifying competitions with modest results."
+},
+{
+"year": "2017: Caribbean Cup Triumph â€”",
+"text": "CuraÃ§ao won the Caribbean Cup in 2017, its first major regional title, signaling growing competitiveness and improved organization under new leadership."
+},
+{
+"year": "2018â€“2022: Diaspora-Driven Growth â€”",
+"text": "CuraÃ§ao increasingly recruited Dutch-CuraÃ§aoan players from the Netherlands' professional leagues, significantly raising the technical quality and depth of the national squad."
+},
+{
+"year": "2023â€“2025: Historic Qualification â€”",
+"text": "CuraÃ§ao mounted a surprising CONCACAF qualifying campaign, culminating in qualification for the 2026 World Cup, by far the smallest nation by population to reach the tournament."
+}
+],
+"Czechia": [
+{
+"year": "1901â€“1918: Austro-Hungarian Roots â€”",
+"text": "Football developed in Bohemia under Austro-Hungarian rule, with Prague clubs like Slavia and Sparta becoming early continental powers, competing successfully even before Czechoslovak independence."
+},
+{
+"year": "1918â€“1938: Czechoslovak Golden Era â€”",
+"text": "Following the formation of Czechoslovakia, the national team quickly became one of Europe's strongest, reaching the 1934 World Cup final in Italy, narrowly losing in extra time, a result reflecting the era's technical sophistication."
+},
+{
+"year": "1938â€“1945: Wartime Disruption â€”",
+"text": "The German occupation and dissolution of Czechoslovakia during World War II disrupted football development, though the sport survived through domestic competitions under difficult circumstances."
+},
+{
+"year": "1945â€“1989: Communist-Era Success â€”",
+"text": "Under communist rule, Czechoslovakia remained competitive, reaching another World Cup final in 1962 and winning the 1976 European Championship, famously via AntonÃ­n Panenka's chipped penalty in the final shootout."
+},
+{
+"year": "1993: Peaceful Split â€”",
+"text": "Following the dissolution of Czechoslovakia, the Czech Republic formed its own football federation, inheriting much of the country's footballing infrastructure and talent base."
+},
+{
+"year": "1996: Euro Final Run â€”",
+"text": "In its first major tournament as an independent nation, the Czech Republic reached the Euro 1996 final, narrowly losing to Germany via golden goal, immediately confirming its continued footballing pedigree."
+},
+{
+"year": "2000sâ€“2020s: Consistent Presence â€”",
+"text": "The Czech Republic remained a regular participant in European Championships, reaching the Euro 2004 semifinals, though World Cup qualification proved increasingly difficult amid rising European competition."
+},
+{
+"year": "2016: Rebranding â€”",
+"text": "The federation formally adopted \"Czechia\" as the country's short-form name internationally, while continuing to build toward tournament qualification."
+}
+],
+"Ecuador": [
+{
+"year": "1925â€“1938: Early Foundations â€”",
+"text": "The Ecuadorian Football Federation formed in 1925, though the sport developed slowly compared to South American neighbors, hampered by geographic isolation and limited infrastructure."
+},
+{
+"year": "1938â€“1990s: Extended Struggles â€”",
+"text": "Ecuador endured decades as one of South America's weakest footballing nations, failing to qualify for a single World Cup and rarely competing seriously in Copa AmÃ©rica."
+},
+{
+"year": "1990s: Infrastructure Investment â€”",
+"text": "Ecuador began investing in football development and altitude-advantage strategies, leveraging Quito's high-altitude stadium to challenge visiting South American rivals more effectively."
+},
+{
+"year": "2002: First World Cup â€”",
+"text": "Ecuador achieved a historic breakthrough, qualifying for its first World Cup in Japan and South Korea, a landmark moment for the nation's footballing development."
+},
+{
+"year": "2006: Best World Cup Result â€”",
+"text": "Ecuador reached the round of 16 at the World Cup in Germany, its best-ever finish, led by striker AgustÃ­n Delgado and a well-organized defensive structure."
+},
+{
+"year": "2010s: Inconsistency â€”",
+"text": "Ecuador experienced fluctuating fortunes, narrowly missing the 2010 and 2018 World Cups despite periods of promising form and emerging young talent."
+},
+{
+"year": "2022: Opening Match Controversy â€”",
+"text": "Ecuador qualified for the 2022 World Cup and opened the tournament as hosts Qatar's opponent, winning the match, though later faced eligibility controversy involving defender Byron Castillo that shadowed the campaign."
+},
+{
+"year": "2023â€“2025: Continued Development â€”",
+"text": "Despite off-field disputes and points deductions during qualification, Ecuador maintained competitive form, relying on a talented pool of young players developing both domestically and abroad."
+}
+],
+"Egypt": [
+{
+"year": "1882â€“1907: British Introduction â€”",
+"text": "Football arrived in Egypt through British colonial presence following the 1882 occupation, with clubs like Al Ahly (founded 1907) emerging partly as symbols of nationalist resistance against British rule."
+},
+{
+"year": "1923â€“1934: Federation and Early Recognition â€”",
+"text": "The Egyptian Football Association formed in 1921, gaining FIFA recognition shortly after. Egypt became the first African and Arab nation to qualify for a World Cup, competing at the 1934 tournament in Italy."
+},
+{
+"year": "1957: Continental Pioneers â€”",
+"text": "Egypt co-hosted and won the inaugural Africa Cup of Nations in 1957, establishing itself as African football's first great power and a symbol of pan-African sporting ambition following independence."
+},
+{
+"year": "1959: Back-to-Back Titles â€”",
+"text": "Egypt won a second consecutive AFCON title in 1959, cementing its early continental dominance during a period of Arab nationalist fervor under Gamal Abdel Nasser."
+},
+{
+"year": "1960sâ€“1980s: Extended World Cup Absence â€”",
+"text": "Despite continued domestic strength, particularly through Al Ahly and Zamalek's continental success, Egypt failed to qualify for another World Cup for over five decades."
+},
+{
+"year": "1986: Second World Cup â€”",
+"text": "Egypt returned to the World Cup in Mexico, achieving a respectable group-stage performance that included a draw with the Netherlands."
+},
+{
+"year": "1998â€“2010: AFCON Dominance â€”",
+"text": "Egypt entered a remarkable continental era, winning AFCON in 1998, then completing an unprecedented three consecutive titles from 2006 to 2010, establishing itself as African football's most decorated nation."
+},
+{
+"year": "2018: World Cup Return â€”",
+"text": "Led by Mohamed Salah, Egypt qualified for the 2018 World Cup after a 28-year absence, though injury limited Salah's impact and the team exited in the group stage."
+},
+{
+"year": "2017â€“2022: Continental Near-Misses â€”",
+"text": "Egypt reached consecutive AFCON finals in 2017 and 2021, both ending in narrow losses, extending its wait for a record-extending eighth title."
+}
+],
+"England": [
+{
+"year": "1863: Birthplace of the Game â€”",
+"text": "The Football Association was founded in London in 1863, codifying the laws of association football and establishing England as the sport's birthplace and organizational origin point."
+},
+{
+"year": "1872â€“1908: Early International Football â€”",
+"text": "England played the world's first international match against Scotland in 1872, and English influence spread the sport globally through trade, empire, and emigration, though England remained outside FIFA for much of the early 20th century."
+},
+{
+"year": "1930â€“1949: Self-Imposed Isolation â€”",
+"text": "England withdrew from FIFA multiple times over disputes regarding amateurism and international structure, missing the first three World Cups despite being the game's originator."
+},
+{
+"year": "1950: World Cup Debut and Shock â€”",
+"text": "England finally entered the World Cup in 1950, suffering a stunning 1â€“0 defeat to the United States, a result that humbled the nation many considered football's natural leader."
+},
+{
+"year": "1953: The Magical Magyars â€”",
+"text": "Hungary's 6â€“3 victory at Wembley shattered English footballing confidence and exposed tactical stagnation, prompting long-term reassessment of coaching and playing style."
+},
+{
+"year": "1966: World Cup Glory â€”",
+"text": "Hosting the World Cup, England won its only title, defeating West Germany 4â€“2 in an iconic final featuring Geoff Hurst's hat-trick, a defining moment in English sporting history."
+},
+{
+"year": "1970sâ€“1980s: Decline and Hooliganism â€”",
+"text": "English football suffered reputational damage from hooliganism, club stadium disasters, and a UEFA ban following the 1985 Heysel tragedy, undermining international standing."
+},
+{
+"year": "1990â€“1996: Renewed Hope â€”",
+"text": "England reached the 1990 World Cup semifinals and hosted Euro 1996, reaching the semifinals again, rekindling optimism despite continued near-misses."
+},
+{
+"year": "2018â€“2021: Golden Generation Emerges â€”",
+"text": "A new generation led by Harry Kane reached the 2018 World Cup semifinals and the Euro 2020 final, England's first major final since 1966, though both ended in defeat."
+}
+],
+"France": [
+{
+"year": "1872â€“1904: Early Development â€”",
+"text": "Football developed in France through British influence and elite sporting clubs, with the French Football Federation forming in 1919. France was instrumental in founding FIFA in 1904 and establishing the World Cup itself, largely through the vision of administrator Jules Rimet."
+},
+{
+"year": "1930â€“1958: Founding Participant, Limited Success â€”",
+"text": "France competed in the first World Cup in 1930 and reached the semifinals in 1958 behind Just Fontaine's record-setting 13 goals, though sustained success remained elusive."
+},
+{
+"year": "1980s: Platini's Generation â€”",
+"text": "Led by Michel Platini, France won the 1984 European Championship on home soil and reached consecutive World Cup semifinals in 1982 and 1986, establishing an elegant, midfield-driven identity."
+},
+{
+"year": "1998: World Cup Glory â€”",
+"text": "Hosting the World Cup, France won its first title behind Zinedine Zidane's brace in the final against Brazil, a victory celebrated as a symbol of multicultural national unity."
+},
+{
+"year": "2000: European Double â€”",
+"text": "France added the European Championship in 2000, becoming the first nation to hold both World Cup and Euro titles simultaneously, cementing a golden generational peak."
+},
+{
+"year": "2006: Zidane's Farewell â€”",
+"text": "France reached the World Cup final again in 2006, narrowly losing to Italy on penalties following Zidane's infamous headbutt in his final match."
+},
+{
+"year": "2010: Institutional Crisis â€”",
+"text": "A player revolt during a disastrous 2010 World Cup campaign in South Africa exposed deep dysfunction within the national setup, prompting significant federation reforms."
+},
+{
+"year": "2018â€“2022: New Golden Era â€”",
+"text": "Led by Kylian MbappÃ©, France won the 2018 World Cup and reached the 2022 final, narrowly losing to Argentina on penalties in an instant classic."
+}
+],
+"Germany": [
+{
+"year": "1900â€“1908: Federation Formation â€”",
+"text": "The German Football Association formed in 1900, and Germany played its first international in 1908, though the sport developed relatively slowly compared to Britain and other early adopters."
+},
+{
+"year": "1933â€“1945: Nazi-Era Disruption â€”",
+"text": "Football continued under the Third Reich, with the sport politicized and instrumentalized for propaganda, though Germany achieved little international success during this period, exiting the 1938 World Cup early."
+},
+{
+"year": "1954: The Miracle of Bern â€”",
+"text": "West Germany won its first World Cup, defeating a heavily favored Hungary in the final, a result that became a symbol of postwar national recovery and identity, known domestically as the \"Miracle of Bern.\""
+},
+{
+"year": "1974: Home Triumph â€”",
+"text": "West Germany won a second title on home soil, led by Franz Beckenbauer's sweeper innovations and Gerd MÃ¼ller's prolific scoring, confirming its status as a footballing superpower."
+},
+{
+"year": "1990: Third Star Before Reunification â€”",
+"text": "West Germany won its third World Cup just months before German reunification, capping the divided nation's football era with its greatest success."
+},
+{
+"year": "1990sâ€“2000s: Post-Reunification Struggles â€”",
+"text": "United Germany experienced a decline in playing style and results, reaching a low point with a group-stage exit at Euro 2000, prompting comprehensive youth development reforms."
+},
+{
+"year": "2006â€“2014: Systemic Rebuilding â€”",
+"text": "Germany's overhauled academy system produced a technically gifted generation, reaching consecutive semifinals before culminating in a historic 7â€“1 demolition of host Brazil and a fourth World Cup title in 2014."
+},
+{
+"year": "2018â€“2022: Group-Stage Shocks â€”",
+"text": "Germany suffered consecutive group-stage exits at the 2018 and 2022 World Cups, stunning defeats that triggered renewed questions about tactical identity and squad building."
+}
+],
+"Ghana": [
+{
+"year": "1920sâ€“1950: Colonial Foundations â€”",
+"text": "Football developed in the Gold Coast under British colonial rule, with organized clubs and competitions emerging in Accra and Kumasi well before independence."
+},
+{
+"year": "1957: Independence and Pan-African Symbol â€”",
+"text": "Ghana became the first sub-Saharan African nation to gain independence, and under President Kwame Nkrumah, football was deliberately promoted as a tool of Pan-African pride and national identity, with the \"Black Stars\" name reflecting that vision."
+},
+{
+"year": "1963â€“1982: Early Continental Dominance â€”",
+"text": "Ghana won the Africa Cup of Nations four times between 1963 and 1982, establishing itself as African football's dominant early power alongside Egypt."
+},
+{
+"year": "1966: Boycott Statement â€”",
+"text": "Ghana joined other African nations in boycotting the 1966 World Cup to protest the qualification format, which required African, Asian, and Oceanian teams to compete in a single combined playoff spot, a stance that helped prompt future FIFA reforms."
+},
+{
+"year": "1982â€“2006: Extended World Cup Absence â€”",
+"text": "Despite continued continental relevance, Ghana did not qualify for a World Cup for decades, a frustrating gap given its footballing pedigree."
+},
+{
+"year": "2006: World Cup Debut â€”",
+"text": "Ghana finally qualified for its first World Cup in Germany, reaching the round of 16 in an impressive debut performance."
+},
+{
+"year": "2010: Historic Near-Miss â€”",
+"text": "Ghana reached the World Cup quarterfinals, one match from becoming the first African nation to reach a semifinal, before a last-minute handball by Luis SuÃ¡rez and a missed penalty ended their run against Uruguay in dramatic fashion."
+},
+{
+"year": "2014â€“2022: Inconsistent Returns â€”",
+"text": "Ghana's fortunes fluctuated, missing the 2018 World Cup before returning in 2022 with a young, rebuilding squad."
+}
+],
+"Haiti": [
+{
+"year": "1904â€“1930s: Early Introduction â€”",
+"text": "Football arrived in Haiti in the early 20th century through foreign influence, with the Haitian Football Federation forming in the 1930s to organize the sport's growing domestic following."
+},
+{
+"year": "1938: Early Regional Play â€”",
+"text": "Haiti participated in early Central American and Caribbean football competitions, gradually building international experience despite limited resources and infrastructure."
+},
+{
+"year": "1973: CONCACAF Championship â€”",
+"text": "Haiti won the CONCACAF Championship in 1973, its greatest achievement, qualifying the nation for its first and only World Cup appearance."
+},
+{
+"year": "1974: World Cup Debut â€”",
+"text": "Haiti competed at the 1974 World Cup in West Germany, memorably scoring against defending champions Brazil's goalkeeper before ultimately exiting in the group stage, a proud moment despite the team's political turmoil under the Duvalier dictatorship back home."
+},
+{
+"year": "1980sâ€“2000s: Political and Economic Struggles â€”",
+"text": "Haiti's football development suffered amid chronic political instability, poverty, and natural disasters, including the devastating 2010 earthquake, which further strained sporting infrastructure."
+},
+{
+"year": "2010s: Diaspora Development â€”",
+"text": "Haiti increasingly relied on players developed in the French and North American football systems, leveraging its diaspora to strengthen the national team despite domestic infrastructure limitations."
+},
+{
+"year": "2019â€“2023: Renewed Ambition â€”",
+"text": "Haiti reached the CONCACAF Gold Cup final in 2023, its best performance in the modern tournament era, signaling improved organization and rising competitiveness."
+},
+{
+"year": "2025: Historic Return â€”",
+"text": "Haiti qualified for the 2026 World Cup, returning to the tournament for the first time since 1974, a landmark achievement given the nation's five-decade absence and ongoing challenges."
+}
+],
+"IR Iran": [
+{
+"year": "1920â€“1948: Early Introduction â€”",
+"text": "Football arrived in Iran in the early 20th century through British oil company workers and foreign influence, with the Iranian Football Federation forming in 1920, among the earliest in Asia."
+},
+{
+"year": "1948â€“1968: Foundational Decades â€”",
+"text": "Iran joined FIFA in 1948 and gradually developed domestic competition, though international success remained limited during this early period of institutional growth."
+},
+{
+"year": "1968â€“1976: Asian Cup Dynasty â€”",
+"text": "Iran won three consecutive AFC Asian Cup titles between 1968 and 1976, establishing itself as the dominant power in Asian football during the 1970s."
+},
+{
+"year": "1978: First World Cup â€”",
+"text": "Iran qualified for its first World Cup in Argentina, achieving a notable draw against Scotland despite an early group-stage exit."
+},
+{
+"year": "1979: Revolution's Impact â€”",
+"text": "The Iranian Revolution significantly altered the country's sporting landscape, isolating Iranian football internationally for years and reshaping its institutional structures under the new Islamic Republic."
+},
+{
+"year": "1990sâ€“2000s: Renewed International Presence â€”",
+"text": "Iran gradually rebuilt its international standing, memorably defeating the United States at the 1998 World Cup in a politically charged match, then qualifying again in 2006."
+},
+{
+"year": "2014â€“2022: Consistent Qualification â€”",
+"text": "Under coach Carlos Queiroz, Iran developed a disciplined, defensively resilient identity, qualifying for consecutive World Cups in 2014, 2018, and 2022, though knockout-stage progress remained elusive."
+},
+{
+"year": "2019â€“2023: Continued Asian Strength â€”",
+"text": "Iran remained among Asia's top-ranked teams, consistently reaching Asian Cup semifinals and maintaining one of the confederation's most feared defensive reputations."
+}
+],
+"Iraq": [
+{
+"year": "1948â€“1951: Foundational Steps â€”",
+"text": "The Iraq Football Association formed in 1948, joining FIFA shortly after, as football took root domestically amid the country's monarchy-era development."
+},
+{
+"year": "1958â€“1968: Political Turbulence â€”",
+"text": "Following the 1958 revolution and subsequent political upheavals, Iraqi football developed unevenly, hampered by recurring instability affecting national institutions broadly."
+},
+{
+"year": "1974â€“1976: Regional Emergence â€”",
+"text": "Iraq began establishing itself within Asian and Arab football, competing more regularly in regional tournaments and gradually building a competitive domestic structure."
+},
+{
+"year": "1986: First World Cup â€”",
+"text": "Iraq achieved a landmark qualification for its first World Cup in Mexico, though the team exited in the group stage against stronger opposition."
+},
+{
+"year": "1990sâ€“2000s: War-Torn Development â€”",
+"text": "Iraqi football endured extraordinary hardship during the Gulf War, subsequent sanctions, and the 2003 invasion, with players and coaches facing severe restrictions, unsafe training conditions, and political interference under Saddam Hussein's regime."
+},
+{
+"year": "2007: Asian Cup Triumph â€”",
+"text": "Amid ongoing war and sectarian violence at home, Iraq won the AFC Asian Cup in Indonesia, an extraordinary and emotional achievement that united a fractured nation and remains one of football's most remarkable underdog stories."
+},
+{
+"year": "2010s: Rebuilding Amid Conflict â€”",
+"text": "Iraq continued competing internationally despite continued instability, often playing \"home\" matches in neutral countries due to security concerns, complicating consistent development."
+},
+{
+"year": "2020s: Renewed Ambition â€”",
+"text": "Iraq worked to rebuild football infrastructure and stability, appointing experienced international coaches and investing in youth development as conditions gradually improved."
+}
+],
+"Japan": [
+{
+"year": "1873â€“1921: British Introduction â€”",
+"text": "Football was introduced to Japan in 1873 by a British naval officer, though the sport developed slowly, overshadowed by baseball and traditional sports for decades. The Japan Football Association formed in 1921."
+},
+{
+"year": "1936: Olympic Upset â€”",
+"text": "Japan achieved an early landmark by defeating Sweden at the 1936 Berlin Olympics, a surprising result that briefly raised the sport's domestic profile before World War II disrupted development."
+},
+{
+"year": "1968: Olympic Bronze â€”",
+"text": "Japan won bronze at the 1968 Mexico City Olympics, led by prolific striker Kunishige Kamamoto, marking a mid-century highlight before decades of relative stagnation."
+},
+{
+"year": "1993: J.League Launch â€”",
+"text": "Japan launched the professional J.League in 1993, a transformative moment that dramatically raised playing standards, investment, and public interest in football nationwide."
+},
+{
+"year": "1998: First World Cup â€”",
+"text": "Japan qualified for its first World Cup in France, a landmark achievement following the J.League's transformative early impact on the sport's professionalization."
+},
+{
+"year": "2002: Co-Hosting and Breakthrough â€”",
+"text": "Co-hosting the World Cup with South Korea, Japan reached the round of 16 for the first time, cementing football's arrival as a major national sport."
+},
+{
+"year": "2011: Women's World Cup Triumph â€”",
+"text": "Japan's women's team won the 2011 FIFA Women's World Cup, a celebrated achievement following the TÅ�hoku earthquake and tsunami that provided significant national inspiration."
+},
+{
+"year": "2018â€“2022: Knockout Consistency â€”",
+"text": "Japan reached the round of 16 in 2018 and again in 2022, memorably defeating both Germany and Spain in the group stage, signaling growing competitiveness against traditional powers."
+}
+],
+"Jordan": [
+{
+"year": "1949â€“1968: Foundational Steps â€”",
+"text": "The Jordan Football Association formed in 1949, joining FIFA in 1958, though the sport developed gradually within a young kingdom still establishing broader national institutions."
+},
+{
+"year": "1970sâ€“1990s: Regional Development â€”",
+"text": "Jordan competed intermittently in Arab and Asian regional tournaments, building domestic infrastructure and gradually improving competitiveness, though international breakthroughs remained rare."
+},
+{
+"year": "2004: Asian Cup Emergence â€”",
+"text": "Jordan reached the quarterfinals of the AFC Asian Cup for the first time, signaling growing ambition and improved organization within Jordanian football."
+},
+{
+"year": "2014: WAFF Championship â€”",
+"text": "Jordan won the West Asian Football Federation Championship, a significant regional achievement that reflected steady improvement in competitiveness among Middle Eastern rivals."
+},
+{
+"year": "2015: Continued Growth â€”",
+"text": "Jordan continued building its reputation in Asian football, with the women's national team also gaining prominence, including hosting the FIFA U-17 Women's World Cup in 2016."
+},
+{
+"year": "2023: Historic Asian Cup Final â€”",
+"text": "Jordan reached its first-ever AFC Asian Cup final, an extraordinary achievement for a nation with limited football history, narrowly losing to Qatar but announcing itself as a genuine continental contender."
+},
+{
+"year": "2024â€“2025: World Cup Qualification â€”",
+"text": "Building on its Asian Cup breakthrough, Jordan secured qualification for the 2026 World Cup, the greatest achievement in its football history and a landmark moment for Jordanian sport broadly."
+}
+],
+"Korea Republic": [
+{
+"year": "1882â€“1928: Early Introduction â€”",
+"text": "Football arrived in Korea in the late 19th century through foreign missionaries and traders, developing steadily despite Japanese colonial occupation from 1910 to 1945, during which Korean football persisted as a subtle form of national expression."
+},
+{
+"year": "1948â€“1954: Independence and Early World Cup â€”",
+"text": "Following division and the Korean War, South Korea's football federation gained FIFA recognition, and the nation qualified for the 1954 World Cup, its first appearance, though heavily overmatched against stronger opposition."
+},
+{
+"year": "1956â€“1960: Asian Cup Success â€”",
+"text": "South Korea won the inaugural AFC Asian Cup in 1956 and successfully defended it in 1960, establishing early dominance in Asian football during the tournament's formative years."
+},
+{
+"year": "1986â€“1990: Return to World Cup Stage â€”",
+"text": "After a long absence, South Korea returned to consecutive World Cups from 1986 onward, becoming a fixture of Asian representation at the global tournament."
+},
+{
+"year": "2002: Co-Host Semifinal Run â€”",
+"text": "Co-hosting the World Cup with Japan, South Korea achieved a historic semifinal finish, its greatest-ever result, powered by passionate home support and disciplined, high-intensity play under coach Guus Hiddink."
+},
+{
+"year": "2010s: Sustained Qualification â€”",
+"text": "South Korea maintained consistent World Cup qualification through the 2010s, developing a reputation for technical quality and producing internationally successful players in Europe's top leagues."
+},
+{
+"year": "2018: Germany Upset â€”",
+"text": "South Korea eliminated defending champions Germany from the World Cup group stage with a stunning 2â€“0 win, one of the tournament's most memorable shocks."
+},
+{
+"year": "2022: Continued Knockout Presence â€”",
+"text": "Led by Son Heung-min, South Korea reached the round of 16, extending its record of consistent tournament participation among Asian nations."
+}
+],
+"Mexico": [
+{
+"year": "1902â€“1927: Early Development â€”",
+"text": "Football developed in Mexico through British and European immigrant communities, with the Mexican Football Federation forming in 1927, joining FIFA the same year."
+},
+{
+"year": "1930: Founding World Cup Participant â€”",
+"text": "Mexico competed in the inaugural 1930 World Cup in Uruguay, one of only four nations to participate in every subsequent tournament, reflecting its long-standing commitment to international football."
+},
+{
+"year": "1970: First Hosting â€”",
+"text": "Mexico hosted the World Cup for the first time in 1970, a tournament remembered for PelÃ©'s brilliance and Brazil's iconic championship team, cementing Mexico's role as a passionate footballing nation."
+},
+{
+"year": "1986: Second Hosting â€”",
+"text": "Mexico hosted the World Cup again in 1986 after Colombia withdrew, becoming the first nation to host the tournament twice, with Diego Maradona's legendary performances defining the tournament."
+},
+{
+"year": "1990sâ€“2000s: CONCACAF Dominance â€”",
+"text": "Mexico established itself as CONCACAF's most consistent power, winning numerous Gold Cup titles and regularly advancing past the World Cup group stage."
+},
+{
+"year": "1994â€“2018: The \"Round of 16 Curse\" â€”",
+"text": "Mexico developed a reputation for reliably reaching the World Cup knockout stage yet consistently losing in the round of 16 across seven consecutive tournaments, a frustrating pattern despite strong group-stage performances."
+},
+{
+"year": "2022: Disappointing Campaign â€”",
+"text": "Mexico suffered its worst World Cup performance in decades, failing to advance from the group stage for the first time since 1978, prompting significant institutional reflection."
+},
+{
+"year": "2023â€“2025: Rebuilding Toward 2026 â€”",
+"text": "Mexico worked to rebuild its national team program, investing in youth development and coaching changes ahead of co-hosting the 2026 World Cup."
+}
+],
+"Morocco": [
+{
+"year": "1912â€“1956: Colonial Foundations â€”",
+"text": "Football developed in Morocco under French and Spanish colonial administration, with clubs forming in major cities like Casablanca and Rabat during the early 20th century."
+},
+{
+"year": "1956: Independence and Federation â€”",
+"text": "Following independence from France in 1956, Morocco formed its national football federation, gaining FIFA recognition and beginning its journey as an independent footballing nation."
+},
+{
+"year": "1970: First World Cup â€”",
+"text": "Morocco became the first sub-Saharan or North African Arab nation since Egypt to qualify for a World Cup, appearing at the 1970 tournament in Mexico, a landmark achievement for African football broadly."
+},
+{
+"year": "1976: Continental Triumph â€”",
+"text": "Morocco won the Africa Cup of Nations in 1976, establishing itself among Africa's football powers during a period of rising Arab and North African footballing ambition."
+},
+{
+"year": "1986: Historic World Cup Milestone â€”",
+"text": "Morocco became the first African nation to advance past the World Cup group stage, topping a group that included England, Poland, and Portugal before narrowly losing to West Germany in the round of 16."
+},
+{
+"year": "1990sâ€“2010s: Inconsistent Qualification â€”",
+"text": "Morocco experienced fluctuating fortunes, missing several World Cups despite periodic continental competitiveness and producing talented players who often starred in European leagues."
+},
+{
+"year": "2018: Near Miss and Rebuilding â€”",
+"text": "Morocco narrowly missed advancing from a difficult 2018 World Cup group, prompting renewed federation investment in youth academies and infrastructure."
+},
+{
+"year": "2022: Historic Semifinal â€”",
+"text": "Morocco stunned the world at the Qatar World Cup, defeating Belgium, Spain, and Portugal en route to becoming the first African and Arab nation to reach a World Cup semifinal, an achievement celebrated across the continent and Arab world."
+}
+],
+"Netherlands": [
+{
+"year": "1889â€“1904: Early Organization â€”",
+"text": "The Royal Netherlands Football Association formed in 1889, among Europe's oldest federations, and the Netherlands was a founding member of FIFA in 1904."
+},
+{
+"year": "1908â€“1912: Olympic Success â€”",
+"text": "The Netherlands won bronze medals at consecutive Olympics in 1908 and 1912, establishing early credibility in international football during the sport's formative Olympic era."
+},
+{
+"year": "1974: Total Football Revolution â€”",
+"text": "Led by Johan Cruyff, the Netherlands introduced \"Total Football,\" a revolutionary tactical philosophy emphasizing fluid positional interchange. The team reached the 1974 World Cup final, losing narrowly to West Germany despite widespread admiration for their innovative style."
+},
+{
+"year": "1978: Second Consecutive Final â€”",
+"text": "The Netherlands reached a second consecutive World Cup final in Argentina, again finishing runner-up, cementing a reputation as football's great tactical innovators without a corresponding trophy."
+},
+{
+"year": "1988: European Championship Glory â€”",
+"text": "Led by Marco van Basten, Ruud Gullit, and Frank Rijkaard, the Netherlands won its first major title at Euro 1988, a golden generational peak fueled partly by AC Milan's dominant Dutch trio."
+},
+{
+"year": "1990sâ€“2000s: Continued Near-Misses â€”",
+"text": "The Netherlands remained a consistent tournament contender, reaching semifinals and quarterfinals across multiple World Cups and European Championships, without adding to its trophy collection."
+},
+{
+"year": "2010: Third World Cup Final â€”",
+"text": "The Netherlands reached a third World Cup final, losing to Spain in a physical, tightly contested match, extending its unique record as football's most successful nation without a world title."
+},
+{
+"year": "2014: Third-Place Finish â€”",
+"text": "The Netherlands secured third place at the 2014 World Cup, including a memorable 5â€“1 demolition of defending champions Spain in the group stage."
+}
+],
+"New Zealand": [
+{
+"year": "1870sâ€“1891: Early Introduction â€”",
+"text": "Football arrived in New Zealand through British settlers in the late 19th century, with the New Zealand Football Association forming in 1891, though the sport remained secondary to rugby union throughout the 20th century."
+},
+{
+"year": "1948â€“1970: Gradual Development â€”",
+"text": "New Zealand joined FIFA in 1948, developing modest international competition primarily against other Oceania nations and touring sides, with limited global exposure."
+},
+{
+"year": "1982: First World Cup â€”",
+"text": "New Zealand achieved a historic breakthrough, qualifying for its first World Cup in Spain, memorably scoring twice against Scotland despite an eventual group-stage exit."
+},
+{
+"year": "1980sâ€“2000s: Extended Absence â€”",
+"text": "Following its 1982 debut, New Zealand endured a lengthy World Cup absence, consistently dominant within Oceania but unable to navigate intercontinental playoffs against South American or Asian opposition."
+},
+{
+"year": "2008â€“2010: Golden Generation â€”",
+"text": "New Zealand assembled a strong generation featuring goalkeeper Mark Paston and forward Shane Smeltz, winning the 2008 OFC Nations Cup and qualifying for the 2010 World Cup."
+},
+{
+"year": "2010: Unbeaten in South Africa â€”",
+"text": "New Zealand became the only team to leave the 2010 World Cup unbeaten, drawing all three group matches, though it was not enough to advance from the group stage."
+},
+{
+"year": "2010sâ€“2020s: Continued Oceania Dominance â€”",
+"text": "New Zealand remained Oceania's dominant football nation, regularly winning regional titles, though intercontinental qualification challenges persisted for the 2014 and 2018 tournaments."
+},
+{
+"year": "2023: Automatic Qualification Era â€”",
+"text": "Following FIFA's expanded 2026 World Cup format, which granted Oceania a direct qualification berth for the first time, New Zealand secured automatic qualification, a historic structural milestone for the confederation."
+}
+],
+"Norway": [
+{
+"year": "1902â€“1908: Early Foundations â€”",
+"text": "The Football Association of Norway formed in 1902, joining FIFA in 1908, as the sport developed steadily within Norway's broader sporting culture alongside winter sports traditions."
+},
+{
+"year": "1936: Olympic Bronze â€”",
+"text": "Norway won bronze at the 1936 Berlin Olympics, an early highlight demonstrating the nation's competitive potential before World War II disrupted development."
+},
+{
+"year": "1938: First World Cup â€”",
+"text": "Norway qualified for its first World Cup in France, achieving a respectable showing before elimination, though the nation would not return to the tournament for over five decades."
+},
+{
+"year": "1990s: Golden Generation Emergence â€”",
+"text": "Under coach Egil Olsen, Norway developed a pragmatic, direct playing style that produced its most successful modern era, featuring stars like Ole Gunnar SolskjÃ¦r."
+},
+{
+"year": "1994 & 1998: World Cup Returns â€”",
+"text": "Norway qualified for consecutive World Cups in 1994 and 1998, famously defeating Brazil in the 1998 group stage, a result that stood as a high-water mark for Norwegian football."
+},
+{
+"year": "2000: European Ranking Peak â€”",
+"text": "Norway briefly reached second in the FIFA world rankings around 1993, an extraordinary achievement for a nation of its size, reflecting the effectiveness of its tactical approach during this era."
+},
+{
+"year": "2000sâ€“2010s: Extended Decline â€”",
+"text": "Following the golden generation's retirement, Norway experienced a long period of underachievement, missing every major tournament for over two decades despite producing individually talented players."
+},
+{
+"year": "2020s: New Generation â€”",
+"text": "Norway's fortunes shifted dramatically with the emergence of Erling Haaland, one of the world's most prolific strikers, generating renewed optimism despite continued near-misses in qualification for Euro 2024."
+},
+{
+"year": "2025: World Cup Return â€”",
+"text": "Norway secured qualification for the 2026 World Cup, ending a 28-year absence and marking the true arrival of its Haaland-led generation on the global stage."
+}
+],
+"Panama": [
+{
+"year": "1937â€“1938: Early Foundations â€”",
+"text": "Football developed in Panama through American and Caribbean influences following the construction of the Panama Canal, with the national federation forming in the 1930s amid a sporting culture historically dominated by baseball."
+},
+{
+"year": "1938â€“1990s: Long Development Period â€”",
+"text": "Panama joined FIFA in 1938 but remained a peripheral CONCACAF nation for decades, overshadowed regionally by Mexico, Costa Rica, and other established powers."
+},
+{
+"year": "2000s: Rising Competitiveness â€”",
+"text": "Panama gradually improved through the 2000s, reaching the Gold Cup semifinals multiple times and narrowly missing World Cup qualification in tightly contested campaigns."
+},
+{
+"year": "2013: Heartbreak and Controversy â€”",
+"text": "Panama suffered a dramatic, contentious near-miss for 2014 World Cup qualification, losing a decisive match to the United States after conceding two stoppage-time goals, a result still remembered as one of CONCACAF's most painful moments."
+},
+{
+"year": "2018: Historic First World Cup â€”",
+"text": "Panama achieved a landmark breakthrough, qualifying for its first-ever World Cup in Russia, a moment of immense national celebration despite a group-stage exit without a point."
+},
+{
+"year": "2019â€“2023: Continued Growth â€”",
+"text": "Panama continued developing competitively, reaching the 2023 Gold Cup final, its best-ever finish in the tournament, narrowly losing to Mexico."
+},
+{
+"year": "2024: Nations League Success â€”",
+"text": "Panama continued building institutional strength through strong Nations League performances, reflecting steady long-term investment in youth development."
+},
+{
+"year": "2025: Second World Cup Qualification â€”",
+"text": "Panama secured qualification for the 2026 World Cup, confirming its emergence as a consistent, competitive force within CONCACAF rather than a one-off surprise."
+}
+],
+"Paraguay": [
+{
+"year": "1906â€“1921: Early Foundations â€”",
+"text": "The Paraguayan Football Association formed in 1906, with the sport developing through regional influence from neighboring Argentina and Brazil. Paraguay joined FIFA in 1921, beginning its formal international presence."
+},
+{
+"year": "1930: Founding World Cup Participant â€”",
+"text": "Paraguay competed in the inaugural 1930 World Cup in Uruguay, one of South America's earliest representatives on the global stage."
+},
+{
+"year": "1953 & 1979: Continental Titles â€”",
+"text": "Paraguay won the Copa AmÃ©rica in 1953 and again in 1979, establishing periodic competitiveness within South America's demanding continental landscape despite limited resources compared to larger neighbors."
+},
+{
+"year": "1980sâ€“1990s: Defensive Identity â€”",
+"text": "Paraguay developed a reputation for resilient, defensively organized football, becoming a difficult opponent for South America's traditional powers despite lacking their attacking star power."
+},
+{
+"year": "1998â€“2010: Consistent World Cup Presence â€”",
+"text": "Paraguay qualified for four consecutive World Cups from 1998 to 2010, anchored by legendary goalkeeper JosÃ© Luis Chilavert's commanding presence and later Justo Villar's steady goalkeeping."
+},
+{
+"year": "2010: Historic Quarterfinal â€”",
+"text": "Paraguay reached the World Cup quarterfinals for the first time, its best-ever finish, narrowly losing to eventual finalists Spain in a tense, low-scoring match."
+},
+{
+"year": "2011: Copa AmÃ©rica Final â€”",
+"text": "Paraguay reached the Copa AmÃ©rica final on home soil despite a modest group-stage campaign, extending its reputation for tournament resilience beyond individual talent."
+},
+{
+"year": "2011â€“2024: Extended Absence â€”",
+"text": "Following its 2010 peak, Paraguay endured over a decade without World Cup qualification, a challenging period of transition and rebuilding."
+}
+],
+"Portugal": [
+{
+"year": "1914â€“1926: Early Foundations â€”",
+"text": "The Portuguese Football Federation formed in 1914, joining FIFA shortly after, as football developed steadily through clubs like Benfica, Porto, and Sporting CP, which would later dominate domestic competition."
+},
+{
+"year": "1966: World Cup Breakthrough â€”",
+"text": "Portugal achieved a historic third-place finish at its first World Cup in England, led by EusÃ©bio, who won the Golden Boot and became one of the era's most celebrated players, announcing Portugal as a genuine footballing power."
+},
+{
+"year": "1970sâ€“1980s: Extended Absence â€”",
+"text": "Following its 1966 breakthrough, Portugal endured a lengthy period without World Cup qualification, a frustrating stretch despite continued domestic club success in European competitions."
+},
+{
+"year": "1984â€“2000: Gradual Return â€”",
+"text": "Portugal slowly rebuilt international relevance, qualifying for the 1986 World Cup and later developing a talented \"golden generation\" through successful youth teams in the 1990s."
+},
+{
+"year": "2004: Home Euro Final â€”",
+"text": "Hosting the European Championship, Portugal reached the final on a wave of national support, narrowly losing to underdog Greece in a result still remembered as one of the tournament's great upsets."
+},
+{
+"year": "2000sâ€“2010s: Ronaldo Era Begins â€”",
+"text": "Cristiano Ronaldo's emergence transformed Portuguese football, providing sustained individual brilliance across multiple tournaments and elevating the national team's global profile significantly."
+},
+{
+"year": "2016: European Championship Triumph â€”",
+"text": "Portugal won its first major title at Euro 2016 in France, defeating the hosts in the final despite Ronaldo's early exit through injury, a triumph built on defensive resilience and squad depth."
+},
+{
+"year": "2019: Nations League Title â€”",
+"text": "Portugal won the inaugural UEFA Nations League on home soil, adding another accolade to its growing trophy collection during the Ronaldo era."
+}
+],
+"Qatar": [
+{
+"year": "1960â€“1972: Early Foundations â€”",
+"text": "Football developed in Qatar during the mid-20th century amid the country's oil-driven modernization, with the Qatar Football Association forming in 1960 and gaining FIFA recognition in 1972."
+},
+{
+"year": "1980sâ€“1990s: Regional Development â€”",
+"text": "Qatar gradually built domestic infrastructure and competed within Gulf and Asian regional competitions, investing early in youth development through initiatives like the Aspire Academy, established to identify and train talent."
+},
+{
+"year": "2006: Asian Games Hosting â€”",
+"text": "Qatar hosted the Asian Games, an early demonstration of its growing ambition to become a major sporting hub in the Middle East, foreshadowing later global hosting ambitions."
+},
+{
+"year": "2010: World Cup Hosting Award â€”",
+"text": "FIFA controversially awarded Qatar the right to host the 2022 World Cup, sparking significant international debate over the bidding process, climate conditions, and human rights concerns regarding migrant labor conditions during construction."
+},
+{
+"year": "2019: Asian Cup Triumph â€”",
+"text": "Qatar won its first AFC Asian Cup title in the United Arab Emirates, a surprising and significant achievement that validated years of investment in the national team ahead of hosting duties."
+},
+{
+"year": "2022: World Cup Hosting â€”",
+"text": "Qatar became the first Middle Eastern nation to host a World Cup, delivering a logistically smooth tournament despite continued scrutiny over labor rights and social policies, though the host nation itself was eliminated in the group stage."
+},
+{
+"year": "2023: Asian Cup Defense â€”",
+"text": "Qatar successfully defended its Asian Cup title on home soil, becoming the first nation to win consecutive editions, reinforcing its rapid rise as a competitive Asian football power."
+},
+{
+"year": "2024â€“2025: World Cup Qualification â€”",
+"text": "Qatar qualified for the 2026 World Cup on sporting merit, seeking to prove its national team's competitiveness beyond its historic hosting role."
+}
+],
+"Saudi Arabia": [
+{
+"year": "1956â€“1959: Federation Formation â€”",
+"text": "The Saudi Arabian Football Federation formed in 1956, joining FIFA in 1959, as football began developing amid the kingdom's broader modernization efforts."
+},
+{
+"year": "1976â€“1984: Regional Emergence â€”",
+"text": "Saudi Arabia began establishing itself within Gulf and Asian football, gradually building domestic league infrastructure and competitive international programs during the 1970s and early 1980s."
+},
+{
+"year": "1984: First Asian Cup Title â€”",
+"text": "Saudi Arabia won its first AFC Asian Cup, marking its arrival as a serious continental power and validating growing investment in the national program."
+},
+{
+"year": "1988 & 1996: Continued Asian Dominance â€”",
+"text": "Saudi Arabia added two more Asian Cup titles, becoming one of the tournament's most successful nations and establishing sustained continental supremacy through the late 20th century."
+},
+{
+"year": "1994: World Cup Breakthrough â€”",
+"text": "Saudi Arabia qualified for its first World Cup in the United States, reaching the round of 16 in a memorable debut highlighted by Saeed Al-Owairan's spectacular solo goal against Belgium."
+},
+{
+"year": "1998â€“2006: Consistent Qualification â€”",
+"text": "Saudi Arabia qualified for three more consecutive World Cups, establishing itself as a regular Asian representative, though without replicating its 1994 knockout-stage success."
+},
+{
+"year": "2006â€“2018: Extended Struggles â€”",
+"text": "Saudi Arabia missed multiple World Cups during this period, experiencing inconsistent form and coaching instability despite continued domestic league investment."
+},
+{
+"year": "2022: Historic Upset â€”",
+"text": "Saudi Arabia stunned the world by defeating eventual champions Argentina in its opening match at the Qatar World Cup, one of the tournament's greatest shocks, though the team was eliminated in the group stage."
+}
+],
+"Scotland": [
+{
+"year": "1873â€“1904: Founding Football Nation â€”",
+"text": "The Scottish Football Association formed in 1873, the world's second-oldest national football body, and Scotland played England in 1872 in the first-ever international match, establishing the foundations of international football."
+},
+{
+"year": "1920sâ€“1930s: The Wembley Wizards â€”",
+"text": "Scotland developed a reputation for technical, passing-based football, highlighted by a famous 5â€“1 victory over England in 1928 by a team nicknamed the \"Wembley Wizards,\" a celebrated early highlight of Scottish football identity."
+},
+{
+"year": "1954: First World Cup â€”",
+"text": "Scotland qualified for its first World Cup in Switzerland, beginning a long history of tournament participation often marked by narrow, dramatic near-misses rather than deep runs."
+},
+{
+"year": "1974â€“1998: Frequent Qualification, Group-Stage Exits â€”",
+"text": "Scotland became a regular World Cup qualifier from the 1970s through the 1990s, appearing in five tournaments during this period, yet never advancing past the group stage despite passionate support and occasional memorable victories."
+},
+{
+"year": "1978: Ally's Army â€”",
+"text": "Scotland's 1978 World Cup campaign, hyped enormously under manager Ally MacLeod, ended in disappointment despite a stirring victory over the Netherlands, exemplifying the emotional highs and lows characteristic of Scottish football support."
+},
+{
+"year": "1998â€“2020: The Long Wait â€”",
+"text": "Following the 1998 World Cup, Scotland endured a 23-year absence from major tournaments, a period of decline that tested the patience of the nation's devoted fanbase."
+},
+{
+"year": "2020â€“2021: Euro Return â€”",
+"text": "Scotland qualified for Euro 2020, its first major tournament in over two decades, generating enormous excitement despite a group-stage exit against strong opposition."
+},
+{
+"year": "2024: Continued European Presence â€”",
+"text": "Scotland qualified for Euro 2024, continuing its modern resurgence under a settled tactical setup and growing squad depth."
+}
+],
+"Senegal": [
+{
+"year": "1919â€“1960: Colonial Foundations â€”",
+"text": "Football developed in Senegal under French colonial administration, with clubs forming in Dakar during the early 20th century as part of broader French West African sporting culture."
+},
+{
+"year": "1960: Independence and Federation â€”",
+"text": "Following independence from France in 1960, Senegal formed its national football federation, gaining FIFA recognition and beginning its development as an independent footballing nation."
+},
+{
+"year": "1960sâ€“1990s: Gradual Development â€”",
+"text": "Senegal built domestic football infrastructure gradually, competing within West African regional competitions while relying increasingly on players developed through France's extensive football pipeline due to historical ties."
+},
+{
+"year": "2000: Iconic World Cup Debut â€”",
+"text": "Senegal announced itself dramatically at its first-ever World Cup, defeating defending champions France in the opening match, then advancing all the way to the quarterfinals, one of the greatest debut performances in tournament history."
+},
+{
+"year": "2002: AFCON Final Heartbreak â€”",
+"text": "Senegal reached its first Africa Cup of Nations final, narrowly losing to Cameroon on penalties, extending a frustrating wait for continental silverware despite growing talent depth."
+},
+{
+"year": "2002â€“2018: Extended Absence â€”",
+"text": "Following its stunning 2002 World Cup run, Senegal failed to qualify for the tournament again for sixteen years, a challenging period despite continued individual talent produced for European clubs."
+},
+{
+"year": "2018â€“2019: Return and Near-Miss â€”",
+"text": "Senegal returned to the World Cup in 2018, then reached the Africa Cup of Nations final again in 2019, continuing its pattern of continental near-misses."
+},
+{
+"year": "2021â€“2022: Continental Champions and World Cup â€”",
+"text": "Senegal, led by Sadio ManÃ©, finally won its first Africa Cup of Nations title in 2021, then qualified for the 2022 World Cup, reaching the round of 16."
+}
+],
+"South Africa": [
+{
+"year": "1892â€“1910: Colonial and Segregated Origins â€”",
+"text": "Football developed in South Africa under British colonial influence, though the sport became deeply fragmented along racial lines, with separate segregated football associations established for different racial groups under emerging apartheid-era policies."
+},
+{
+"year": "1961â€“1992: International Isolation â€”",
+"text": "South Africa was expelled from FIFA in 1961 and formally banned in 1976 due to apartheid policies, isolating the national team from international competition for over three decades during the sport's global expansion."
+},
+{
+"year": "1991â€“1992: Readmission â€”",
+"text": "Following the dismantling of apartheid, South Africa formed a unified, non-racial football federation and was readmitted to FIFA in 1992, ending its long international exile."
+},
+{
+"year": "1996: Continental Champions â€”",
+"text": "Hosting the Africa Cup of Nations just four years after readmission, South Africa's \"Bafana Bafana\" won the tournament, an extraordinary achievement symbolizing the \"Rainbow Nation's\" post-apartheid unity and rapid sporting reintegration."
+},
+{
+"year": "1998: First World Cup â€”",
+"text": "South Africa qualified for its first World Cup in France, competing on the global stage for the first time in the nation's history."
+},
+{
+"year": "2010: Historic World Cup Hosting â€”",
+"text": "South Africa became the first African nation to host a World Cup, delivering a celebrated tournament that showcased the country's infrastructure and hospitality, though the home team was eliminated in the group stage."
+},
+{
+"year": "2010sâ€“2020s: Rebuilding Period â€”",
+"text": "Following the 2010 World Cup, South Africa struggled to qualify for subsequent tournaments, entering an extended period of rebuilding and inconsistent form."
+},
+{
+"year": "2023â€“2025: Renewed Competitiveness â€”",
+"text": "South Africa reached the 2023 AFCON semifinals and secured qualification for the 2026 World Cup, signaling renewed momentum after years of underachievement."
+}
+],
+"Spain": [
+{
+"year": "1909â€“1920: Early Foundations â€”",
+"text": "The Royal Spanish Football Federation formed in 1909, and Spain's national team debuted at the 1920 Antwerp Olympics, winning silver behind a spirited playing style that earned the nickname \"La Furia\" (The Fury)."
+},
+{
+"year": "1930sâ€“1950: Civil War Disruption â€”",
+"text": "The Spanish Civil War and subsequent Franco dictatorship disrupted football development, though the sport continued domestically, with Real Madrid later emerging as a propaganda tool for the regime's international image."
+},
+{
+"year": "1964: First Major Title â€”",
+"text": "Spain won the European Nations' Cup in 1964, hosting the tournament and defeating the Soviet Union in the final, its first significant international trophy."
+},
+{
+"year": "1980sâ€“2000s: Underachievement Despite Talent â€”",
+"text": "Despite consistently producing technically excellent players and dominant domestic clubs, Spain repeatedly underperformed at major tournaments, earning a reputation as perennial quarterfinal exits despite high expectations."
+},
+{
+"year": "2008â€“2012: Historic Golden Era â€”",
+"text": "Spain transformed into football's most dominant team, winning Euro 2008, the 2010 World Cup, and Euro 2012 consecutively, an unprecedented tournament treble built on the tiki-taka possession style perfected by Barcelona's core players."
+},
+{
+"year": "2010: First World Cup Title â€”",
+"text": "Spain won its first World Cup in South Africa, defeating the Netherlands in the final, completing a golden generation's ultimate achievement."
+},
+{
+"year": "2014: Abrupt Decline â€”",
+"text": "Spain suffered a shocking group-stage exit at the 2014 World Cup, signaling the golden generation's decline and prompting a period of squad transition and tactical reassessment."
+},
+{
+"year": "2023â€“2024: New Generation Success â€”",
+"text": "Spain won the 2023 FIFA Women's World Cup and, on the men's side, captured Euro 2024 with an exciting young squad, signaling a full-scale footballing renaissance."
+}
+],
+"Sweden": [
+{
+"year": "1904â€“1908: Early Foundations â€”",
+"text": "The Swedish Football Association formed in 1904, joining FIFA the same year, as the sport developed through the early 20th century within Sweden's broader amateur sporting culture."
+},
+{
+"year": "1948: Olympic Gold â€”",
+"text": "Sweden won the football tournament at the 1948 London Olympics, an early highlight demonstrating the country's amateur football strength before the professional era reshaped international competition."
+},
+{
+"year": "1958: Home World Cup Final â€”",
+"text": "Hosting the World Cup, Sweden achieved its greatest result, reaching the final before losing to a brilliant Brazilian team featuring a teenage PelÃ©, a result that remains the high point of Swedish football history."
+},
+{
+"year": "1974â€“1994: Consistent Competitiveness â€”",
+"text": "Sweden qualified regularly for major tournaments through the 1970s to 1990s, building a reputation for disciplined, physically robust football that consistently troubled stronger opponents."
+},
+{
+"year": "1994: Third-Place Finish â€”",
+"text": "Sweden achieved another World Cup high point, finishing third at the tournament in the United States, led by strikers Tomas Brolin and Kennet Andersson."
+},
+{
+"year": "2000sâ€“2010s: Zlatan Era â€”",
+"text": "Sweden's football identity became closely tied to Zlatan IbrahimoviÄ‡'s individual brilliance, though the team experienced mixed tournament results despite his sustained presence."
+},
+{
+"year": "2018: World Cup Quarterfinal â€”",
+"text": "Without IbrahimoviÄ‡, a united, well-organized Sweden reached the World Cup quarterfinals, exceeding expectations and demonstrating strong squad cohesion beyond individual stars."
+},
+{
+"year": "2018â€“2025: Extended Absence â€”",
+"text": "Sweden failed to qualify for subsequent major tournaments, entering a rebuilding period focused on developing a new generation following the departure of its recent core."
+}
+],
+"Switzerland": [
+{
+"year": "1895â€“1904: Founding Football Nation â€”",
+"text": "The Swiss Football Association formed in 1895, one of the earliest in continental Europe, and Switzerland became a founding member of FIFA in 1904, with Zurich later hosting the organization's headquarters."
+},
+{
+"year": "1934â€“1938: Early World Cup Appearances â€”",
+"text": "Switzerland competed in the 1934 and 1938 World Cups, achieving respectable performances including a notable win over Germany in a legendary 1938 replay match."
+},
+{
+"year": "1954: Home World Cup â€”",
+"text": "Switzerland hosted the World Cup in 1954, reaching the quarterfinals in a tournament remembered for extraordinarily high-scoring matches, including Switzerland's own 7â€“5 quarterfinal loss to Austria."
+},
+{
+"year": "1960sâ€“1980s: Extended Decline â€”",
+"text": "Switzerland experienced a lengthy period of international struggle, failing to qualify for major tournaments for decades despite a stable domestic league structure."
+},
+{
+"year": "1994: Revival â€”",
+"text": "Switzerland returned to the World Cup after a 28-year absence, reaching the round of 16 and signaling renewed competitiveness following footballing reforms."
+},
+{
+"year": "2000sâ€“2010s: Consistent Qualification â€”",
+"text": "Switzerland established itself as a reliable tournament qualifier, benefiting from a multicultural squad reflecting the country's diverse immigrant communities, including many players of Balkan descent."
+},
+{
+"year": "2014â€“2022: Sustained Presence â€”",
+"text": "Switzerland qualified for consecutive World Cups, consistently reaching the knockout stage and developing a reputation as a well-organized, difficult opponent for stronger footballing nations."
+},
+{
+"year": "2024: Euro Quarterfinal â€”",
+"text": "Switzerland reached the Euro 2024 quarterfinals, defeating co-favorites Italy en route, continuing its recent trend of exceeding expectations against traditionally stronger opposition."
+}
+],
+"Tunisia": [
+{
+"year": "1907â€“1956: Colonial Foundations â€”",
+"text": "Football developed in Tunisia under French colonial rule, with clubs forming in Tunis during the early 20th century. Tunisian players contributed to broader North African football culture well before independence."
+},
+{
+"year": "1956â€“1957: Independence and Federation â€”",
+"text": "Following independence from France in 1956, Tunisia formed its national football federation in 1957, gaining FIFA recognition and beginning its path as an independent footballing nation."
+},
+{
+"year": "1960sâ€“1970s: Regional Development â€”",
+"text": "Tunisia gradually built competitive standing within African and Arab football, hosting and performing well at continental competitions during this formative period."
+},
+{
+"year": "1978: World Cup Milestone â€”",
+"text": "Tunisia became the first African nation to win a World Cup match, defeating Mexico at the 1978 tournament in Argentina, a landmark achievement for African football broadly."
+},
+{
+"year": "2004: Continental Triumph â€”",
+"text": "Hosting the Africa Cup of Nations, Tunisia won its first continental title, defeating Morocco in the final, the pinnacle of Tunisian football history."
+},
+{
+"year": "2000sâ€“2010s: Consistent African Presence â€”",
+"text": "Tunisia remained a regular AFCON and periodic World Cup qualifier, maintaining status as one of North Africa's most consistently competitive footballing nations."
+},
+{
+"year": "2018â€“2022: Renewed World Cup Runs â€”",
+"text": "Tunisia qualified for consecutive World Cups in 2018 and 2022, achieving a memorable victory over France in the group stage in Qatar, though group-stage exits continued both times."
+},
+{
+"year": "2023â€“2025: Steady Continuity â€”",
+"text": "Tunisia maintained competitive continental form, qualifying for the 2026 World Cup behind consistent squad development and experienced coaching."
+}
+],
+"TÃ¼rkiye": [
+{
+"year": "1904â€“1923: Late Ottoman Foundations â€”",
+"text": "Football arrived in the late Ottoman Empire through European influence, with clubs like Galatasaray and FenerbahÃ§e forming in the early 20th century, predating the Turkish Football Federation's establishment in 1923 alongside the founding of the Turkish Republic."
+},
+{
+"year": "1923â€“1950: Republic-Era Development â€”",
+"text": "Under Mustafa Kemal AtatÃ¼rk's modernization reforms, football was promoted as part of broader nation-building efforts, though international competitiveness developed gradually through the mid-20th century."
+},
+{
+"year": "1954: First World Cup â€”",
+"text": "TÃ¼rkiye qualified for its first World Cup in Switzerland, achieving a notable high-scoring match against West Germany before elimination, an early highlight in the national team's history."
+},
+{
+"year": "1954â€“2002: Extended Absence â€”",
+"text": "Following its 1954 debut, TÃ¼rkiye endured a 48-year wait before returning to the World Cup, a lengthy period of underachievement despite passionate domestic club support."
+},
+{
+"year": "2002: Historic Third Place â€”",
+"text": "TÃ¼rkiye's return to the World Cup produced a stunning third-place finish in South Korea and Japan, its greatest-ever tournament result, powered by Hakan ÅžÃ¼kÃ¼r's opening-minute goal in the third-place match, the fastest in World Cup history."
+},
+{
+"year": "2008: Euro Semifinal â€”",
+"text": "TÃ¼rkiye reached the Euro 2008 semifinals, extending its early-2000s golden era with another historic tournament run built on dramatic late comebacks."
+},
+{
+"year": "2010s: Inconsistent Qualification â€”",
+"text": "TÃ¼rkiye struggled to consistently qualify for major tournaments during the 2010s, experiencing cycles of promising young talent without sustained results."
+},
+{
+"year": "2024: Euro Quarterfinal â€”",
+"text": "TÃ¼rkiye reached the Euro 2024 quarterfinals, defeating strong opposition along the way and signaling renewed competitiveness under passionate home and away support."
+}
+],
+"USA": [
+{
+"year": "1884â€“1913: Early Foundations â€”",
+"text": "Football developed in the United States through immigrant communities and colleges, with the United States Soccer Federation forming in 1913, though the sport remained overshadowed by American football, baseball, and basketball throughout the 20th century."
+},
+{
+"year": "1930: Inaugural World Cup Semifinal â€”",
+"text": "The United States achieved a surprising third-place finish at the first-ever World Cup in Uruguay, an early highlight largely forgotten amid the sport's subsequent domestic decline."
+},
+{
+"year": "1950: Miracle Upset â€”",
+"text": "The United States stunned England 1â€“0 at the World Cup in Brazil, one of the greatest upsets in tournament history, though the result had little lasting impact on the sport's marginal domestic popularity."
+},
+{
+"year": "1950â€“1990: Extended Absence â€”",
+"text": "The United States failed to qualify for the World Cup for forty years, a period reflecting football's peripheral status within American sporting culture."
+},
+{
+"year": "1990: World Cup Return â€”",
+"text": "The United States qualified for the World Cup in Italy, ending its long absence and beginning a new era of sustained international participation."
+},
+{
+"year": "1994: Home World Cup â€”",
+"text": "Hosting the World Cup generated significant investment and attention, leading directly to the launch of Major League Soccer in 1996, a transformative moment for American football infrastructure."
+},
+{
+"year": "2002: Quarterfinal Breakthrough â€”",
+"text": "The United States reached the World Cup quarterfinals in South Korea and Japan, its best finish since 1930, signaling growing competitiveness on the international stage."
+},
+{
+"year": "2010sâ€“2020s: Growth and Setbacks â€”",
+"text": "The United States developed a deeper talent pool through improved academy systems, though it suffered a shocking failure to qualify for the 2018 World Cup, prompting significant reforms before returning stronger in 2022."
+}
+],
+"Uruguay": [
+{
+"year": "1900â€“1916: Early Foundations â€”",
+"text": "Football developed rapidly in Uruguay through British influence, with the Uruguayan Football Association forming in 1900. Uruguay's early adoption of professionalism-adjacent structures gave it a competitive edge over neighboring nations."
+},
+{
+"year": "1916â€“1917: Continental Pioneers â€”",
+"text": "Uruguay co-founded CONMEBOL and won the first two Copa AmÃ©rica tournaments in 1916 and 1917, establishing itself as South American football's earliest dominant power."
+},
+{
+"year": "1924 & 1928: Olympic Golden Era â€”",
+"text": "Uruguay won consecutive Olympic football titles in 1924 and 1928, showcasing a sophisticated, technical style that impressed European audiences and helped inspire FIFA's creation of the World Cup itself."
+},
+{
+"year": "1930: First World Cup Champions â€”",
+"text": "Hosting the inaugural World Cup, Uruguay won the tournament, defeating Argentina in the final, cementing its status as the sport's first great world power despite its small population."
+},
+{
+"year": "1950: The Maracanazo â€”",
+"text": "Uruguay achieved one of football's most legendary upsets, defeating host nation Brazil in the decisive final match of the 1950 World Cup, a result immortalized as the \"Maracanazo\" and remains a defining moment in South American football history."
+},
+{
+"year": "1954â€“1970: Continued Competitiveness â€”",
+"text": "Uruguay remained a competitive force, reaching World Cup semifinals in 1954 and 1970, sustaining its reputation despite its small size relative to South America's larger nations."
+},
+{
+"year": "1980sâ€“1990s: Decline â€”",
+"text": "Uruguay experienced a period of relative decline, struggling to qualify consistently and losing ground to Argentina and Brazil's growing footballing infrastructure."
+},
+{
+"year": "2010: Modern Revival â€”",
+"text": "Under coach Ã“scar TabÃ¡rez, Uruguay reached the World Cup semifinals in South Africa, led by Diego ForlÃ¡n and Luis SuÃ¡rez, marking a celebrated return to global relevance."
+}
+],
+"Uzbekistan": [
+{
+"year": "1946â€“1991: Soviet-Era Football â€”",
+"text": "Football developed in Uzbekistan under Soviet administration, with clubs like Pakhtakor Tashkent competing in the Soviet league system, though the region operated without independent national team representation."
+},
+{
+"year": "1991â€“1994: Independence and Federation â€”",
+"text": "Following the dissolution of the Soviet Union, Uzbekistan formed its own football federation in 1991, gaining FIFA recognition in 1994 and beginning its journey as an independent footballing nation."
+},
+{
+"year": "1994: AFC Affiliation â€”",
+"text": "Uzbekistan joined the Asian Football Confederation, shifting its competitive alignment from the former Soviet sphere toward Asian football structures and competitions."
+},
+{
+"year": "1990sâ€“2000s: Steady Development â€”",
+"text": "Uzbekistan gradually built domestic infrastructure and youth development systems, becoming a respected if not yet elite power within Central Asian and broader Asian football."
+},
+{
+"year": "2011: Asian Cup Breakthrough â€”",
+"text": "Uzbekistan reached the AFC Asian Cup semifinals for the first time, a landmark achievement signaling growing competitiveness against the confederation's traditional powers."
+},
+{
+"year": "2010s: Youth Development Investment â€”",
+"text": "Uzbekistan invested heavily in youth academies and coaching education, producing increasingly technical, well-organized squads that began outperforming regional expectations."
+},
+{
+"year": "2023: Historic Asian Cup Quarterfinal â€”",
+"text": "Uzbekistan reached the Asian Cup quarterfinals, continuing its steady rise and building momentum toward its long-sought first World Cup qualification."
+},
+{
+"year": "2025: Historic World Cup Qualification â€”",
+"text": "Uzbekistan secured qualification for the 2026 World Cup, its first-ever appearance, a landmark achievement culminating decades of steady, patient development following independence."
+}
+]
+};
+
+
+// ============================================================
+// TIMELINE FUNCTIONS
+// ============================================================
+const TIMELINE_DATA_OBJ = window.TIMELINE_DATA || {};
+
+let _tlEntries = [];
+let _tlIdx = 0;
+let _tlDragging = false;
+let _tlInitDone = false;
+
+function openTimeline(countryName) {
+  const panel     = document.getElementById('timeline-panel');
+  const flagEl    = document.getElementById('tl-flag');
+  const countryEl = document.getElementById('tl-country');
+  const yearsEl   = document.getElementById('tl-years');
+
+  countryEl.textContent = countryName;
+
+  const teamData = findTeamStandingsData(countryName);
+  const iso = teamData ? getAlpha2(teamData.team.iso) : 'un';
+  flagEl.src = `https://flagcdn.com/w40/${iso}.png`;
+  flagEl.alt = countryName;
+
+  _tlEntries = (TIMELINE_DATA[countryName] || []);
+  _tlIdx = 0;
+
+  // Build year labels
+  yearsEl.innerHTML = '';
+  _tlEntries.forEach((e, i) => {
+    const lbl = document.createElement('div');
+    lbl.className = 'tl-year-lbl' + (i === 0 ? ' active' : '');
+    lbl.textContent = e.year;
+    lbl.addEventListener('click', () => _tlGoTo(i));
+    yearsEl.appendChild(lbl);
+  });
+
+  panel.classList.add('open');
+  _tlGoTo(0, false);
+
+  if (!_tlInitDone) {
+    _tlInitDone = true;
+    _tlSetupInteractions();
+  }
+}
+
+function closeTimeline() {
+  const panel = document.getElementById('timeline-panel');
+  if (panel) panel.classList.remove('open');
+}
+
+function _tlGoTo(idx, animate) {
+  if (animate === undefined) animate = true;
+  if (!_tlEntries.length) return;
+  idx = Math.max(0, Math.min(_tlEntries.length - 1, idx));
+  _tlIdx = idx;
+
+  const ratio = _tlEntries.length > 1 ? idx / (_tlEntries.length - 1) : 0;
+
+  // Position thumb + glow
+  const trackCol  = document.querySelector('.tl-track-col');
+  const thumb     = document.getElementById('tl-thumb');
+  const glowFill  = document.getElementById('tl-glow-fill');
+  const trackH    = trackCol.offsetHeight;
+  const topOffset = 36;
+  const botOffset = 36;
+  const usableH   = trackH - topOffset - botOffset;
+  const thumbY    = topOffset + ratio * usableH;
+
+  const animStyle = animate ? 'top 300ms ease, box-shadow 200ms' : 'none';
+  thumb.style.transition = animStyle;
+  glowFill.style.transition = animate ? 'height 300ms ease' : 'none';
+
+  thumb.style.top = (thumbY - 10) + 'px'; // center 20px thumb
+  glowFill.style.top = topOffset + 'px';
+  glowFill.style.height = (ratio * usableH) + 'px';
+
+  // Year labels
+  document.querySelectorAll('.tl-year-lbl').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+
+  // Content: fade
+  const entry    = _tlEntries[idx];
+  const entryDiv = document.getElementById('tl-entry');
+  const yearDiv  = document.getElementById('tl-entry-year');
+  const textDiv  = document.getElementById('tl-entry-text');
+  const counter  = document.getElementById('tl-counter');
+  const prevBtn  = document.getElementById('tl-prev');
+  const nextBtn  = document.getElementById('tl-next');
+
+  entryDiv.style.opacity = '0';
+  entryDiv.style.transition = 'opacity 120ms ease';
+  setTimeout(() => {
+    yearDiv.textContent = entry ? entry.year : '';
+    textDiv.textContent = entry ? entry.text : '';
+    counter.textContent = (_tlEntries.length > 1) ? ((idx + 1) + ' / ' + _tlEntries.length) : '';
+    prevBtn.disabled = (idx === 0);
+    nextBtn.disabled = (idx === _tlEntries.length - 1);
+    entryDiv.style.opacity = '1';
+  }, 130);
+}
+
+function _tlSetupInteractions() {
+  const thumb    = document.getElementById('tl-thumb');
+  const closeBtn = document.getElementById('tl-close');
+  const prevBtn  = document.getElementById('tl-prev');
+  const nextBtn  = document.getElementById('tl-next');
+  const trackCol = document.querySelector('.tl-track-col');
+
+  closeBtn.addEventListener('click', () => {
+    closeTimeline();
+    if (typeof clearSelections === 'function') clearSelections();
+  });
+
+  prevBtn.addEventListener('click', () => _tlGoTo(_tlIdx - 1));
+  nextBtn.addEventListener('click', () => _tlGoTo(_tlIdx + 1));
+
+  trackCol.addEventListener('click', (e) => {
+    if (e.target.closest('.tl-thumb') || e.target.closest('.tl-year-lbl')) return;
+    const rect = trackCol.getBoundingClientRect();
+    const topOffset = 36;
+    const usableH = trackCol.offsetHeight - 72;
+    let y = e.clientY - rect.top - topOffset;
+    let ratio = Math.max(0, Math.min(1, y / usableH));
+    const idx = Math.round(ratio * (_tlEntries.length - 1));
+    _tlGoTo(idx);
+  });
+
+  thumb.addEventListener('mousedown', (e) => {
+    _tlDragging = true;
+    thumb.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!_tlDragging) return;
+    const trackCol = document.querySelector('.tl-track-col');
+    const rect = trackCol.getBoundingClientRect();
+    const topOffset = 36;
+    const usableH = trackCol.offsetHeight - 72;
+    let y = e.clientY - rect.top - topOffset;
+    let ratio = Math.max(0, Math.min(1, y / usableH));
+    const idx = Math.round(ratio * (_tlEntries.length - 1));
+    if (idx !== _tlIdx) _tlGoTo(idx);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (_tlDragging) {
+      _tlDragging = false;
+      document.getElementById('tl-thumb').classList.remove('dragging');
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const panel = document.getElementById('timeline-panel');
+    if (!panel || !panel.classList.contains('open')) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); _tlGoTo(_tlIdx + 1); }
+    if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  { e.preventDefault(); _tlGoTo(_tlIdx - 1); }
+    if (e.key === 'Escape') { closeTimeline(); if (typeof clearSelections === 'function') clearSelections(); }
+  });
+}
+
+</script>
+
+<div id="timeline-panel" class="timeline-panel">
+  <div class="tl-header">
+    <img id="tl-flag" class="tl-flag" src="" alt="" />
+    <span id="tl-country" class="tl-country"></span>
+    <button id="tl-close" class="tl-close">✕</button>
+  </div>
+  <div class="tl-body">
+    <!-- Left: year labels + neon track -->
+    <div class="tl-track-col">
+      <div class="tl-line"></div>
+      <div id="tl-glow-fill" class="tl-glow-fill"></div>
+      <div id="tl-thumb" class="tl-thumb"></div>
+      <div id="tl-years" class="tl-years"></div>
+    </div>
+    <!-- Right: entry content -->
+    <div class="tl-content-col">
+      <div id="tl-entry" class="tl-entry-wrap">
+        <div id="tl-entry-year" class="tl-entry-year"></div>
+        <div id="tl-entry-text" class="tl-entry-text"></div>
+      </div>
+      <div class="tl-nav">
+        <button class="tl-nav-btn" id="tl-prev">← Prev</button>
+        <button class="tl-nav-btn" id="tl-next">Next →</button>
+        <span class="tl-counter" id="tl-counter"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
