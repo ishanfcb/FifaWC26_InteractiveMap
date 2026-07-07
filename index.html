@@ -339,7 +339,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             pointer-events: auto;
-            max-height: 220px;
+            max-height: 360px;
             overflow-y: auto;
             padding-right: 4px;
             box-sizing: border-box;
@@ -6456,11 +6456,23 @@ function openTimeline(countryName) {
 
     const yearEl = document.createElement('div');
     yearEl.className = 'tl-year';
-    yearEl.textContent = e.year;
+    let cleanYear = (e.year || '')
+      .replace(/—\s*$/, '')
+      .replace(/--\s*$/, '')
+      .replace(/-\s*$/, '')
+      .trim()
+      .replace(/:\s*$/, '')
+      .replace(/\*\*\s*$/, '')
+      .trim();
+    yearEl.textContent = cleanYear;
 
     const descEl = document.createElement('div');
     descEl.className = 'tl-desc';
-    descEl.textContent = e.text;  // textContent avoids HTML injection
+    let cleanText = (e.text || '')
+      .replace(/--/g, '—')
+      .replace(/—\s*$/, '')
+      .trim();
+    descEl.textContent = cleanText;  // textContent avoids HTML injection
 
     textBlock.appendChild(yearEl);
     textBlock.appendChild(descEl);
