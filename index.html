@@ -1073,6 +1073,22 @@
 /* =====================================================================
    TIMELINE PANEL — Horizontal scrolling timeline
    ===================================================================== */
+.timeline-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(12, 14, 22, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+.timeline-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .timeline-panel {
   position: fixed;
   top: 72px;
@@ -1091,7 +1107,7 @@
   opacity: 0;
   transform: translateX(24px);
   transition: opacity 220ms ease, transform 220ms ease;
-  z-index: 500;
+  z-index: 1000;
   pointer-events: none;
   overflow: hidden;
 }
@@ -1099,6 +1115,101 @@
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
+}
+
+/* Unified Compact Fixture History Styles */
+.tl-fixtures {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 12px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.tl-fixture-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 6px 12px;
+  min-width: 140px;
+}
+
+.tl-fixture-round {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tl-fixture-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+}
+
+.tl-fixture-team {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tl-fixture-team.winner {
+  font-weight: bold;
+  color: #fff;
+}
+
+.tl-fixture-team.loser {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tl-fixture-flag {
+  width: 14px;
+  height: 10px;
+  border-radius: 1px;
+  object-fit: cover;
+}
+
+.tl-fixture-flag-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 10px;
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 1px;
+}
+
+.tl-fixture-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+
+.tl-fixture-score {
+  font-family: monospace;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tl-fixture-vs {
+  display: none;
 }
 
 /* Country name header at top */
@@ -6059,8 +6170,77 @@ const TIMELINE_DATA = {
 
 let _tlInitDone = false;
 
+function renderMiniFixtures(countryName) {
+    const container = document.getElementById('tl-fixtures');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    const rounds = ['r32', 'r16', 'qf', 'sf', 'final'];
+    const roundLabels = { r32: 'Round of 32', r16: 'Round of 16', qf: 'Quarters', sf: 'Semis', final: 'Final' };
+    
+    let hasFixtures = false;
+    
+    rounds.forEach(round => {
+        const matches = (mockData.knockoutMatches && mockData.knockoutMatches[round]) || [];
+        // Find match containing this country
+        const match = matches.find(m => 
+            (m.home && m.home.name === countryName) || 
+            (m.away && m.away.name === countryName)
+        );
+        
+        if (match) {
+            hasFixtures = true;
+            
+            const item = document.createElement('div');
+            item.className = 'tl-fixture-item';
+            
+            const label = document.createElement('div');
+            label.className = 'tl-fixture-round';
+            label.textContent = roundLabels[round];
+            
+            const card = document.createElement('div');
+            card.className = 'tl-fixture-card';
+            
+            // Render home/away team rows
+            const renderTeam = (side) => {
+                const isWinner = side.isWinner;
+                const isEliminated = side.eliminated;
+                const cls = isWinner ? 'winner' : (isEliminated ? 'loser' : 'pending');
+                const flag = side.flagUrl ? `<img class="tl-fixture-flag" src="${side.flagUrl}" alt="">` : `<span class="tl-fixture-flag-placeholder">?</span>`;
+                const score = match.finished ? side.scoreStr : '–';
+                
+                return `<div class="tl-fixture-team ${cls}">
+                    ${flag}
+                    <span class="tl-fixture-name">${side.name || side.label || 'TBD'}</span>
+                    <span class="tl-fixture-score">${score}</span>
+                </div>`;
+            };
+            
+            card.innerHTML = `
+                ${renderTeam(match.home)}
+                ${renderTeam(match.away)}
+            `;
+            
+            item.appendChild(label);
+            item.appendChild(card);
+            container.appendChild(item);
+        }
+    });
+    
+    if (hasFixtures) {
+        container.style.display = 'flex';
+    } else {
+        container.style.display = 'none';
+    }
+}
+
 function openTimeline(countryName) {
   if (typeof applySelectionDimming === 'function') applySelectionDimming(countryName);
+  
+  // Show backdrop
+  const backdrop = document.getElementById('timeline-backdrop');
+  if (backdrop) backdrop.classList.add('open');
+
   const panel     = document.getElementById('timeline-panel');
   const flagEl    = document.getElementById('tl-flag');
   const countryEl = document.getElementById('tl-country');
@@ -6072,6 +6252,9 @@ function openTimeline(countryName) {
   const iso = teamData ? getAlpha2(teamData.team.iso) : 'un';
   flagEl.src = `https://flagcdn.com/w40/${iso}.png`;
   flagEl.alt = countryName;
+
+  // Render mini fixtures
+  renderMiniFixtures(countryName);
 
   // Get timeline entries — prefer TIMELINE_DATA (richer), fallback to editorial
   const entries = (typeof TIMELINE_DATA !== 'undefined' && TIMELINE_DATA[countryName])
@@ -6126,6 +6309,11 @@ function openTimeline(countryName) {
 
 function closeTimeline() {
   if (typeof applySelectionDimming === 'function') applySelectionDimming(null);
+  
+  // Hide backdrop
+  const backdrop = document.getElementById('timeline-backdrop');
+  if (backdrop) backdrop.classList.remove('open');
+
   const panel = document.getElementById('timeline-panel');
   if (panel) panel.classList.remove('open');
 }
@@ -6136,6 +6324,14 @@ function _tlSetupInteractions() {
     closeTimeline();
     if (typeof clearSelections === 'function') clearSelections();
   });
+
+  const backdrop = document.getElementById('timeline-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', () => {
+      closeTimeline();
+      if (typeof clearSelections === 'function') clearSelections();
+    });
+  }
 
   window.addEventListener('keydown', (e) => {
     const panel = document.getElementById('timeline-panel');
@@ -6151,12 +6347,14 @@ function _tlSetupInteractions() {
 
 </script>
 
+<div id="timeline-backdrop" class="timeline-backdrop"></div>
 <div id="timeline-panel" class="timeline-panel">
   <div class="tl-header">
     <img id="tl-flag" class="tl-flag" src="" alt="" />
     <span id="tl-country" class="tl-country"></span>
     <button id="tl-close" class="tl-close">✕</button>
   </div>
+  <div id="tl-fixtures" class="tl-fixtures" style="display:none"></div>
   <div class="tl-scroll-wrapper">
     <div id="tl-track" class="tl-track">
       <!-- Nodes injected by openTimeline() -->
