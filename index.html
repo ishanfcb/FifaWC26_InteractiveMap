@@ -361,7 +361,7 @@
             fill: var(--country-part-hover);
         }
 
-        /* Eliminated Countries during Knockout Stages */
+        /* Eliminated Countries during Knockout Stages — dimmed and non-interactive */
         body.view-r32 .country:not(.r32-team),
         body.view-r16 .country:not(.r16-team),
         body.view-quaters .country:not(.qf-team),
@@ -369,6 +369,7 @@
         body.view-final .country:not(.final-team) {
             fill-opacity: 0.25;
             stroke: none;
+            cursor: default;
         }
 
         /* Active State always uses iOS blue, regardless of view mode */
@@ -1060,15 +1061,16 @@
 .timeline-panel {
   position: fixed;
   top: 72px;
-  right: 16px;
-  width: 42vw;
-  max-width: 640px;
+  right: 0;
+  width: 50vw;
+  max-width: 50vw;
   height: calc(100vh - 72px - 180px);
   background: rgba(12, 14, 22, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
+  border-right: none;
+  border-radius: 16px 0 0 16px;
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -1125,12 +1127,10 @@
 .tl-scroll-wrapper {
   flex: 1;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.15) transparent;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
+  padding: 0;
 }
 .tl-scroll-wrapper::-webkit-scrollbar {
   height: 4px;
@@ -1143,89 +1143,107 @@
   border-radius: 2px;
 }
 
-/* Horizontal track with center line */
+/* Horizontal track — fixed height, horizontal line via ::before */
 .tl-track {
+  position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  position: relative;
   min-width: max-content;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    transparent 0px,
-    rgba(255,255,255,0.18) 24px,
-    rgba(255,255,255,0.18) calc(100% - 24px),
-    transparent 100%
-  );
-  background-size: 100% 1px;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 320px;
+  padding: 0 32px;
+}
+
+/* The horizontal line — dead centre of the track */
+.tl-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-50%);
 }
 
 /* Individual timeline node */
 .tl-node {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  position: relative;
   width: 180px;
   flex-shrink: 0;
-  position: relative;
+  height: 100%;
 }
 
-/* Above: text-block top, stem, dot at center line */
-.tl-node.tl-above {
-  justify-content: flex-end;
+/* Dot — always on the centre line */
+.tl-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid rgba(255,255,255,0.35);
+  z-index: 2;
 }
-.tl-node.tl-above .tl-text-block { order: 1; }
-.tl-node.tl-above .tl-stem       { order: 2; }
-.tl-node.tl-above .tl-dot        { order: 3; }
 
-/* Below: dot at center line, stem, text-block bottom */
-.tl-node.tl-below .tl-dot        { order: 1; }
-.tl-node.tl-below .tl-stem       { order: 2; }
-.tl-node.tl-below .tl-text-block { order: 3; }
+/* Stem — vertical line from dot to text block */
+.tl-stem {
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  background: rgba(255,255,255,0.18);
+  transform: translateX(-50%);
+}
+
+/* Above nodes: text at top, stem runs from text down to dot */
+.tl-node.tl-above .tl-stem {
+  top: 24px;
+  bottom: 50%;
+}
+
+.tl-node.tl-above .tl-text-block {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  padding: 0 8px;
+}
+
+/* Below nodes: stem runs from dot down to text */
+.tl-node.tl-below .tl-stem {
+  top: 50%;
+  bottom: 24px;
+}
+
+.tl-node.tl-below .tl-text-block {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  padding: 0 8px;
+}
 
 .tl-text-block {
-  padding: 0 12px;
-  text-align: left;
-  width: 100%;
   box-sizing: border-box;
 }
 
 .tl-year {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,0.85);
   margin-bottom: 4px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* Fix 2: full text, no clamp */
 .tl-desc {
   font-size: 11px;
-  line-height: 1.45;
-  color: rgba(255,255,255,0.55);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.6);
+  overflow: visible;
+  display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-.tl-stem {
-  width: 1px;
-  height: 28px;
-  background: rgba(255,255,255,0.2);
-  flex-shrink: 0;
-}
-
-.tl-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid rgba(255,255,255,0.4);
-  flex-shrink: 0;
 }
 
     </style>
@@ -1403,13 +1421,18 @@ function getAlpha2(code) {
             
             let cls = "view-qualified";
             let knockoutRound = null;
-            if (selectedText === "R32") { cls = "view-r32"; knockoutRound = "r32"; }
-            else if (selectedText === "R16") { cls = "view-r16"; knockoutRound = "r16"; }
-            else if (selectedText === "Quaters" || selectedText === "Quarters") { cls = "view-quaters"; knockoutRound = "qf"; }
-            else if (selectedText === "Semis") { cls = "view-semis"; knockoutRound = "sf"; }
-            else if (selectedText === "Final") { cls = "view-final"; knockoutRound = "final"; }
+            if (selectedText === "R32") { cls = "view-r32"; knockoutRound = "r32"; _currentStage = "r32"; }
+            else if (selectedText === "R16") { cls = "view-r16"; knockoutRound = "r16"; _currentStage = "r16"; }
+            else if (selectedText === "Quaters" || selectedText === "Quarters") { cls = "view-quaters"; knockoutRound = "qf"; _currentStage = "qf"; }
+            else if (selectedText === "Semis") { cls = "view-semis"; knockoutRound = "sf"; _currentStage = "sf"; }
+            else if (selectedText === "Final") { cls = "view-final"; knockoutRound = "final"; _currentStage = "final"; }
+            else { _currentStage = "qualified"; }
             
             document.body.classList.add(cls);
+
+            // Close any open timeline when switching stages
+            if (typeof closeTimeline === 'function') closeTimeline();
+            if (typeof clearSelections === 'function') clearSelections();
 
             if (knockoutRound) {
                 renderBracket(knockoutRound);
@@ -2448,9 +2471,50 @@ function getAlpha2(code) {
             }
         };
 
+        // ── Stage-gated click: return Set of mapNames active in current stage ──
+        let _currentStage = 'qualified'; // tracks current view pill selection
+
+        function getActiveCountriesForStage(stage) {
+            if (stage === 'qualified') {
+                // All participating countries
+                const s = new Set();
+                mockData.standings.forEach(grp => grp.teams.forEach(t => {
+                    s.add(t.mapName);
+                    s.add(t.name);
+                }));
+                return s;
+            }
+            // For knockout stages, read from mockData.knockoutMatches
+            const stageKey = { r32: 'r32', r16: 'r16', qf: 'qf', sf: 'sf', final: 'final' }[stage];
+            const matches = (stageKey && mockData.knockoutMatches[stageKey]) || [];
+            const s = new Set();
+            matches.forEach(m => {
+                if (m.home && m.home.name) s.add(m.home.name);
+                if (m.away && m.away.name) s.add(m.away.name);
+            });
+            // Also add from teamsInStage (populated from OpenFootball data)
+            if (stageKey && teamsInStage[stageKey]) {
+                teamsInStage[stageKey].forEach(name => s.add(name));
+            }
+            return s;
+        }
+
         function countryClick(event, d, countryElement, specificTeamName = null) {
             console.log("Map Click: countryId =", d.properties.name, specificTeamName);
             if (event && event.stopPropagation) event.stopPropagation();
+
+            // Fix 4: guard — only allow clicks for countries active in this stage
+            if (_currentStage !== 'qualified') {
+                const active = getActiveCountriesForStage(_currentStage);
+                const mapName = d.properties.name;
+                const countryData0 = specificTeamName ? findTeamStandingsData(specificTeamName, true) : findTeamStandingsData(mapName);
+                const checkName = specificTeamName || mapName;
+                const teamName0 = countryData0 ? countryData0.team.name : null;
+                const teamMapName0 = countryData0 ? countryData0.team.mapName : null;
+                if (!active.has(checkName) && !active.has(teamName0) && !active.has(teamMapName0)) {
+                    return; // not in this round — ignore click
+                }
+            }
  
             const mapName = d.properties.name;
             const countryData = specificTeamName ? findTeamStandingsData(specificTeamName, true) : findTeamStandingsData(mapName);
