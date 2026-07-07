@@ -1149,23 +1149,23 @@
   display: flex;
   flex-direction: row;
   min-width: max-content;
-  height: 320px;
+  height: 420px;
   padding: 0 32px;
 }
 
-/* The horizontal line — dead centre of the track */
+/* horizontal line at exact centre */
 .tl-track::before {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
+  transform: translateY(-50%);
   height: 1px;
   background: rgba(255,255,255,0.2);
-  transform: translateY(-50%);
+  pointer-events: none;
 }
 
-/* Individual timeline node */
 .tl-node {
   position: relative;
   width: 180px;
@@ -1173,12 +1173,12 @@
   height: 100%;
 }
 
-/* Dot — always on the centre line */
+/* dot pinned to centre line */
 .tl-dot {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);   /* dead centre of node */
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -1187,41 +1187,51 @@
   z-index: 2;
 }
 
-/* Stem — vertical line from dot to text block */
-.tl-stem {
+/* stem from dot to text — above nodes */
+.tl-node.tl-above .tl-stem {
   position: absolute;
   left: 50%;
+  transform: translateX(-50%);
+  top: calc(50% - 20px + 6px);  /* just above dot */
+  /* bottom edge touches the text block */
+  height: 14px;
   width: 1px;
   background: rgba(255,255,255,0.18);
-  transform: translateX(-50%);
 }
-
-/* Above nodes: text at top, stem runs from text down to dot */
-.tl-node.tl-above .tl-stem {
-  top: 24px;
-  bottom: 50%;
-}
-
 .tl-node.tl-above .tl-text-block {
   position: absolute;
   top: 8px;
-  left: 0;
-  right: 0;
-  padding: 0 8px;
+  left: 4px;
+  right: 4px;
+  bottom: calc(50% + 20px);    /* stops 20px above the centre line */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  display: flex;
+  flex-direction: column-reverse;   /* year closest to dot, text above */
 }
 
-/* Below nodes: stem runs from dot down to text */
+/* stem from dot to text — below nodes */
 .tl-node.tl-below .tl-stem {
-  top: 50%;
-  bottom: 24px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(50% - 20px + 6px); /* just below dot */
+  height: 14px;
+  width: 1px;
+  background: rgba(255,255,255,0.18);
 }
-
 .tl-node.tl-below .tl-text-block {
   position: absolute;
+  top: calc(50% + 20px);       /* starts 20px below the centre line */
+  left: 4px;
+  right: 4px;
   bottom: 8px;
-  left: 0;
-  right: 0;
-  padding: 0 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  display: flex;
+  flex-direction: column;       /* year closest to dot, text below */
 }
 
 .tl-text-block {
@@ -1231,18 +1241,17 @@
 .tl-year {
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 4px;
+  color: rgba(255,255,255,0.9);
+  flex-shrink: 0;
+  padding: 2px 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Fix 2: full text, no clamp */
 .tl-desc {
   font-size: 11px;
   line-height: 1.5;
-  color: rgba(255,255,255,0.6);
-  overflow: visible;
-  display: block;
+  color: rgba(255,255,255,0.58);
+  /* NO overflow: hidden, NO line-clamp, NO max-height */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -1400,7 +1409,7 @@ function getAlpha2(code) {
                 
                 slider.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 
-                if (callback) callback(activeTab.textContent.trim());
+                if (callback) callback(activeTab.textContent.trim(), true);
             }
 
             tabs.forEach(tab => {
@@ -1410,13 +1419,17 @@ function getAlpha2(code) {
                     this.classList.add("selected");
                     updateSlider(this);
 
-                    if (callback) callback(this.textContent.trim());
+                    if (callback) callback(this.textContent.trim(), false);
                 });
             });
         }
         
+        // ── Stage-gated click: return Set of mapNames active in current stage ──
+        let _currentStage = 'qualified'; // tracks current view pill selection
+        let svg, g, zoom;
+        
         // Initialize View Control
-        initPillControl("view-pill-control", (selectedText) => {
+        initPillControl("view-pill-control", (selectedText, isInitial) => {
             document.body.classList.remove("view-qualified", "view-r32", "view-r16", "view-quaters", "view-semis", "view-final");
             
             let cls = "view-qualified";
@@ -1430,12 +1443,24 @@ function getAlpha2(code) {
             
             document.body.classList.add(cls);
 
+            if (isInitial) return;
+
             // Close any open timeline when switching stages
             if (typeof closeTimeline === 'function') closeTimeline();
             if (typeof clearSelections === 'function') clearSelections();
 
             if (knockoutRound) {
                 renderBracket(knockoutRound);
+            }
+
+            try {
+                if (typeof d3 !== 'undefined') {
+                    const active = getActiveCountriesForStage(_currentStage);
+                    d3.selectAll('.country.participating')
+                        .style('fill-opacity', d => active.has(d.properties.name) ? 1 : 0.25);
+                }
+            } catch (e) {
+                // Ignore initialization errors
             }
         });
 
@@ -1608,16 +1633,18 @@ function getAlpha2(code) {
         }
 
         function flagUrl(teamName) {
-            const iso = teamIsoLookup[teamName];
+            const normalized = (teamName === "Congo DR" || teamName === "Democratic Republic of the Congo") ? "DR Congo" :
+                               (teamName === "Cabo Verde") ? "Cape Verde" : teamName;
+            const iso = teamIsoLookup[normalized];
             if (iso) return `https://flagcdn.com/w40/${iso}.png`;
             // Fallback: use DISPLAY_NAME_OVERRIDES in reverse or TEAM_HARDCODES
             // Check TEAM_HARDCODES keys (values of DISPLAY_NAME_OVERRIDES point here)
-            const hardcode = TEAM_HARDCODES[teamName];
+            const hardcode = TEAM_HARDCODES[normalized];
             if (hardcode) return `https://flagcdn.com/w40/${hardcode.iso}.png`;
             // Last resort — search mockData standings
             for (const grp of mockData.standings) {
                 for (const team of grp.teams) {
-                    if (team.name === teamName || team.mapName === teamName) {
+                    if (team.name === normalized || team.mapName === normalized) {
                         return `https://flagcdn.com/w40/${team.iso}.png`;
                     }
                 }
@@ -1625,77 +1652,389 @@ function getAlpha2(code) {
             return null;
         }
 
-        function buildKnockoutMatches(gamesArr) {
+        const BRACKET = {
+          final: {
+            date: "20 July",
+            home: { ref: "leftSF" },
+            away: { ref: "rightSF" }
+          },
+
+          // ── LEFT HALF ──────────────────────────────────────────────
+          leftSF: {
+            date: "15 July",
+            home: { ref: "qfL1" },
+            away: { ref: "qfL2" }
+          },
+
+          qfL1: {  // France vs Morocco — 10 July
+            home: { team: "France",  score: null, ref: "r16L1" },
+            away: { team: "Morocco", score: null, ref: "r16L2" }
+          },
+          r16L1: {  // France beat Paraguay
+            home: { team: "Paraguay", score: 0, eliminated: true, ref: "r32_GER_PAR" },
+            away: { team: "France",   score: 1, ref: "r32_FRA_SWE" }
+          },
+          r32_GER_PAR: {
+            home: { team: "Germany",  score: "1 (3)", eliminated: true },
+            away: { team: "Paraguay", score: "1 (4)" }
+          },
+          r32_FRA_SWE: {
+            home: { team: "France",  score: 3 },
+            away: { team: "Sweden",  score: 0, eliminated: true }
+          },
+          r16L2: {  // Morocco beat Canada
+            home: { team: "Canada",  score: 0, eliminated: true, ref: "r32_RSA_CAN" },
+            away: { team: "Morocco", score: 3, ref: "r32_NED_MAR" }
+          },
+          r32_RSA_CAN: {
+            home: { team: "South Africa", score: 0, eliminated: true },
+            away: { team: "Canada",       score: 1 }
+          },
+          r32_NED_MAR: {
+            home: { team: "Netherlands", score: "1 (2)", eliminated: true },
+            away: { team: "Morocco",     score: "1 (3)" }
+          },
+
+          qfL2: {  // Spain vs Belgium — 11 July
+            home: { team: "Spain",   score: null, ref: "r16L3" },
+            away: { team: "Belgium", score: null, ref: "r16L4" }
+          },
+          r16L3: {  // Spain beat Portugal
+            home: { team: "Portugal", score: 0, eliminated: true, ref: "r32_POR_CRO" },
+            away: { team: "Spain",    score: 1, ref: "r32_ESP_AUT" }
+          },
+          r32_POR_CRO: {
+            home: { team: "Portugal", score: 2 },
+            away: { team: "Croatia",  score: 1, eliminated: true }
+          },
+          r32_ESP_AUT: {
+            home: { team: "Spain",   score: 3 },
+            away: { team: "Austria", score: 0, eliminated: true }
+          },
+          r16L4: {  // Belgium beat USA
+            home: { team: "USA",     score: 1, eliminated: true, ref: "r32_USA_BIH" },
+            away: { team: "Belgium", score: 4, ref: "r32_BEL_SEN" }
+          },
+          r32_USA_BIH: {
+            home: { team: "USA",                    score: 2 },
+            away: { team: "Bosnia and Herzegovina", score: 0, eliminated: true }
+          },
+          r32_BEL_SEN: {
+            home: { team: "Belgium", score: 3 },
+            away: { team: "Senegal", score: 2, eliminated: true }
+          },
+
+          // ── RIGHT HALF ─────────────────────────────────────────────
+          rightSF: {
+            date: "16 July",
+            home: { ref: "qfR1" },
+            away: { ref: "qfR2" }
+          },
+
+          qfR1: {  // Norway vs England — 12 July
+            home: { team: "Norway",  score: null, ref: "r16R1" },
+            away: { team: "England", score: null, ref: "r16R2" }
+          },
+          r16R1: {  // Norway beat Brazil
+            home: { team: "Brazil", score: 1, eliminated: true, ref: "r32_BRA_JPN" },
+            away: { team: "Norway", score: 2, ref: "r32_NOR_CIV" }
+          },
+          r32_BRA_JPN: {
+            home: { team: "Brazil", score: 2 },
+            away: { team: "Japan",  score: 1, eliminated: true }
+          },
+          r32_NOR_CIV: {
+            home: { team: "Norway",          score: 2 },
+            away: { team: "Côte d'Ivoire",   score: 1, eliminated: true }
+          },
+          r16R2: {  // England beat Mexico
+            home: { team: "Mexico",  score: 2, eliminated: true, ref: "r32_MEX_ECU" },
+            away: { team: "England", score: 3, ref: "r32_ENG_COD" }
+          },
+          r32_MEX_ECU: {
+            home: { team: "Mexico",   score: 2 },
+            away: { team: "Ecuador",  score: 0, eliminated: true }
+          },
+          r32_ENG_COD: {
+            home: { team: "England",   score: 2 },
+            away: { team: "Congo DR",  score: 1, eliminated: true }
+          },
+
+          qfR2: {  // TBD — 12 July
+            home: { ref: "r16R3" },
+            away: { ref: "r16R4" }
+          },
+          r16R3: {  // Argentina vs Egypt — TODAY, result TBD
+            home: { team: "Argentina", score: null, ref: "r32_ARG_CPV" },
+            away: { team: "Egypt",     score: null, ref: "r32_AUS_EGY" }
+          },
+          r32_ARG_CPV: {
+            home: { team: "Argentina",  score: 3 },
+            away: { team: "Cabo Verde", score: 2, eliminated: true }
+          },
+          r32_AUS_EGY: {
+            home: { team: "Australia", score: "1 (2)", eliminated: true },
+            away: { team: "Egypt",     score: "1 (4)" }
+          },
+          r16R4: {  // Switzerland vs Colombia — TOMORROW, result TBD
+            home: { team: "Switzerland", score: null, ref: "r32_SUI_ALG" },
+            away: { team: "Colombia",    score: null, ref: "r32_COL_GHA" }
+          },
+          r32_SUI_ALG: {
+            home: { team: "Switzerland", score: 2 },
+            away: { team: "Algeria",     score: 0, eliminated: true }
+          },
+          r32_COL_GHA: {
+            home: { team: "Colombia", score: 1 },
+            away: { team: "Ghana",    score: 0, eliminated: true }
+          }
+        };
+
+        function resolveTeamName(side) {
+            if (side.team) return side.team;
+            if (side.ref) {
+                const child = BRACKET[side.ref];
+                if (child) {
+                    return getWinnerOfNode(child);
+                }
+            }
+            return null;
+        }
+
+        function getWinnerOfNode(n) {
+            const h = resolveTeamName(n.home);
+            const a = resolveTeamName(n.away);
+            const hs = n.home.score;
+            const as = n.away.score;
+            
+            const isScorePresent = (score) => score !== null && score !== undefined && score !== '';
+            if (!isScorePresent(hs) || !isScorePresent(as)) {
+                return null;
+            }
+            
+            const getPoints = (scoreStr) => {
+                const str = String(scoreStr);
+                if (str.includes('(')) {
+                    const penMatch = str.match(/\((\d+)\)/);
+                    if (penMatch) return parseInt(penMatch[1], 10) + 1000;
+                }
+                return parseInt(str, 10);
+            };
+            return getPoints(hs) > getPoints(as) ? h : a;
+        }
+
+        function buildRenderMatch(key, node) {
+            const hScore = node.home.score;
+            const aScore = node.away.score;
+            const isScorePresent = (score) => score !== null && score !== undefined && score !== '';
+            
+            const hName = resolveTeamName(node.home);
+            const aName = resolveTeamName(node.away);
+            
+            let finished = isScorePresent(hScore) && isScorePresent(aScore);
+            
+            let hWins = false, aWins = false;
+            if (finished) {
+                const getPoints = (scoreStr) => {
+                    const str = String(scoreStr);
+                    if (str.includes('(')) {
+                        const penMatch = str.match(/\((\d+)\)/);
+                        if (penMatch) return parseInt(penMatch[1], 10) + 1000;
+                    }
+                    return parseInt(str, 10);
+                };
+                hWins = getPoints(hScore) > getPoints(aScore);
+                aWins = getPoints(aScore) > getPoints(hScore);
+            }
+            
+            const getLabel = (side) => {
+                if (side.team) return side.team;
+                if (side.ref) {
+                    const matchNumMap = {
+                        r16L1: 89, r16L2: 90, r16R1: 91, r16R2: 92,
+                        r16L3: 93, r16L4: 94, r16R3: 95, r16R4: 96,
+                        qfL1: 97, qfL2: 98, qfR1: 99, qfR2: 100,
+                        leftSF: 101, rightSF: 102
+                    };
+                    const num = matchNumMap[side.ref];
+                    if (num) return `Winner Match ${num}`;
+                    return `Winner of ${side.ref}`;
+                }
+                return 'TBD';
+            };
+
+            const matchNumMap = {
+                r32_RSA_CAN: 73, r32_GER_PAR: 74, r32_NED_MAR: 75, r32_BRA_JPN: 76,
+                r32_FRA_SWE: 77, r32_NOR_CIV: 78, r32_MEX_ECU: 79, r32_ENG_COD: 80,
+                r32_USA_BIH: 81, r32_BEL_SEN: 82, r32_POR_CRO: 83, r32_ESP_AUT: 84,
+                r32_SUI_ALG: 85, r32_ARG_CPV: 86, r32_COL_GHA: 87, r32_AUS_EGY: 88,
+                r16L1: 89, r16L2: 90, r16R1: 91, r16R2: 92,
+                r16L3: 93, r16L4: 94, r16R3: 95, r16R4: 96,
+                qfL1: 97, qfL2: 98, qfR1: 99, qfR2: 100,
+                leftSF: 101, rightSF: 102, final: 104
+            };
+
+            return {
+                id: matchNumMap[key] || key,
+                finished,
+                date: node.date || '',
+                home: {
+                    name: hName,
+                    label: getLabel(node.home),
+                    flagUrl: hName ? flagUrl(hName) : null,
+                    scoreStr: isScorePresent(hScore) ? String(hScore) : '–',
+                    isWinner: hWins,
+                    isLoser: finished && !hWins,
+                    eliminated: node.home.eliminated || (finished && !hWins)
+                },
+                away: {
+                    name: aName,
+                    label: getLabel(node.away),
+                    flagUrl: aName ? flagUrl(aName) : null,
+                    scoreStr: isScorePresent(aScore) ? String(aScore) : '–',
+                    isWinner: aWins,
+                    isLoser: finished && !aWins,
+                    eliminated: node.away.eliminated || (finished && !aWins)
+                }
+            };
+        }
+
+        function getMatchesFromSubtree(nodeKey, roundKey) {
+            const matches = [];
+            
+            function traverse(key) {
+                const node = BRACKET[key];
+                if (!node) return;
+                
+                let currentRound = null;
+                if (key === 'final') currentRound = 'final';
+                else if (key === 'leftSF' || key === 'rightSF') currentRound = 'sf';
+                else if (key.startsWith('qf')) currentRound = 'qf';
+                else if (key.startsWith('r16')) currentRound = 'r16';
+                else if (key.startsWith('r32')) currentRound = 'r32';
+                
+                if (currentRound === roundKey) {
+                    matches.push(buildRenderMatch(key, node));
+                }
+                
+                if (node.home && node.home.ref) traverse(node.home.ref);
+                if (node.away && node.away.ref) traverse(node.away.ref);
+            }
+            
+            traverse(nodeKey);
+            return matches;
+        }
+
+        function updateBracketScoresFromAPI(gamesArr) {
+            if (!gamesArr || gamesArr.length === 0) return;
+            
+            Object.keys(BRACKET).forEach(key => {
+                const node = BRACKET[key];
+                if (key === 'final' || key === 'leftSF' || key === 'rightSF' || key.startsWith('qf')) {
+                    const hName = node.home.team || resolveTeamName(node.home);
+                    const aName = node.away.team || resolveTeamName(node.away);
+                    if (hName && aName) {
+                        const match = gamesArr.find(g => 
+                            (g.home_team_name_en === hName && g.away_team_name_en === aName) ||
+                            (g.home_team_name_en === aName && g.away_team_name_en === hName)
+                        );
+                        if (match && match.finished === 'TRUE') {
+                            const isHome = match.home_team_name_en === hName;
+                            node.home.score = isHome ? match.home_score : match.away_score;
+                            node.away.score = isHome ? match.away_score : match.home_score;
+                            const hPen = match.home_penalty_score;
+                            const aPen = match.away_penalty_score;
+                            if (hPen && aPen && hPen !== 'null' && aPen !== 'null') {
+                                node.home.score += ` (${isHome ? hPen : aPen})`;
+                                node.away.score += ` (${isHome ? aPen : hPen})`;
+                            }
+                        }
+                    }
+                } else if (key.startsWith('r16') || key.startsWith('r32')) {
+                    const hName = node.home.team;
+                    const aName = node.away.team;
+                    if (hName && aName) {
+                        const match = gamesArr.find(g => 
+                            (g.home_team_name_en === hName && g.away_team_name_en === aName) ||
+                            (g.home_team_name_en === aName && g.away_team_name_en === hName)
+                        );
+                        if (match && match.finished === 'TRUE') {
+                            const isHome = match.home_team_name_en === hName;
+                            node.home.score = isHome ? match.home_score : match.away_score;
+                            node.away.score = isHome ? match.away_score : match.home_score;
+                            const hPen = match.home_penalty_score;
+                            const aPen = match.away_penalty_score;
+                            if (hPen && aPen && hPen !== 'null' && aPen !== 'null') {
+                                node.home.score += ` (${isHome ? hPen : aPen})`;
+                                node.away.score += ` (${isHome ? aPen : hPen})`;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function buildKnockoutMatchesFromTree() {
             const buckets = { r32: [], r16: [], qf: [], sf: [], final: [] };
-
-            gamesArr.forEach(g => {
-                const type = (g.type || '').toLowerCase();
-                if (!buckets[type]) return;
-
-                const hName = DISPLAY_NAME_OVERRIDES[g.home_team_name_en] || g.home_team_name_en || null;
-                const aName = DISPLAY_NAME_OVERRIDES[g.away_team_name_en] || g.away_team_name_en || null;
-                const hLabel = g.home_team_label || '';
-                const aLabel = g.away_team_label || '';
-
-                const hScore = parseInt(g.home_score, 10);
-                const aScore = parseInt(g.away_score, 10);
-                const hPen = g.home_penalty_score && g.home_penalty_score !== 'null' && g.home_penalty_score !== '' ? parseInt(g.home_penalty_score, 10) : null;
-                const aPen = g.away_penalty_score && g.away_penalty_score !== 'null' && g.away_penalty_score !== '' ? parseInt(g.away_penalty_score, 10) : null;
-                const finished = g.finished === 'TRUE';
-                const hasPen = hPen !== null && aPen !== null;
-
-                // Determine winner
-                let hWins = false, aWins = false;
-                if (finished && !isNaN(hScore) && !isNaN(aScore)) {
-                    if (hasPen) {
-                        hWins = hPen > aPen;
-                        aWins = aPen > hPen;
-                    } else {
-                        hWins = hScore > aScore;
-                        aWins = aScore > hScore;
-                    }
-                }
-
-                // Format score string
-                function fmtScore(score, pen, isFinished) {
-                    if (!isFinished || isNaN(score)) return '–';
-                    if (pen !== null) return `${score} (${pen})`;
-                    return String(score);
-                }
-
-                buckets[type].push({
-                    id: g.id,
-                    type,
-                    finished,
-                    date: g.local_date || '',
-                    home: {
-                        name: hName,
-                        label: hLabel,
-                        flagUrl: hName ? flagUrl(hName) : null,
-                        scoreStr: fmtScore(hScore, hPen, finished),
-                        isWinner: hWins,
-                        isLoser: aWins,
-                        eliminated: finished && aWins
-                    },
-                    away: {
-                        name: aName,
-                        label: aLabel,
-                        flagUrl: aName ? flagUrl(aName) : null,
-                        scoreStr: fmtScore(aScore, aPen, finished),
-                        isWinner: aWins,
-                        isLoser: hWins,
-                        eliminated: finished && hWins
-                    }
-                });
-            });
-
-            // Sort each bucket by numeric id (match number)
-            Object.keys(buckets).forEach(k => {
-                buckets[k].sort((a, b) => parseInt(a.id) - parseInt(b.id));
-            });
-
+            
+            buckets.final = [buildRenderMatch('final', BRACKET.final)];
+            
+            buckets.sf = [
+                buildRenderMatch('leftSF', BRACKET.leftSF),
+                buildRenderMatch('rightSF', BRACKET.rightSF)
+            ];
+            
+            buckets.qf = [
+                buildRenderMatch('qfL1', BRACKET.qfL1),
+                buildRenderMatch('qfL2', BRACKET.qfL2),
+                buildRenderMatch('qfR1', BRACKET.qfR1),
+                buildRenderMatch('qfR2', BRACKET.qfR2)
+            ];
+            
+            buckets.r16 = [
+                buildRenderMatch('r16L1', BRACKET.r16L1),
+                buildRenderMatch('r16L2', BRACKET.r16L2),
+                buildRenderMatch('r16L3', BRACKET.r16L3),
+                buildRenderMatch('r16L4', BRACKET.r16L4),
+                buildRenderMatch('r16R1', BRACKET.r16R1),
+                buildRenderMatch('r16R2', BRACKET.r16R2),
+                buildRenderMatch('r16R3', BRACKET.r16R3),
+                buildRenderMatch('r16R4', BRACKET.r16R4)
+            ];
+            
+            buckets.r32 = [
+                buildRenderMatch('r32_GER_PAR', BRACKET.r32_GER_PAR),
+                buildRenderMatch('r32_FRA_SWE', BRACKET.r32_FRA_SWE),
+                buildRenderMatch('r32_RSA_CAN', BRACKET.r32_RSA_CAN),
+                buildRenderMatch('r32_NED_MAR', BRACKET.r32_NED_MAR),
+                buildRenderMatch('r32_POR_CRO', BRACKET.r32_POR_CRO),
+                buildRenderMatch('r32_ESP_AUT', BRACKET.r32_ESP_AUT),
+                buildRenderMatch('r32_USA_BIH', BRACKET.r32_USA_BIH),
+                buildRenderMatch('r32_BEL_SEN', BRACKET.r32_BEL_SEN),
+                buildRenderMatch('r32_BRA_JPN', BRACKET.r32_BRA_JPN),
+                buildRenderMatch('r32_NOR_CIV', BRACKET.r32_NOR_CIV),
+                buildRenderMatch('r32_MEX_ECU', BRACKET.r32_MEX_ECU),
+                buildRenderMatch('r32_ENG_COD', BRACKET.r32_ENG_COD),
+                buildRenderMatch('r32_ARG_CPV', BRACKET.r32_ARG_CPV),
+                buildRenderMatch('r32_AUS_EGY', BRACKET.r32_AUS_EGY),
+                buildRenderMatch('r32_SUI_ALG', BRACKET.r32_SUI_ALG),
+                buildRenderMatch('r32_COL_GHA', BRACKET.r32_COL_GHA)
+            ];
+            
             mockData.knockoutMatches = buckets;
-            console.log('[WC26] Knockout matches built:', Object.fromEntries(Object.entries(buckets).map(([k,v]) => [k, v.length])));
+            console.log('[WC26] Knockout matches built from tree:', Object.fromEntries(Object.entries(buckets).map(([k,v]) => [k, v.length])));
+        }
+
+        function buildKnockoutMatches(gamesArr) {
+            // 1. Update scores from API if available
+            try {
+                updateBracketScoresFromAPI(gamesArr);
+            } catch (e) {
+                console.error("Error updating bracket scores from API:", e);
+            }
+
+            // 2. Build the buckets from the BRACKET tree
+            buildKnockoutMatchesFromTree();
         }
 
         function getAbbreviation(name, label) {
@@ -1713,10 +2052,10 @@ function getAlpha2(code) {
                 "Germany": "GER", "Curaçao": "CUW", "Ivory Coast": "CIV", "Côte d'Ivoire": "CIV", "Ecuador": "ECU",
                 "Netherlands": "NED", "Japan": "JPN", "Sweden": "SWE", "Tunisia": "TUN",
                 "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN", "New Zealand": "NZL",
-                "Spain": "ESP", "Cabo Verde": "CPV", "Saudi Arabia": "KSA", "Uruguay": "URU",
+                "Spain": "ESP", "Cabo Verde": "CPV", "Cape Verde": "CPV", "Saudi Arabia": "KSA", "Uruguay": "URU",
                 "France": "FRA", "Senegal": "SEN", "Iraq": "IRQ", "Norway": "NOR",
                 "Argentina": "ARG", "Algeria": "ALG", "Austria": "AUT", "Jordan": "JOR",
-                "Portugal": "POR", "Congo DR": "COD", "Uzbekistan": "UZB", "Colombia": "COL",
+                "Portugal": "POR", "Congo DR": "COD", "DR Congo": "COD", "Uzbekistan": "UZB", "Colombia": "COL",
                 "England": "ENG", "Croatia": "CRO", "Ghana": "GHA", "Panama": "PAN"
             };
             if (hardcodes[name]) return hardcodes[name];
@@ -1771,15 +2110,15 @@ function getAlpha2(code) {
         }
 
         const BRACKET_COLUMNS = [
-            { id: 'col-r32-left', round: 'r32', label: 'Round of 32', matches: (m) => m.slice(0, 8) },
-            { id: 'col-r16-left', round: 'r16', label: 'Round of 16', matches: (m) => m.slice(0, 4) },
-            { id: 'col-qf-left',  round: 'qf',  label: 'Quarters', matches: (m) => [m[0], m[2]].filter(Boolean) },
-            { id: 'col-sf-left',  round: 'sf',  label: 'Semis', matches: (m) => m.slice(0, 1) },
-            { id: 'col-final',    round: 'final', label: 'Final', matches: (m) => m.slice(0, 1) },
-            { id: 'col-sf-right', round: 'sf',  label: 'Semis', matches: (m) => m.slice(1, 2) },
-            { id: 'col-qf-right', round: 'qf',  label: 'Quarters', matches: (m) => [m[1], m[3]].filter(Boolean) },
-            { id: 'col-r16-right', round: 'r16', label: 'Round of 16', matches: (m) => m.slice(4, 8) },
-            { id: 'col-r32-right', round: 'r32', label: 'Round of 32', matches: (m) => m.slice(8, 16) }
+            { id: 'col-r32-left',  round: 'r32',   label: 'Round of 32', matches: (m) => getMatchesFromSubtree('leftSF', 'r32') },
+            { id: 'col-r16-left',  round: 'r16',   label: 'Round of 16', matches: (m) => getMatchesFromSubtree('leftSF', 'r16') },
+            { id: 'col-qf-left',   round: 'qf',    label: 'Quarters',    matches: (m) => getMatchesFromSubtree('leftSF', 'qf') },
+            { id: 'col-sf-left',   round: 'sf',    label: 'Semis',       matches: (m) => getMatchesFromSubtree('leftSF', 'sf') },
+            { id: 'col-final',     round: 'final', label: 'Final',       matches: (m) => [buildRenderMatch('final', BRACKET.final)] },
+            { id: 'col-sf-right',  round: 'sf',    label: 'Semis',       matches: (m) => getMatchesFromSubtree('rightSF', 'sf') },
+            { id: 'col-qf-right',  round: 'qf',    label: 'Quarters',    matches: (m) => getMatchesFromSubtree('rightSF', 'qf') },
+            { id: 'col-r16-right', round: 'r16',   label: 'Round of 16', matches: (m) => getMatchesFromSubtree('rightSF', 'r16') },
+            { id: 'col-r32-right', round: 'r32',   label: 'Round of 32', matches: (m) => getMatchesFromSubtree('rightSF', 'r32') }
         ];
 
         function renderBracket(activeRound) {
@@ -2247,8 +2586,8 @@ function getAlpha2(code) {
 
         // --- MAP SETUP ---
         const mapCanvas = d3.select("#map-canvas");
-        const svg = mapCanvas.append("svg");
-        const g = svg.append("g");
+        svg = mapCanvas.append("svg");
+        g = svg.append("g");
         const tooltip = d3.select("#map-tooltip");
 
         const projection = d3.geoNaturalEarth1()
@@ -2258,7 +2597,7 @@ function getAlpha2(code) {
         const path = d3.geoPath()
             .projection(projection);
 
-        const zoom = d3.zoom()
+        zoom = d3.zoom()
             .scaleExtent([1, 8])
             .translateExtent([[-window.innerWidth * 0.2, -window.innerHeight * 0.2], [window.innerWidth * 1.2, window.innerHeight * 1.2]])
             .on("zoom", zoomed);
@@ -2284,6 +2623,7 @@ function getAlpha2(code) {
             renderMap();
             // Render dock with pre-seeded data immediately (API will update stats)
             renderStandingsDock();
+            buildKnockoutMatches([]);
             LiveDataService.init();
         });
 
@@ -2471,20 +2811,22 @@ function getAlpha2(code) {
             }
         };
 
-        // ── Stage-gated click: return Set of mapNames active in current stage ──
-        let _currentStage = 'qualified'; // tracks current view pill selection
+        // (Moved _currentStage declaration to top of script)
+
+        const ALL_QUALIFIED_COUNTRIES = [];
+        // Pre-compute qualified countries
+        function getAllQualifiedCountries() {
+            if (ALL_QUALIFIED_COUNTRIES.length > 0) return ALL_QUALIFIED_COUNTRIES;
+            mockData.standings.forEach(grp => grp.teams.forEach(t => {
+                ALL_QUALIFIED_COUNTRIES.push(t.mapName);
+                ALL_QUALIFIED_COUNTRIES.push(t.name);
+            }));
+            return ALL_QUALIFIED_COUNTRIES;
+        }
 
         function getActiveCountriesForStage(stage) {
-            if (stage === 'qualified') {
-                // All participating countries
-                const s = new Set();
-                mockData.standings.forEach(grp => grp.teams.forEach(t => {
-                    s.add(t.mapName);
-                    s.add(t.name);
-                }));
-                return s;
-            }
-            // For knockout stages, read from mockData.knockoutMatches
+            if (stage === 'qualified') return new Set(getAllQualifiedCountries());
+            // read from existing bracket round data and return a Set of country IDs
             const stageKey = { r32: 'r32', r16: 'r16', qf: 'qf', sf: 'sf', final: 'final' }[stage];
             const matches = (stageKey && mockData.knockoutMatches[stageKey]) || [];
             const s = new Set();
@@ -2492,7 +2834,6 @@ function getAlpha2(code) {
                 if (m.home && m.home.name) s.add(m.home.name);
                 if (m.away && m.away.name) s.add(m.away.name);
             });
-            // Also add from teamsInStage (populated from OpenFootball data)
             if (stageKey && teamsInStage[stageKey]) {
                 teamsInStage[stageKey].forEach(name => s.add(name));
             }
@@ -2503,19 +2844,10 @@ function getAlpha2(code) {
             console.log("Map Click: countryId =", d.properties.name, specificTeamName);
             if (event && event.stopPropagation) event.stopPropagation();
 
-            // Fix 4: guard — only allow clicks for countries active in this stage
-            if (_currentStage !== 'qualified') {
-                const active = getActiveCountriesForStage(_currentStage);
-                const mapName = d.properties.name;
-                const countryData0 = specificTeamName ? findTeamStandingsData(specificTeamName, true) : findTeamStandingsData(mapName);
-                const checkName = specificTeamName || mapName;
-                const teamName0 = countryData0 ? countryData0.team.name : null;
-                const teamMapName0 = countryData0 ? countryData0.team.mapName : null;
-                if (!active.has(checkName) && !active.has(teamName0) && !active.has(teamMapName0)) {
-                    return; // not in this round — ignore click
-                }
-            }
- 
+            const countryId = d.properties.name;
+            const active = getActiveCountriesForStage(_currentStage);
+            if (!active.has(countryId)) return;
+
             const mapName = d.properties.name;
             const countryData = specificTeamName ? findTeamStandingsData(specificTeamName, true) : findTeamStandingsData(mapName);
 
@@ -2554,7 +2886,7 @@ function getAlpha2(code) {
         }
 
         function clearSelections() {
-            g.selectAll(".country").classed("active", false);
+            if (g) g.selectAll(".country").classed("active", false);
             activeCountryId = null;
             d3.select(".main-canvas").classed("map-has-selection", false);
             closePanels();
@@ -2563,9 +2895,11 @@ function getAlpha2(code) {
         }
 
         function resetZoom() {
-            svg.transition()
-                .duration(750)
-                .call(zoom.transform, d3.zoomIdentity);
+            if (svg && zoom) {
+                svg.transition()
+                    .duration(750)
+                    .call(zoom.transform, d3.zoomIdentity);
+            }
         }
 
         // --- STANDINGS RENDERING (BOTTOM DOCK) ---
