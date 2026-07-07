@@ -324,6 +324,38 @@
             transition: background-color 0.3s var(--ease-cubic);
         }
         
+        .main-canvas.map-on-top {
+            z-index: 995 !important;
+            pointer-events: auto !important;
+        }
+
+        .left-fixtures-container {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: calc(50vw - 48px);
+            z-index: 1010;
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            pointer-events: auto;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+            box-sizing: border-box;
+        }
+
+        .left-fixtures-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .left-fixtures-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .left-fixtures-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+        }
+        
         .dimmed {
             opacity: 0.15 !important;
             pointer-events: none !important;
@@ -1091,21 +1123,21 @@
 
 .timeline-panel {
   position: fixed;
-  top: 72px;
-  right: 0;
-  width: 50vw;
-  max-width: 50vw;
-  height: calc(100vh - 72px);
+  top: 50%;
+  right: 24px;
+  transform: translate(24px, -50%);
+  width: calc(50vw - 48px);
+  max-width: calc(50vw - 48px);
+  height: auto;
+  max-height: calc(100vh - 120px);
   background: rgba(12, 14, 22, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.08);
-  border-right: none;
-  border-radius: 16px 0 0 16px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   opacity: 0;
-  transform: translateX(24px);
   transition: opacity 220ms ease, transform 220ms ease;
   z-index: 1000;
   pointer-events: none;
@@ -1114,7 +1146,7 @@
 }
 .timeline-panel.open {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(0, -50%);
   pointer-events: auto;
 }
 
@@ -1252,9 +1284,9 @@
 
 /* ---- Horizontal scroll wrapper ---- */
 .tl-scroll-wrapper {
-  flex: 0 0 420px;
-  height: 420px;
-  min-height: 420px;
+  flex: 0 0 480px;
+  height: 480px;
+  min-height: 480px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
@@ -1278,7 +1310,7 @@
   display: flex;
   flex-direction: row;
   min-width: max-content;
-  height: 420px;
+  height: 480px;
   padding: 0 32px;
 }
 
@@ -1297,7 +1329,7 @@
 
 .tl-node {
   position: relative;
-  width: 180px;
+  width: 300px;
   flex-shrink: 0;
   height: 100%;
 }
@@ -1321,21 +1353,18 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(50% - 20px + 6px);  /* just above dot */
-  /* bottom edge touches the text block */
-  height: 14px;
+  bottom: 50%;
+  height: 20px;
   width: 1px;
   background: rgba(255,255,255,0.18);
 }
 .tl-node.tl-above .tl-text-block {
   position: absolute;
-  top: 8px;
-  left: 4px;
-  right: 4px;
-  bottom: calc(50% + 20px);    /* stops 20px above the centre line */
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  left: 8px;
+  right: 8px;
+  bottom: calc(50% + 20px);    /* bottom edge pinned above center line */
+  height: auto;
+  overflow-y: visible;
   display: flex;
   flex-direction: column-reverse;   /* year closest to dot, text above */
 }
@@ -1345,20 +1374,18 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(50% - 20px + 6px); /* just below dot */
-  height: 14px;
+  top: 50%;
+  height: 20px;
   width: 1px;
   background: rgba(255,255,255,0.18);
 }
 .tl-node.tl-below .tl-text-block {
   position: absolute;
+  left: 8px;
+  right: 8px;
   top: calc(50% + 20px);       /* starts 20px below the centre line */
-  left: 4px;
-  right: 4px;
-  bottom: 8px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  height: auto;
+  overflow-y: visible;
   display: flex;
   flex-direction: column;       /* year closest to dot, text below */
 }
@@ -3010,9 +3037,6 @@ function getAlpha2(code) {
                         teamRow.classed("dimmed", true);
                     }
                 });
-                
-                // Dim map container
-                d3.select(".main-canvas").classed("dimmed", true);
                 
                 // Dim other country rows in standings
                 d3.selectAll(".table-row").each(function() {
@@ -6248,7 +6272,7 @@ function getCountryGroupMatches(countryName) {
 }
 
 function renderMiniFixtures(countryName) {
-    const container = document.getElementById('tl-fixtures');
+    const container = document.getElementById('left-fixtures-container');
     if (!container) return;
     container.innerHTML = '';
     
@@ -6342,7 +6366,7 @@ function renderMiniFixtures(countryName) {
     });
     
     if (hasFixtures) {
-        container.style.display = 'flex';
+        container.style.display = 'grid';
     } else {
         container.style.display = 'none';
     }
@@ -6354,6 +6378,10 @@ function openTimeline(countryName) {
   // Show backdrop
   const backdrop = document.getElementById('timeline-backdrop');
   if (backdrop) backdrop.classList.add('open');
+
+  // Bring map to top
+  const canvas = d3.select(".main-canvas");
+  if (canvas) canvas.classed("map-on-top", true);
 
   const panel     = document.getElementById('timeline-panel');
   const flagEl    = document.getElementById('tl-flag');
@@ -6427,6 +6455,17 @@ function closeTimeline() {
   const backdrop = document.getElementById('timeline-backdrop');
   if (backdrop) backdrop.classList.remove('open');
 
+  // Remove map from top
+  const canvas = d3.select(".main-canvas");
+  if (canvas) canvas.classed("map-on-top", false);
+
+  // Hide left fixtures container
+  const leftFixtures = document.getElementById('left-fixtures-container');
+  if (leftFixtures) {
+    leftFixtures.style.display = 'none';
+    leftFixtures.innerHTML = '';
+  }
+
   const panel = document.getElementById('timeline-panel');
   if (panel) panel.classList.remove('open');
 }
@@ -6461,13 +6500,13 @@ function _tlSetupInteractions() {
 </script>
 
 <div id="timeline-backdrop" class="timeline-backdrop"></div>
+<div id="left-fixtures-container" class="left-fixtures-container"></div>
 <div id="timeline-panel" class="timeline-panel">
   <div class="tl-header">
     <img id="tl-flag" class="tl-flag" src="" alt="" />
     <span id="tl-country" class="tl-country"></span>
     <button id="tl-close" class="tl-close">✕</button>
   </div>
-  <div id="tl-fixtures" class="tl-fixtures" style="display:none"></div>
   <div class="tl-scroll-wrapper">
     <div id="tl-track" class="tl-track">
       <!-- Nodes injected by openTimeline() -->
