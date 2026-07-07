@@ -2753,7 +2753,8 @@ function getAlpha2(code) {
 
         const projection = d3.geoNaturalEarth1()
             .scale(Math.min(window.innerWidth, window.innerHeight) * 0.50)
-            .translate([window.innerWidth / 2, (window.innerHeight - 240) / 2]);
+            .translate([window.innerWidth * 0.485, (window.innerHeight - 240) / 2])
+            .rotate([11, 0]);
 
         const path = d3.geoPath()
             .projection(projection);
@@ -4558,7 +4559,7 @@ function getAlpha2(code) {
 
             projection
                 .scale(Math.min(width, height) * 0.50)
-                .translate([width / 2, (height - 240) / 2]); 
+                .translate([width * 0.485, (height - 240) / 2]); 
                 
             zoom.translateExtent([[-width, -height], [width * 2, height * 2]]);
 
