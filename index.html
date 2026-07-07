@@ -1095,7 +1095,7 @@
   right: 0;
   width: 50vw;
   max-width: 50vw;
-  height: calc(100vh - 72px - 180px);
+  height: calc(100vh - 72px);
   background: rgba(12, 14, 22, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1109,7 +1109,8 @@
   transition: opacity 220ms ease, transform 220ms ease;
   z-index: 1000;
   pointer-events: none;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .timeline-panel.open {
   opacity: 1;
@@ -1251,9 +1252,11 @@
 
 /* ---- Horizontal scroll wrapper ---- */
 .tl-scroll-wrapper {
-  flex: 1;
+  flex: 0 0 420px;
+  height: 420px;
+  min-height: 420px;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.15) transparent;
   padding: 0;
@@ -2516,6 +2519,7 @@ function getAlpha2(code) {
                         this.updateStandingsRows(newStandings);
                     }
                     if (gamesData && gamesData.games) {
+                        mockData.allGames = gamesData.games;
                         mockData.matches = this.buildMatches(gamesData.games);
                         buildKnockoutMatches(gamesData.games);
                         refreshBracketIfVisible();
@@ -2544,6 +2548,7 @@ function getAlpha2(code) {
                     const groupMap = {}; // { teamName: groupLetter }
 
                     if (data.matches) {
+                        mockData.allGames = data.matches;
                         extractTeamsFromFallbackGames(data.matches);
                         data.matches.forEach(m => {
                             if (!m.score || !m.group) return;
@@ -2670,6 +2675,7 @@ function getAlpha2(code) {
                     mockData.standings = standings;
 
                     if (gamesData && gamesData.games) {
+                        mockData.allGames = gamesData.games;
                         mockData.matches = this.buildMatches(gamesData.games);
                         buildKnockoutMatches(gamesData.games);
                         refreshBracketIfVisible();
@@ -6170,19 +6176,128 @@ const TIMELINE_DATA = {
 
 let _tlInitDone = false;
 
+function getCountryGroupMatches(countryName) {
+    const list = [];
+    if (!mockData.allGames || !Array.isArray(mockData.allGames)) return list;
+    
+    const norm = (c) => {
+        const map = {
+            'South Korea': 'Korea Republic', 'Czech Republic': 'Czechia',
+            'United States': 'USA', 'USA': 'USA', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+            'Ivory Coast': "Côte d'Ivoire", 'Turkey': 'Türkiye',
+            'DR Congo': 'Congo DR', 'Iran': 'Iran', 'Cape Verde': 'Cabo Verde'
+        };
+        return map[c] || c;
+    };
+    const targetNorm = norm(countryName);
+    
+    mockData.allGames.forEach(g => {
+        let hRaw = g.home_team_name_en || g.team1;
+        let aRaw = g.away_team_name_en || g.team2;
+        if (!hRaw || !aRaw) return;
+        
+        let hName = norm(DISPLAY_NAME_OVERRIDES[hRaw] || hRaw);
+        let aName = norm(DISPLAY_NAME_OVERRIDES[aRaw] || aRaw);
+        
+        const isGroup = (g.type && g.type.toLowerCase() === 'group') || 
+                        (g.group && g.group.toLowerCase().includes('group')) ||
+                        (g.round && g.round.toLowerCase().includes('group'));
+                        
+        if (isGroup && (hName === targetNorm || aName === targetNorm)) {
+            let hScoreStr = '–';
+            let aScoreStr = '–';
+            let finished = false;
+            
+            if (g.finished === 'TRUE' || g.time_elapsed === 'finished') {
+                finished = true;
+                hScoreStr = String(g.home_score !== undefined && g.home_score !== null ? g.home_score : '');
+                aScoreStr = String(g.away_score !== undefined && g.away_score !== null ? g.away_score : '');
+            } else if (g.score && g.score.ft) {
+                finished = true;
+                hScoreStr = String(g.score.ft[0]);
+                aScoreStr = String(g.score.ft[1]);
+            }
+            
+            const hScoreVal = parseInt(hScoreStr, 10);
+            const aScoreVal = parseInt(aScoreStr, 10);
+            
+            const hWins = finished && hScoreVal > aScoreVal;
+            const aWins = finished && aScoreVal > hScoreVal;
+            
+            const matchObj = {
+                finished,
+                home: {
+                    name: hName,
+                    flagUrl: flagUrl(hName),
+                    scoreStr: hScoreStr,
+                    isWinner: hWins,
+                    eliminated: finished && !hWins && hScoreVal !== aScoreVal
+                },
+                away: {
+                    name: aName,
+                    flagUrl: flagUrl(aName),
+                    scoreStr: aScoreStr,
+                    isWinner: aWins,
+                    eliminated: finished && !aWins && hScoreVal !== aScoreVal
+                }
+            };
+            list.push(matchObj);
+        }
+    });
+    return list;
+}
+
 function renderMiniFixtures(countryName) {
     const container = document.getElementById('tl-fixtures');
     if (!container) return;
     container.innerHTML = '';
     
+    let hasFixtures = false;
+    
+    // 1. Group Stage Matches
+    const groupMatches = getCountryGroupMatches(countryName);
+    groupMatches.forEach(match => {
+        hasFixtures = true;
+        const item = document.createElement('div');
+        item.className = 'tl-fixture-item';
+        
+        const label = document.createElement('div');
+        label.className = 'tl-fixture-round';
+        label.textContent = 'Group Stage';
+        
+        const card = document.createElement('div');
+        card.className = 'tl-fixture-card';
+        
+        const renderTeam = (side) => {
+            const isWinner = side.isWinner;
+            const isEliminated = side.eliminated;
+            const cls = isWinner ? 'winner' : (isEliminated ? 'loser' : 'pending');
+            const flag = side.flagUrl ? `<img class="tl-fixture-flag" src="${side.flagUrl}" alt="">` : `<span class="tl-fixture-flag-placeholder">?</span>`;
+            const score = match.finished ? side.scoreStr : '–';
+            
+            return `<div class="tl-fixture-team ${cls}">
+                ${flag}
+                <span class="tl-fixture-name">${side.name || 'TBD'}</span>
+                <span class="tl-fixture-score">${score}</span>
+            </div>`;
+        };
+        
+        card.innerHTML = `
+            ${renderTeam(match.home)}
+            ${renderTeam(match.away)}
+        `;
+        
+        item.appendChild(label);
+        item.appendChild(card);
+        container.appendChild(item);
+    });
+    
+    // 2. Knockout Matches
     const rounds = ['r32', 'r16', 'qf', 'sf', 'final'];
     const roundLabels = { r32: 'Round of 32', r16: 'Round of 16', qf: 'Quarters', sf: 'Semis', final: 'Final' };
     
-    let hasFixtures = false;
-    
     rounds.forEach(round => {
         const matches = (mockData.knockoutMatches && mockData.knockoutMatches[round]) || [];
-        // Find match containing this country
         const match = matches.find(m => 
             (m.home && m.home.name === countryName) || 
             (m.away && m.away.name === countryName)
@@ -6201,7 +6316,6 @@ function renderMiniFixtures(countryName) {
             const card = document.createElement('div');
             card.className = 'tl-fixture-card';
             
-            // Render home/away team rows
             const renderTeam = (side) => {
                 const isWinner = side.isWinner;
                 const isEliminated = side.eliminated;
@@ -6248,9 +6362,8 @@ function openTimeline(countryName) {
 
   // Header
   countryEl.textContent = countryName;
-  const teamData = findTeamStandingsData(countryName);
-  const iso = teamData ? getAlpha2(teamData.team.iso) : 'un';
-  flagEl.src = `https://flagcdn.com/w40/${iso}.png`;
+  const url = flagUrl(countryName);
+  flagEl.src = url || '';
   flagEl.alt = countryName;
 
   // Render mini fixtures
