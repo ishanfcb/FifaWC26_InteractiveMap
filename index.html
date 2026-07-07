@@ -323,6 +323,21 @@
             background-color: var(--map-ocean);
             transition: background-color 0.3s var(--ease-cubic);
         }
+        
+        .dimmed {
+            opacity: 0.15 !important;
+            pointer-events: none !important;
+        }
+        
+        .match-card,
+        .match-card-team,
+        .bracket-col,
+        .main-canvas,
+        .group-card,
+        .table-row,
+        .timeline-panel {
+            transition: opacity 250ms ease !important;
+        }
 
         svg {
             width: 100%;
@@ -2063,6 +2078,8 @@ function getAlpha2(code) {
         }
 
         function buildMatchCardHTML(match) {
+            const hTeam = match.home && match.home.name ? match.home.name : '';
+            const aTeam = match.away && match.away.name ? match.away.name : '';
             function teamRow(side) {
                 const isEliminated = side.eliminated;
                 const cls = side.isWinner ? 'winner' : (isEliminated ? 'loser' : 'pending');
@@ -2075,7 +2092,7 @@ function getAlpha2(code) {
                 const score = match.finished ? `<span class="match-card-score">${side.scoreStr}</span>` :
                     `<span class="match-card-score" style="color:rgba(255,255,255,0.2);font-size:11px">–</span>`;
                 const onClickStr = side.name ? ` onclick="zoomToCountryByName('${side.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"` : '';
-                return `<div class="match-card-team ${cls}"${onClickStr}>
+                return `<div class="match-card-team ${cls}" data-team-name="${side.name || ''}"${onClickStr}>
                     ${badge}
                     <span class="match-card-name">${nameText}</span>
                     <span class="match-card-abbr">${abbrText}</span>
@@ -2083,7 +2100,7 @@ function getAlpha2(code) {
                 </div>`;
             }
 
-            return `<div class="match-card">
+            return `<div class="match-card" data-home="${hTeam}" data-away="${aTeam}">
                 ${teamRow(match.home)}
                 <div class="match-card-divider"></div>
                 ${teamRow(match.away)}
@@ -2824,6 +2841,84 @@ function getAlpha2(code) {
             return ALL_QUALIFIED_COUNTRIES;
         }
 
+        function getTeamMapName(teamName) {
+            if (!teamName) return null;
+            const normalized = (teamName === "Congo DR" || teamName === "Democratic Republic of the Congo") ? "DR Congo" :
+                               (teamName === "Cabo Verde") ? "Cape Verde" : teamName;
+            for (const grp of mockData.standings) {
+                for (const team of grp.teams) {
+                    if (team.name === normalized || team.mapName === normalized) {
+                        return team.mapName;
+                    }
+                }
+            }
+            return normalized;
+        }
+
+        window.applySelectionDimming = function(countryName) {
+            window.selectedCountry = countryName;
+            
+            if (countryName) {
+                // Dim other columns/cards
+                d3.selectAll(".bracket-col").each(function() {
+                    const col = this;
+                    let hasSelectedCountry = false;
+                    
+                    d3.select(col).selectAll(".match-card").each(function() {
+                        const card = d3.select(this);
+                        const home = card.attr("data-home");
+                        const away = card.attr("data-away");
+                        if (home === countryName || away === countryName) {
+                            hasSelectedCountry = true;
+                            card.classed("dimmed", false);
+                        } else {
+                            card.classed("dimmed", true);
+                        }
+                    });
+                    
+                    if (hasSelectedCountry) {
+                        d3.select(col).classed("dimmed", false);
+                    } else {
+                        d3.select(col).classed("dimmed", true);
+                    }
+                });
+                
+                // Dim other team rows inside the active cards
+                d3.selectAll(".match-card-team").each(function() {
+                    const teamRow = d3.select(this);
+                    const teamName = teamRow.attr("data-team-name");
+                    if (teamName === countryName) {
+                        teamRow.classed("dimmed", false);
+                    } else {
+                        teamRow.classed("dimmed", true);
+                    }
+                });
+                
+                // Dim map container
+                d3.select(".main-canvas").classed("dimmed", true);
+                
+                // Dim other country rows in standings
+                d3.selectAll(".table-row").each(function() {
+                    const row = d3.select(this);
+                    if (row.classed("no-hover")) return;
+                    
+                    let isCurrent = false;
+                    row.selectAll(".country-name-cell").each(function() {
+                        if (d3.select(this).text() === countryName) isCurrent = true;
+                    });
+                    
+                    if (isCurrent) {
+                        row.classed("dimmed", false);
+                    } else {
+                        row.classed("dimmed", true);
+                    }
+                });
+            } else {
+                // Clear dimming on everything
+                d3.selectAll(".bracket-col, .match-card, .match-card-team, .main-canvas, .table-row").classed("dimmed", false);
+            }
+        };
+
         function getActiveCountriesForStage(stage) {
             if (stage === 'qualified') return new Set(getAllQualifiedCountries());
             // read from existing bracket round data and return a Set of country IDs
@@ -2831,11 +2926,23 @@ function getAlpha2(code) {
             const matches = (stageKey && mockData.knockoutMatches[stageKey]) || [];
             const s = new Set();
             matches.forEach(m => {
-                if (m.home && m.home.name) s.add(m.home.name);
-                if (m.away && m.away.name) s.add(m.away.name);
+                if (m.home && m.home.name) {
+                    const mapName = getTeamMapName(m.home.name);
+                    if (mapName) s.add(mapName);
+                    s.add(m.home.name);
+                }
+                if (m.away && m.away.name) {
+                    const mapName = getTeamMapName(m.away.name);
+                    if (mapName) s.add(mapName);
+                    s.add(m.away.name);
+                }
             });
             if (stageKey && teamsInStage[stageKey]) {
-                teamsInStage[stageKey].forEach(name => s.add(name));
+                teamsInStage[stageKey].forEach(name => {
+                    const mapName = getTeamMapName(name);
+                    if (mapName) s.add(mapName);
+                    s.add(name);
+                });
             }
             return s;
         }
@@ -5953,6 +6060,7 @@ const TIMELINE_DATA = {
 let _tlInitDone = false;
 
 function openTimeline(countryName) {
+  if (typeof applySelectionDimming === 'function') applySelectionDimming(countryName);
   const panel     = document.getElementById('timeline-panel');
   const flagEl    = document.getElementById('tl-flag');
   const countryEl = document.getElementById('tl-country');
@@ -6017,6 +6125,7 @@ function openTimeline(countryName) {
 }
 
 function closeTimeline() {
+  if (typeof applySelectionDimming === 'function') applySelectionDimming(null);
   const panel = document.getElementById('timeline-panel');
   if (panel) panel.classList.remove('open');
 }
