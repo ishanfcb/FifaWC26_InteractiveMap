@@ -2358,7 +2358,7 @@ function getAlpha2(code) {
         //  LIVE DATA SERVICE
         // ============================================================
         const LiveDataService = {
-            PRIMARY: 'http://worldcup26.ir:3050',
+            PRIMARY: 'https://worldcup26.ir',
             FALLBACK: 'https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json',
             REFRESH_INTERVAL_MS: 10 * 60 * 1000,  // 10 minutes
             LIVE_POLL_MS: 60 * 1000,               // 60 seconds during live matches
@@ -3134,7 +3134,39 @@ function getAlpha2(code) {
                 highlightStandingsRow(countryData.team.name);
                 openTimeline(countryData.team.name);
                 
-                const bounds = path.bounds(d);
+                // Find the largest polygon among all features of this country to zoom/pan to the mainland
+                const countryName = d.properties.name;
+                const countryFeatures = topoData.features.filter(f => f.properties.name === countryName);
+                let targetGeometry = d;
+                let maxArea = -1;
+
+                countryFeatures.forEach(feature => {
+                    if (!feature.geometry) return;
+                    if (feature.geometry.type === "Polygon") {
+                        const area = path.area(feature);
+                        if (area > maxArea) {
+                            maxArea = area;
+                            targetGeometry = feature;
+                        }
+                    } else if (feature.geometry.type === "MultiPolygon") {
+                        feature.geometry.coordinates.forEach(polyCoords => {
+                            const tempFeature = {
+                                type: "Feature",
+                                geometry: {
+                                    type: "Polygon",
+                                    coordinates: polyCoords
+                                }
+                            };
+                            const area = path.area(tempFeature);
+                            if (area > maxArea) {
+                                maxArea = area;
+                                targetGeometry = tempFeature;
+                            }
+                        });
+                    }
+                });
+
+                const bounds = path.bounds(targetGeometry);
                 const dx = bounds[1][0] - bounds[0][0];
                 const dy = bounds[1][1] - bounds[0][1];
                 const x = (bounds[0][0] + bounds[1][0]) / 2;
