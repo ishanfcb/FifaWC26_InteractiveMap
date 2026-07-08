@@ -3134,39 +3134,106 @@ function getAlpha2(code) {
                 highlightStandingsRow(countryData.team.name);
                 openTimeline(countryData.team.name);
                 
-                // Find the largest polygon among all features of this country to zoom/pan to the mainland
+                // Reimplement the zoom camera target logic using geographic bounding boxes in degrees
                 const countryName = d.properties.name;
                 const countryFeatures = topoData.features.filter(f => f.properties.name === countryName);
-                let targetGeometry = d;
-                let maxArea = -1;
 
+                // Helper to get geographic bounding box of a coordinates ring [[lng, lat], ...]
+                const getGeographicBBox = (ring) => {
+                    let minLng = Infinity, minLat = Infinity, maxLng = -Infinity, maxLat = -Infinity;
+                    ring.forEach(p => {
+                        if (p[0] < minLng) minLng = p[0];
+                        if (p[0] > maxLng) maxLng = p[0];
+                        if (p[1] < minLat) minLat = p[1];
+                        if (p[1] > maxLat) maxLat = p[1];
+                    });
+                    return [minLng, minLat, maxLng, maxLat];
+                };
+
+                // Helper to get center of a bbox
+                const getBBoxCentroid = (bbox) => {
+                    return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+                };
+
+                // 1. Extract all individual polygons (mainland + islands/subunits)
+                const polygons = [];
                 countryFeatures.forEach(feature => {
                     if (!feature.geometry) return;
                     if (feature.geometry.type === "Polygon") {
-                        const area = path.area(feature);
-                        if (area > maxArea) {
-                            maxArea = area;
-                            targetGeometry = feature;
+                        const coords = feature.geometry.coordinates[0];
+                        if (coords && coords.length > 0) {
+                            const bbox = getGeographicBBox(coords);
+                            const area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]);
+                            polygons.push({
+                                feature: feature,
+                                bbox: bbox,
+                                area: area,
+                                centroid: getBBoxCentroid(bbox)
+                            });
                         }
                     } else if (feature.geometry.type === "MultiPolygon") {
                         feature.geometry.coordinates.forEach(polyCoords => {
-                            const tempFeature = {
-                                type: "Feature",
-                                geometry: {
-                                    type: "Polygon",
-                                    coordinates: polyCoords
-                                }
-                            };
-                            const area = path.area(tempFeature);
-                            if (area > maxArea) {
-                                maxArea = area;
-                                targetGeometry = tempFeature;
+                            const coords = polyCoords[0];
+                            if (coords && coords.length > 0) {
+                                const bbox = getGeographicBBox(coords);
+                                const area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]);
+                                const tempFeature = {
+                                    type: "Feature",
+                                    geometry: {
+                                        type: "Polygon",
+                                        coordinates: polyCoords
+                                    }
+                                };
+                                polygons.push({
+                                    feature: tempFeature,
+                                    bbox: bbox,
+                                    area: area,
+                                    centroid: getBBoxCentroid(bbox)
+                                });
                             }
                         });
                     }
                 });
 
-                const bounds = path.bounds(targetGeometry);
+                // 2. Identify the mainland (largest geographic polygon by bbox area)
+                let mainland = null;
+                let maxBBoxArea = -1;
+                polygons.forEach(p => {
+                    if (p.area > maxBBoxArea) {
+                        maxBBoxArea = p.area;
+                        mainland = p;
+                    }
+                });
+
+                // 3. Filter other parts within a 5.0-degree radius to include contiguous regions while filtering out remote islands
+                const targetFeatures = [];
+                if (mainland) {
+                    const mCx = mainland.centroid[0];
+                    const mCy = mainland.centroid[1];
+                    const threshold = 5.0; // degrees
+
+                    polygons.forEach(p => {
+                        const distLng = Math.abs(p.centroid[0] - mCx);
+                        const distLat = Math.abs(p.centroid[1] - mCy);
+                        if (distLng <= threshold && distLat <= threshold) {
+                            targetFeatures.push(p.feature);
+                        }
+                    });
+                } else {
+                    targetFeatures.push(d);
+                }
+
+                // 4. Calculate combined projected bounding box in screen pixels for D3 camera zoom
+                let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                targetFeatures.forEach(feat => {
+                    const b = path.bounds(feat);
+                    if (b[0][0] < minX) minX = b[0][0];
+                    if (b[0][1] < minY) minY = b[0][1];
+                    if (b[1][0] > maxX) maxX = b[1][0];
+                    if (b[1][1] > maxY) maxY = b[1][1];
+                });
+
+                const bounds = [[minX, minY], [maxX, maxY]];
                 const dx = bounds[1][0] - bounds[0][0];
                 const dy = bounds[1][1] - bounds[0][1];
                 const x = (bounds[0][0] + bounds[1][0]) / 2;
@@ -3188,8 +3255,11 @@ function getAlpha2(code) {
 
         function setActiveCountry(element, d) {
             clearSelections();
-            element.classed("active", true);
-            activeCountryId = d.id;
+            const countryName = d.properties.name;
+            d3.selectAll(".country")
+                .filter(f => f && f.properties && f.properties.name === countryName)
+                .classed("active", true);
+            activeCountryId = countryName;
             d3.select(".main-canvas").classed("map-has-selection", true);
         }
 
