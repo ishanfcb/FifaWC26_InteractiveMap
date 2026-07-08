@@ -2754,9 +2754,9 @@ function getAlpha2(code) {
         const tooltip = d3.select("#map-tooltip");
 
         const projection = d3.geoNaturalEarth1()
-            .scale(Math.min(window.innerWidth, window.innerHeight) * 0.39)
-            .center([0, 15])
-            .translate([window.innerWidth * 0.48, (window.innerHeight - 240) / 2])
+            .scale(Math.min(window.innerWidth, window.innerHeight) * 0.50)
+            .center([0, 10])
+            .translate([window.innerWidth * 0.485, (window.innerHeight - 240) / 2])
             .rotate([11, 0]);
 
         const path = d3.geoPath()
@@ -4700,9 +4700,9 @@ function getAlpha2(code) {
             const height = window.innerHeight;
 
             projection
-                .scale(Math.min(width, height) * 0.39)
-                .center([0, 15])
-                .translate([width * 0.48, (height - 240) / 2]); 
+                .scale(Math.min(width, height) * 0.50)
+                .center([0, 10])
+                .translate([width * 0.485, (height - 240) / 2]); 
                 
             zoom.translateExtent([[-width, -height], [width * 2, height * 2]]);
 
