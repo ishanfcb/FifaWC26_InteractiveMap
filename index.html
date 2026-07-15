@@ -2086,7 +2086,16 @@ function getAlpha2(code) {
         function updateBracketScoresFromAPI(gamesArr) {
             if (!gamesArr || gamesArr.length === 0) return;
             
-            Object.keys(BRACKET).forEach(key => {
+            const roundOrder = (key) => {
+                if (key.startsWith('r32')) return 1;
+                if (key.startsWith('r16')) return 2;
+                if (key.startsWith('qf')) return 3;
+                if (key === 'leftSF' || key === 'rightSF') return 4;
+                if (key === 'final') return 5;
+                return 6;
+            };
+            const sortedKeys = Object.keys(BRACKET).sort((a, b) => roundOrder(a) - roundOrder(b));
+            sortedKeys.forEach(key => {
                 const node = BRACKET[key];
                 if (key === 'final' || key === 'leftSF' || key === 'rightSF' || key.startsWith('qf')) {
                     const hName = node.home.team || resolveTeamName(node.home);
